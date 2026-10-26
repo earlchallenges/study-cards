@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mendy's Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<style>
+/* Layout: one column — title, then a list of chapter cards, newest first */
+:root {
+  --bg: #f7f3f4; --surface: #ffffff; --ink: #2b1d26; --muted: #6e5c67; --line: #e4d9de; --accent: #9b3d62;
+  --display: "Literata", Georgia, "Times New Roman", serif;
+  --body: "Atkinson Hyperlegible", -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #1b1418; --surface: #261c22; --ink: #f3e9ee; --muted: #b9a6b0; --line: #3c2f36; --accent: #e48bad; color-scheme: dark; }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 18px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 32px 48px;
+}
+.wrap { max-width: 620px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+.eyebrow { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--display); font-weight: 700; font-size: clamp(30px, 7vw, 40px); line-height: 1.1; margin: 4px 0 0; text-wrap: balance; }
+.intro { color: var(--muted); margin: 0; }
+.list { display: flex; flex-direction: column; gap: 12px; }
+a.ch {
+  display: flex; justify-content: space-between; align-items: center; gap: 16px; text-decoration: none; color: var(--ink);
+  background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px;
+}
+a.ch:hover, a.ch:focus-visible { border-color: var(--accent); outline: none; }
+.ch-num { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+.ch-title { font-family: var(--display); font-weight: 500; font-size: 22px; line-height: 1.25; }
+.ch-meta { font-size: 15px; color: var(--muted); }
+.arrow { font-size: 24px; color: var(--accent); flex: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Applied Pathophysiology</span>
+    <h1>Mendy's Study Cards</h1>
+  </header>
+  <p class="intro">Pick a section. Each one has flashcards and a practice test.</p>
+  <nav class="list">
+    <a class="ch" href="ch8-breasts.html">
+      <div>
+        <div class="ch-num">Chapter 8</div>
+        <div class="ch-title">Disorders of the Breasts</div>
+        <div class="ch-meta">30 terms · flashcards, learn, test, match</div>
+      </div>
+      <span class="arrow" aria-hidden="true">&rarr;</span>
+    </a>
+  </nav>
+</div>
+</body>
+</html>

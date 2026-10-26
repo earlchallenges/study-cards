@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Disorders of the Breasts | Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<link rel="stylesheet" href="study.css">
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* ---------- diagrams (simple, labeled, schematic) ---------- */
+const V = inner => `<svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+// side view of a breast: chest wall on the left, nipple on the right, lobules feeding ducts to the nipple
+const BREAST = `
+  <line class="ln" x1="34" y1="10" x2="34" y2="170"/>
+  <path class="tis" d="M34 18 C140 14 238 56 250 90 C238 124 140 166 34 162 Z"/>
+  <rect class="so" x="249" y="83" width="10" height="14" rx="4"/>
+  <path class="duct" d="M250 90 C200 88 160 60 112 50 M250 90 C200 90 150 92 104 92 M250 90 C200 92 160 120 114 132"/>
+  <g class="lob"><circle cx="108" cy="47" r="6"/><circle cx="100" cy="56" r="5"/><circle cx="114" cy="40" r="4"/>
+  <circle cx="100" cy="92" r="6"/><circle cx="92" cy="84" r="4"/><circle cx="93" cy="100" r="5"/>
+  <circle cx="110" cy="134" r="6"/><circle cx="101" cy="126" r="4"/><circle cx="104" cy="143" r="5"/></g>`;
+const label = (x, y, t, cls = '') => `<text x="${x}" y="${y}" class="${cls}">${t}</text>`;
+const arrow = (x1, y1, x2, y2) => `<path class="acs" d="M${x1} ${y1} L${x2} ${y2}"/><circle class="ac" cx="${x2}" cy="${y2}" r="3.5"/>`;
+const ladder = h => V([0, 1, 2].map(i => {
+  const x = 30 + i * 90, ht = 40 + i * 40, on = i === h - 1;
+  const names = [['Nonproliferative', 'no / low risk'], ['Proliferative', 'no atypia: slight'], ['With atypia', 'higher risk']][i];
+  return `<rect x="${x}" y="${150 - ht}" width="70" height="${ht}" rx="6" class="${on ? 'ac' : 'mu'}"/>
+    <text x="${x + 35}" y="${142 - ht}" text-anchor="middle" class="${on ? 'hi' : ''}" style="font-size:11.5px">${names[0]}</text>
+    <text x="${x + 35}" y="168" text-anchor="middle" style="font-size:11.5px">${names[1]}</text>`;
+}).join('') + label(30, 18, 'Breast cancer risk ↑', 'b'));
+const cystTypes = h => V([['Simple', 'no risk'], ['Complex', '<1%'], ['Complicated', '1–23%']].map(([n, r], i) => {
+  const cx = 55 + i * 95, on = h === i + 1;
+  const inner = i === 0 ? '' : i === 1
+    ? `<path class="ln" d="M${cx - 22} ${85} L${cx + 22} ${80} M${cx - 6} 62 L${cx + 4} 108"/><circle class="so" cx="${cx + 10}" cy="96" r="8"/>`
+    : [[-10, -8], [6, 4], [-4, 12], [12, -10], [-14, 8], [2, -14]].map(([dx, dy]) => `<circle class="so" cx="${cx + dx}" cy="${85 + dy}" r="2.6"/>`).join('');
+  return `<circle class="fl" cx="${cx}" cy="85" r="${i === 1 ? 30 : 28}" style="${i === 1 ? 'stroke-width:4' : ''}${on ? ';stroke:var(--accent);stroke-width:4' : ''}"/>${inner}
+    <text x="${cx}" y="140" text-anchor="middle" class="${on ? 'hi' : 'b'}">${n}</text><text x="${cx}" y="158" text-anchor="middle">${r}</text>`;
+}).join('') + label(20, 22, 'Fluid-filled breast cysts', 'b'));
+const pill = (name, l1, l2) => V(`
+  <g transform="rotate(-20 110 90)"><rect x="50" y="68" width="120" height="44" rx="22" class="wh"/><path d="M110 68 h38 a22 22 0 0 1 0 44 h-38 Z" class="ac"/></g>
+  ${label(184, 66, name, 'b')}${label(184, 88, l1)}${label(184, 106, l2)}`);
+const PICS = {
+  fibro: V(BREAST + `<ellipse class="so" cx="160" cy="72" rx="30" ry="20"/><path class="ln" d="M140 66 q20 -8 40 2 M142 78 q18 8 36 -2" style="stroke-width:1.2"/>
+    ${arrow(186, 40, 172, 58)}${label(150, 28, 'Solid, rubbery lump', 'b')}${label(10, 176, 'Fibroadenoma = glandular + fibrous tissue')}`),
+  cyst: V(BREAST + `<circle class="fl" cx="160" cy="108" r="22"/>${arrow(200, 150, 176, 124)}${label(190, 166, 'Fluid-filled sac', 'b')}`),
+  cyst1: cystTypes(1), cyst2: cystTypes(2), cyst3: cystTypes(3), cystAll: cystTypes(0),
+  ladder1: ladder(1), ladder2: ladder(2), ladder3: ladder(3),
+  sclero: V(BREAST + `<g class="lob"><circle cx="102" cy="88" r="10"/><circle cx="90" cy="96" r="8"/><circle cx="98" cy="104" r="8"/><circle cx="110" cy="100" r="7"/></g>
+    <circle cx="100" cy="96" r="24" fill="none" style="stroke:var(--accent);stroke-width:2.5;stroke-dasharray:4 3"/>
+    ${label(140, 30, 'Crowded lobule', 'b')}${arrow(150, 38, 120, 78)}<rect x="196" y="130" width="70" height="30" rx="15" class="ac"/>
+    <text x="231" y="150" text-anchor="middle" style="fill:var(--accent-ink);font-weight:700">2× risk</text>`),
+  papilloma: V(`<path class="tis" d="M10 60 H250 a30 30 0 0 1 0 60 H10 Z"/><path class="duct" d="M20 90 H262" style="stroke-width:14;opacity:.35"/>
+    <path class="duct" d="M20 82 H262 M20 98 H262"/>
+    <g class="so"><circle cx="140" cy="88" r="6"/><circle cx="148" cy="84" r="5"/><circle cx="146" cy="93" r="5"/><circle cx="134" cy="94" r="4"/></g>
+    <path class="rd" d="M282 90 q10 14 0 22 q-10 -8 0 -22z"/>${label(100, 46, 'Small growth inside a milk duct', 'b')}${arrow(140, 52, 142, 76)}
+    ${label(196, 150, 'Bloody nipple', 'b')}${label(196, 166, 'discharge')}${arrow(240, 140, 278, 112)}`),
+  fatNec: V(BREAST + `<path class="so" d="M150 60 l10 -8 14 6 10 -4 4 14 -8 12 4 10 -14 4 -12 -6 -10 2 -2 -14 6 -8z"/>
+    <path class="rds" d="M200 24 l8 10 M214 20 l0 14 M226 26 l-8 10"/>${label(190, 16, 'Injury', 'b')}${label(60, 172, 'Firm lump forms after trauma', 'b')}`),
+  galacto: V(BREAST + `<rect x="196" y="82" width="8" height="18" rx="2" class="ac"/><ellipse class="wh" cx="170" cy="91" rx="22" ry="15"/>
+    ${label(156, 95, 'milk')}${arrow(214, 48, 202, 78)}${label(200, 40, 'Blocked duct', 'b')}${label(56, 174, 'Galactocele = milk-filled cyst', 'b')}`),
+  lifeline: V(`<path class="ln" d="M20 100 H280"/><rect x="70" y="80" width="130" height="40" rx="8" class="ac"/>
+    <text x="135" y="105" text-anchor="middle" style="fill:var(--accent-ink);font-weight:700">Childbearing years</text>
+    ${label(20, 140, 'Puberty')}${label(220, 140, 'Menopause')}${label(70, 60, 'Cysts are most common here', 'b')}`),
+  single: V(BREAST + `<ellipse class="so" cx="160" cy="70" rx="20" ry="14"/>${label(150, 30, 'Usually just one lump', 'b')}${arrow(170, 38, 164, 54)}`),
+  discharge: V(`<path class="tis" d="M10 30 C120 30 200 60 210 90 C200 120 120 150 10 150 Z"/><rect class="so" x="208" y="82" width="12" height="16" rx="4"/>
+    <path class="rd" d="M232 86 q12 16 0 26 q-12 -10 0 -26z"/>
+    ${label(30, 70, '⚠ Suggests cancer if it is:', 'b')}${label(40, 92, '• spontaneous')}${label(40, 110, '• persistent')}${label(40, 128, '• bloody')}`),
+  exam: V(BREAST + `<ellipse class="so" cx="160" cy="70" rx="18" ry="13"/><text x="200" y="64" style="font-size:40px;font-weight:700;fill:var(--accent)">?</text>
+    ${label(40, 176, 'Feel alone can’t tell. Image or biopsy it.', 'b')}`),
+  ultrasound: V(BREAST + `<g transform="rotate(30 210 40)"><rect x="196" y="10" width="28" height="44" rx="6" class="wh"/><rect x="200" y="54" width="20" height="6" class="ac"/></g>
+    <path class="acs" d="M190 64 q-14 14 -4 30 M180 58 q-22 22 -6 46" style="stroke-width:2"/><ellipse class="so" cx="160" cy="92" rx="16" ry="11"/>
+    ${label(10, 16, 'Under 30: ultrasound first', 'b')}`),
+  biopsy: V([['Fine needle', 'aspiration', 'thin'], ['Core', 'biopsy', 'core'], ['Excisional', 'biopsy', 'whole']].map(([a, b, k], i) => {
+    const x = 50 + i * 100;
+    const lump = k === 'whole' ? `<ellipse class="so" cx="${x}" cy="78" rx="20" ry="14" style="stroke:var(--accent);stroke-width:3;stroke-dasharray:5 3"/>` : `<ellipse class="so" cx="${x}" cy="88" rx="20" ry="14"/>`;
+    const tool = k === 'thin' ? `<path class="acs" d="M${x} 20 V84" style="stroke-width:2"/>` : k === 'core' ? `<rect x="${x - 4}" y="20" width="8" height="62" class="ac"/><rect x="${x - 3}" y="74" width="6" height="12" class="so"/>` : `<path class="acs" d="M${x - 26} 48 l18 -26 l6 4 l-14 28z"/>`;
+    return `<rect x="${x - 40}" y="60" width="80" height="60" rx="8" class="tis"/>${lump}${tool}
+      <text x="${x}" y="142" text-anchor="middle" class="b">${a}</text><text x="${x}" y="158" text-anchor="middle">${b}</text>`;
+  }).join('') + label(10, 176, 'thin needle  ·  piece removed  ·  whole lump removed')),
+  relief: V(`<g transform="translate(20 50)"><rect x="0" y="10" width="60" height="26" rx="13" class="wh"/><path d="M30 10 h17 a13 13 0 0 1 0 26 h-17z" class="ac"/>${label(0, 66, 'Pain reliever')}</g>
+    <g transform="translate(115 40)"><rect x="0" y="10" width="50" height="40" rx="8" class="rd" style="opacity:.8"/><path class="rds" d="M10 6 q5 -8 0 -14 M25 6 q5 -8 0 -14 M40 6 q5 -8 0 -14"/>${label(-2, 76, 'Heat or cold')}</g>
+    <g transform="translate(210 40)"><path class="tis" d="M0 20 q30 40 60 0 M0 20 q30 30 60 0" />${label(-6, 76, 'Supportive bra')}</g>
+    ${label(20, 26, 'Low-risk lumps: usually no treatment', 'b')}${label(20, 160, 'If needed, treat the symptoms')}`),
+  danazol: pill('Danazol', 'androgen', 'used last'),
+  tamoxifen: pill('Tamoxifen', 'SERM', 'prevention'),
+  mastitis: V(BREAST + `<path class="rd" style="opacity:.55" d="M150 40 C200 44 236 70 244 88 C230 92 196 96 170 90 C150 80 140 56 150 40Z"/>
+    <path class="rds" d="M196 22 q6 -8 0 -14 M212 24 q6 -8 0 -14 M228 26 q6 -8 0 -14"/>${label(130, 172, 'Red, warm, swollen, tender', 'b')}`),
+  weeks: V(`${[1, 2, 3, 4, 5, 6].map((w, i) => `<rect x="${22 + i * 44}" y="70" width="38" height="44" rx="6" class="${'ac'}" style="opacity:${0.35 + i * 0.12}"/><text x="${41 + i * 44}" y="98" text-anchor="middle" style="fill:var(--accent-ink);font-weight:700">${w}</text>`).join('')}
+    ${label(22, 56, 'Baby born →', 'b')}${label(22, 140, 'Weeks after birth: mastitis usually starts here')}`),
+  bacteria: V(`<g class="so">${[[60, 70], [72, 64], [84, 72], [66, 82], [78, 84], [90, 86], [72, 96], [56, 92], [86, 98]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="7"/>`).join('')}</g>
+    <g class="so">${[0, 1, 2, 3, 4, 5, 6].map(i => `<circle cx="${170 + i * 16}" cy="${78 + Math.sin(i / 1.4) * 10}" r="7"/>`).join('')}</g>
+    ${label(40, 130, 'Staph', 'b')}${label(30, 146, 'grape-like clusters')}${label(190, 130, 'Strep', 'b')}${label(180, 146, 'chains')}${label(20, 24, 'Usual cause of mastitis', 'b')}`),
+  crack: V(`<path class="tis" d="M10 30 C120 30 200 60 210 90 C200 120 120 150 10 150 Z"/><rect class="so" x="208" y="80" width="16" height="20" rx="5"/>
+    <path class="rds" d="M214 82 l4 6 -4 4 4 6"/><g class="so">${[[262, 60], [272, 66], [266, 74], [276, 52]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="5"/>`).join('')}</g>
+    ${arrow(256, 70, 230, 84)}${label(20, 24, 'Cracked nipple lets bacteria in', 'b')}`),
+  abscess: V(BREAST + `<path class="rd" style="opacity:.4" d="M140 50 C200 52 236 72 244 88 C226 96 186 100 160 92 C140 80 132 64 140 50Z"/>
+    <ellipse class="pus" cx="182" cy="74" rx="20" ry="13"/>${arrow(216, 34, 194, 64)}${label(196, 26, 'Abscess (pus)', 'b')}`),
+  mastTx: V(`<g transform="translate(20 50)"><rect x="0" y="10" width="60" height="26" rx="13" class="wh"/><path d="M30 10 h17 a13 13 0 0 1 0 26 h-17z" class="ac"/>${label(2, 66, 'Antibiotics')}</g>
+    <g transform="translate(120 40)"><path class="fl" d="M6 4 h36 l-4 50 h-28z"/>${label(8, 76, 'Fluids')}</g>
+    <g transform="translate(206 44)"><path class="ac" d="M30 0 a24 24 0 1 0 24 30 a18 18 0 1 1 -24 -30z"/>${label(14, 72, 'Rest')}</g>
+    ${label(20, 26, 'Treat it and keep the milk flowing', 'b')}${label(20, 160, '+ pain relief, supportive bra, heat or cold')}`),
+  feed: V(`<path class="rd" d="M150 150 C80 104 60 70 92 48 C114 34 140 46 150 66 C160 46 186 34 208 48 C240 70 220 104 150 150Z" style="opacity:.85"/>
+    <path class="acs" d="M118 88 l20 20 40 -42" style="stroke:var(--surface);stroke-width:7"/>${label(20, 24, 'Keep breastfeeding: safe and helpful', 'b')}${label(70, 172, 'Exception: mother is HIV positive', 'b')}`),
+};
+
+window.SET = {
+  title: 'Disorders of the Breasts',
+  chapter: 'Chapter 8 · Reproductive Function',
+  pics: PICS,
+  // spellings that make the phone's voice say these words correctly
+  speak: { galactocele: 'guh lacto seal', galactoceles: 'guh lacto seals', danazol: 'danna zole', atypia: 'ay tippy uh', NSAIDs: 'en sedds', Staph: 'staff', SERM: 'serm', sclerosing: 'sklair oh sing', fibroadenoma: 'fibro adda nohma', fibroadenomas: 'fibro adda nohmas', papilloma: 'pappa lohma', hyperplasia: 'hyper play zhuh', necrosis: 'neh crow sis' },
+  cards: [
+    { term: 'Most common breast mass overall', def: 'Fibroadenoma: a solid lump made of glandular and fibrous tissue', short: 'Fibroadenoma (solid lump)', pic: 'fibro' },
+    { term: 'Most common nonproliferative breast mass', say: 'non-proh-LIF-er-uh-tiv', def: 'Breast cyst, usually fluid-filled', short: 'Breast cyst (fluid-filled)', pic: 'cyst' },
+    { term: 'The 3 types of breast cysts', def: 'Simple, complex, and complicated', pic: 'cystAll' },
+    { term: 'Simple cyst: cancer risk', def: 'None. Not linked to cancer.', short: 'No cancer risk', pic: 'cyst1' },
+    { term: 'Complex cyst: cancer risk', def: 'Rare, less than 1%', short: 'Rare (<1%)', pic: 'cyst2' },
+    { term: 'Complicated cyst: cancer risk', def: 'Slightly higher, 1–23%', short: 'Slightly higher (1–23%)', pic: 'cyst3' },
+    { term: 'Fibrocystic changes', say: 'fy-broh-SIS-tik', def: 'A vague, nonspecific term for nonproliferative breast disease', short: 'Vague term for nonproliferative disease', pic: 'ladder1' },
+    { term: 'Simple vs. complex fibroadenoma', say: 'fy-broh-ad-uh-NOH-muh', def: 'Simple: no added cancer risk. Complex: slightly increased risk.', short: 'Simple: no risk · Complex: slight risk', pic: 'fibro' },
+    { term: 'Sclerosing adenosis', say: 'skluh-ROH-sing ad-uh-NOH-sis', def: 'A lobular mass (proliferative, no atypia) that doubles breast cancer risk', short: 'Lobular mass, 2× cancer risk', pic: 'sclero' },
+    { term: 'Intraductal papilloma', say: 'in-truh-DUK-tul pap-ih-LOH-muh', def: 'A benign growth inside a milk duct that often causes bloody nipple discharge', short: 'Benign duct growth, bloody discharge', pic: 'papilloma' },
+    { term: 'Proliferative WITH atypia: the 3 masses', say: 'ay-TIP-ee-uh', def: 'Atypical ductal hyperplasia, atypical lobular hyperplasia, and lobular carcinoma in situ. All raise cancer risk.', short: 'ADH, ALH, LCIS (raise risk)', pic: 'ladder3' },
+    { term: 'Fat necrosis', say: 'neh-KROH-sis', def: 'A benign lump that forms after trauma to the breast', short: 'Benign lump after trauma', pic: 'fatNec' },
+    { term: 'Galactocele', say: 'guh-LAK-tuh-seel', def: 'A benign milk-filled lump caused by a blocked milk duct', short: 'Lump from a blocked milk duct', pic: 'galacto' },
+    { term: 'When are breast cysts most common?', def: 'During the childbearing years. They are less common after menopause.', short: 'Childbearing years', pic: 'lifeline' },
+    { term: 'Usual number of breast masses', def: 'One. A single (solitary) mass is most common.', short: 'One (solitary)', pic: 'single' },
+    { term: 'Nipple discharge that suggests cancer', def: 'Discharge that is spontaneous, persistent, or bloody', short: 'Spontaneous, persistent, or bloody', pic: 'discharge' },
+    { term: 'Can a physical exam alone tell benign from cancer?', def: 'No. Imaging or a biopsy is needed.', short: 'No, needs imaging or biopsy', pic: 'exam' },
+    { term: 'First imaging for a breast mass in a woman under 30', def: 'Ultrasound, which is often enough by itself', short: 'Ultrasound', pic: 'ultrasound' },
+    { term: 'The 3 types of breast biopsy', def: 'Fine needle aspiration, core biopsy (a piece is removed), and excisional biopsy (the whole mass is removed)', short: 'FNA, core, excisional', pic: 'biopsy' },
+    { term: 'Treatment for low-risk benign masses', def: 'Usually none. If needed, treat symptoms: drain the fluid, pain relievers (NSAIDs or acetaminophen), a supportive bra, heat or cold.', short: 'Usually none; symptom relief', pic: 'relief' },
+    { term: 'Danazol', say: 'DAN-uh-zol', def: 'An androgen for severe breast pain or nodules. Side effects: weight gain and irregular periods, so it is used last.', short: 'Androgen for severe pain, used last', pic: 'danazol' },
+    { term: 'Tamoxifen', say: 'tuh-MOK-sih-fen', def: 'A selective estrogen receptor modulator (SERM) used for chemoprevention in higher-risk masses', short: 'SERM for chemoprevention', pic: 'tamoxifen' },
+    { term: 'Mastitis', say: 'mas-TY-tis', def: 'Inflammation of breast tissue, often from infection while breastfeeding', short: 'Breast inflammation, often infection', pic: 'mastitis' },
+    { term: 'When does mastitis usually start?', def: 'Within 6 weeks after childbirth', short: 'Within 6 weeks after birth', pic: 'weeks' },
+    { term: 'Usual bacteria in mastitis', def: 'Staph or strep, entering through the nipple', short: 'Staph or strep', pic: 'bacteria' },
+    { term: 'Biggest risk factor for mastitis', def: 'A broken or cracked nipple or skin', short: 'Cracked nipple or skin', pic: 'crack' },
+    { term: 'Signs of mastitis', def: 'Red, warm, swollen, tender breast; lumps; burning pain; flu-like symptoms; pus-like discharge; swollen armpit lymph nodes', short: 'Red, warm, tender; flu-like', pic: 'mastitis' },
+    { term: 'Complication of mastitis', def: 'An abscess, from blocked milk flow', short: 'Abscess', pic: 'abscess' },
+    { term: 'Treatment for mastitis', def: 'Antibiotics, fluids, rest, NSAIDs or acetaminophen, a supportive bra, heat or cold, and keep emptying the breast', short: 'Antibiotics, fluids, rest, keep emptying', pic: 'mastTx' },
+    { term: 'Keep breastfeeding with mastitis?', def: 'Yes. It is safe and encouraged, unless the mother is HIV positive.', short: 'Yes, unless mother is HIV+', pic: 'feed' },
+  ],
+};
+</script>
+<script src="study.js"></script>
+</body>
+</html>
