@@ -39,6 +39,22 @@
     });
   }
 
+  // Kokoro recordings (audio/<chapter>/tNN.mp3 + dNN.mp3); falls back to the phone's voice if a file won't play
+  const player = new Audio();
+  let stopToken = 0;
+  function stopAudio() { stopToken++; player.pause(); if ('speechSynthesis' in window) speechSynthesis.cancel(); }
+  function speakCard(i, kind) {
+    const c = CARDS[i], text = kind === 'd' ? c.def : c.term;
+    if (!SET.audio) return speakText(text);
+    stopAudio(); const token = stopToken;
+    return new Promise(res => {
+      player.src = `${SET.audio}/${kind}${String(i + 1).padStart(2, '0')}.mp3`;
+      player.onended = res;
+      player.onerror = () => { if (token === stopToken) speakText(text).then(res); else res(); };
+      player.play().catch(() => { if (token === stopToken) speakText(text).then(res); else res(); });
+    });
+  }
+
   /* ---------- page skeleton ---------- */
   document.title = SET.title + ' | Study Cards';
   $('app').innerHTML = `
@@ -67,13 +83,14 @@
     <button class="icon-btn" data-speak="${i}" aria-label="Read ${c.term} out loud">${ICON.sound}</button></div>`).join('');
   $('terms').addEventListener('click', e => {
     const b = e.target.closest('[data-speak]'); if (!b) return;
-    const c = CARDS[+b.dataset.speak]; speakText(c.term + '. ' + c.def);
+    const i = +b.dataset.speak, t = stopToken + 1;
+    speakCard(i, 't').then(() => { if (stopToken === t) return new Promise(r => setTimeout(r, 300)).then(() => stopToken === t && speakCard(i, 'd')); });
   });
 
   const modes = { cards: Flashcards, learn: Learn, test: Test, match: Match };
   document.querySelectorAll('.mode').forEach(b => b.onclick = () => setMode(b.dataset.mode));
   function setMode(m) {
-    if ('speechSynthesis' in window) speechSynthesis.cancel();
+    stopAudio(); autoplay = false;
     document.querySelectorAll('.mode').forEach(b => b.setAttribute('aria-selected', b.dataset.mode === m));
     clearInterval(matchTimer);
     modes[m]();
@@ -107,7 +124,7 @@
       order = on ? CARDS.map((_, i) => i).filter(i => stars.has(i)) : CARDS.map((_, i) => i);
       pos = 0; flipped = false; drawCard();
     };
-    $('auto').onclick = () => { autoplay = !autoplay; $('auto').classList.toggle('on', autoplay); if (autoplay) runAuto(); else speechSynthesis.cancel(); };
+    $('auto').onclick = () => { autoplay = !autoplay; $('auto').classList.toggle('on', autoplay); if (autoplay) runAuto(); else stopAudio(); };
   }
   function drawCard() {
     const i = order[pos], c = CARDS[i];
@@ -117,7 +134,7 @@
         <button class="icon-btn ${stars.has(i) ? 'on' : ''}" id="str" aria-label="Star this card">${stars.has(i) ? ICON.starOn : ICON.star}</button></span></div>
       ${flipped ? `${picHTML(c)}<div class="def">${c.def}</div>` : `<div class="term">${c.term}</div>${c.say ? `<div class="say">${c.say}</div>` : ''}<div class="tap">Tap to flip</div>`}`;
     $('counter').textContent = `${pos + 1} / ${order.length}`;
-    $('spk').onclick = () => speakText(flipped ? c.def : c.term);
+    $('spk').onclick = () => speakCard(i, flipped ? 'd' : 't');
     $('str').onclick = () => { stars.has(i) ? stars.delete(i) : stars.add(i); store.set(KEY + 'stars', [...stars]); drawCard(); };
   }
   function flip() {
@@ -129,10 +146,10 @@
   function go(d) { pos = (pos + d + order.length) % order.length; flipped = false; drawCard(); }
   async function runAuto() {
     while (autoplay && $('card')) {
-      const c = CARDS[order[pos]];
-      flipped = false; drawCard(); await speakText(c.term); if (!autoplay) break;
+      const i = order[pos];
+      flipped = false; drawCard(); await speakCard(i, 't'); if (!autoplay) break;
       await new Promise(r => setTimeout(r, 600)); flip(); await new Promise(r => setTimeout(r, 250));
-      await speakText(c.def); if (!autoplay) break;
+      await speakCard(i, 'd'); if (!autoplay) break;
       await new Promise(r => setTimeout(r, 1200));
       if (pos === order.length - 1) { autoplay = false; $('auto') && $('auto').classList.remove('on'); break; }
       go(1);
@@ -161,7 +178,7 @@
         <div class="tag">Choose the matching definition</div>
         <div class="choices">${opts.map(o => `<button class="choice" data-o="${o}">${CARDS[o].short || CARDS[o].def}</button>`).join('')}</div>
         <p class="feedback" id="fb"></p><div id="after"></div></div>`;
-      $('spk').onclick = () => speakText(c.term);
+      $('spk').onclick = () => speakCard(idx, 't');
       document.querySelectorAll('.choice').forEach(b => b.onclick = () => {
         if ($('fb').textContent) return;
         const ok = +b.dataset.o === idx;
@@ -189,7 +206,7 @@
         <div class="tag">Choose the matching ${flipQ ? 'term' : 'definition'}</div>
         <div class="choices">${opts.map(o => `<button class="choice" data-o="${o}">${flipQ ? CARDS[o].term : (CARDS[o].short || CARDS[o].def)}</button>`).join('')}</div>
         <p class="feedback" id="fb"></p><button class="btn" id="nx" disabled>Next question</button></div>`;
-      $('spk').onclick = () => speakText(flipQ ? c.def : c.term);
+      $('spk').onclick = () => speakCard(idx, flipQ ? 'd' : 't');
       document.querySelectorAll('.choice').forEach(b => b.onclick = () => {
         if (!$('nx').disabled) return;
         const ok = +b.dataset.o === idx;
