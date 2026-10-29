@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Coronary Heart Disease Drugs | Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<link rel="stylesheet" href="study.css">
+<link rel="stylesheet" href="ch9-art.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="ch9-pics.js"></script>
+<script>
+const PICS = {
+  athero: flowPic('Atherosclerosis', ['Endothelium damaged', 'Lipids, macrophages build plaque', 'Plaque narrows artery'], 'Begins in the tunica intima', 1),
+  rupture: flowPic('Acute coronary event', ['Plaque ruptures', 'Thrombus forms', 'Artery blocked → MI'], 'Complete blockage often = STEMI', 2),
+  damage: listPic('Causes of endothelial injury', ['Hypertension', 'Smoking', 'Hyperlipidemia', 'Diabetes (glycation)', 'Homocysteine, toxins']),
+  coronary: twoPic('Coronary arteries', ['Left', ['Front and side', 'of left ventricle']], ['Right', ['Right ventricle,', 'back of LV (most people)']], 'Coronary flow happens mainly in diastole'),
+  abcde: listPic('ABCDE prevention checklist', ['A: assess risk, aspirin if high risk', 'B: blood pressure under 130/80', 'C: cholesterol (statin), cigarettes', 'D: diabetes, diet, weight', 'E: exercise 150 min/week']),
+  classes: listPic('Drugs used in CHD / angina', ['Aspirin (antiplatelet)', 'Statins', 'Beta blockers', 'Calcium channel blockers', 'ACE-I / ARB', 'Nitrates, ranolazine']),
+  aspirin: twoPic('Aspirin', ['Secondary prevention', ['Known CHD: yes', '75–162 mg daily']], ['Primary prevention', ['Only high-risk,', 'low-bleed adults 40–70']]),
+  bb: flowPic('Beta blockers in angina', ['Block beta-1', 'Slower HR, less contractility', 'Less O2 demand'], 'Atenolol, metoprolol, nadolol, propranolol', 2),
+  bbMI: factPic('After a heart attack', 'Beta blockers lower mortality', 'Atenolol, metoprolol, carvedilol, propranolol, timolol'),
+  card: twoPic('Beta-1 selective vs. nonselective', ['Cardioselective', ['Metoprolol, atenolol', 'Safer in lungs']], ['Nonselective', ['Propranolol, nadolol', 'Caution in asthma']]),
+  bbStop: factPic('Stopping a beta blocker', 'Taper 1–2 weeks', 'Stopping suddenly can trigger angina or MI'),
+  ccb: listPic('CCBs in angina', ['Amlodipine, nifedipine, diltiazem, verapamil', 'Chronic stable angina', 'All 4 treat variant (vasospastic) angina', 'Use if beta blocker not tolerated']),
+  acei: twoPic('ACE-I and ARBs that cut CV deaths', ['ACE inhibitors', ['Ramipril', 'Perindopril']], ['ARBs', ['Telmisartan', 'Valsartan']]),
+  ntg: flowPic('Nitroglycerin', ['Releases nitric oxide', 'cGMP relaxes smooth muscle', 'Venodilation → less preload'], 'Less heart workload, more coronary flow', 2),
+  ntgUse: listPic('Sublingual NTG for chest pain', ['1 tablet under tongue at first sign', 'Not better in 5 min? Call 911', 'Can repeat every 5 min', 'Max 3 tablets in 15 minutes']),
+  ntgRoutes: twoPic('Nitroglycerin onset', ['Fast', ['Sublingual: 1–3 min', 'Spray: 2–4 min']], ['Slow', ['Ointment: 20–60 min', 'Patch: 40–60 min']]),
+  tolerance: factPic('Nitrate tolerance', '10–14 hour nitrate-free period', 'e.g., patch on 12–14 h, off 10–12 h each day'),
+  pde5: factPic('Never combine nitrates with', 'PDE-5 inhibitors', 'Sildenafil, vardenafil, tadalafil: severe hypotension, MI, death'),
+  ntgAE: listPic('Nitrate side effects', ['Throbbing headache', 'Dizziness, orthostatic hypotension', 'Flushing, reflex tachycardia', 'Syncope']),
+  ntgNo: listPic('Nitrate contraindications', ['PDE-5 inhibitor use', 'Increased intracranial pressure', 'Severe anemia', 'Right ventricular MI', 'Closed-angle glaucoma (isosorbide)']),
+  isosorbide: twoPic('Long-acting nitrates', ['Isosorbide mononitrate', ['Chronic angina', 'Not for acute attacks', '~100% bioavailable']], ['Isosorbide dinitrate', ['Prevent/treat angina', 'Big first-pass loss']]),
+  ranolazine: listPic('Ranolazine (Ranexa)', ['Chronic stable angina only', 'No change in HR or BP', 'Prolongs QT', 'CYP3A4: avoid grapefruit', 'Not for acute angina']),
+  ranoNo: listPic('Ranolazine contraindications', ['Liver cirrhosis', 'Dialysis / CrCl under 30', 'Strong CYP3A4 inhibitors or inducers', 'Max 500 mg BID with moderate inhibitors']),
+  angina: twoPic('Angina types', ['Stable', ['With exertion', 'Relieved by rest/NTG']], ['Variant (Prinzmetal)', ['Coronary spasm', 'Often at rest', 'Treat with CCB']]),
+  lifestyle: listPic('CHD teaching', ['Stop smoking', 'Exercise 150 min/week', 'Diet: veg, fruit, legumes, fish', 'Statin per ASCVD risk', 'BP under 130/80', 'Screen for diabetes']),
+  supplements: listPic('Supplements sometimes used', ['Omega-3 / fish oil', 'Plant sterols, fiber', 'Garlic, CoQ10'], 'Evidence limited; check interactions'),
+};
+
+window.SET = {
+  title: 'Coronary Heart Disease Drugs',
+  chapter: 'Pharmacology · Unit 4 · Ch 11 Coronary Heart Disease',
+  pics: PICS,
+  mystery: true,
+  audio: 'audio/rx11',
+  speak: {},
+  cards: [
+    { term: 'Atherosclerosis', def: 'Narrowing of the coronary arteries from plaque (atheroma) that starts after the endothelium of the tunica intima is damaged. Lipids, macrophages, and calcium build up and limit blood flow.', short: 'Plaque narrowing the arteries', pic: 'athero' },
+    { term: 'Causes of endothelial injury in CHD', def: 'Hypertension, smoking, hyperlipidemia, diabetes (glycation), high homocysteine, toxins, viruses, and immune reactions', short: 'HTN, smoking, lipids, diabetes', pic: 'damage' },
+    { term: 'What causes a heart attack (acute MI)', def: 'A plaque ruptures, a thrombus forms, and the artery is blocked. A complete blockage often causes a STEMI. Time to treatment is critical.', short: 'Plaque rupture + thrombus', pic: 'rupture' },
+    { term: 'Left vs. right coronary artery', def: 'The left supplies the front and side of the left ventricle. The right supplies the right ventricle and, in most people, the back of the left ventricle. Coronary flow happens mostly during diastole.', short: 'Left: front of LV; right: RV and back', pic: 'coronary' },
+    { term: 'ABCDE checklist for CHD prevention', def: 'A: assess risk and aspirin for high risk. B: blood pressure under 130/80. C: cholesterol (statin) and cigarette cessation. D: diabetes, diet, and weight. E: exercise 150 minutes a week.', short: 'Aspirin, BP, cholesterol, diet, exercise', pic: 'abcde' },
+    { term: 'Drug classes used for coronary heart disease', def: 'Aspirin, statins, beta blockers, calcium channel blockers, ACE inhibitors or ARBs, nitrates, and ranolazine', short: 'Aspirin, statin, BB, CCB, nitrates', pic: 'classes' },
+    { term: 'Aspirin in CHD', def: 'For secondary prevention in known CHD (75–162 mg daily). For primary prevention, only high-risk adults 40–70 with low bleeding risk; it is no longer routinely recommended.', short: 'Yes for known CHD; rarely for primary', pic: 'aspirin' },
+    { term: 'How beta blockers relieve angina', def: 'They block beta-1 receptors, slowing heart rate and contractility, which lowers the heart\'s oxygen demand. Examples: atenolol, metoprolol, nadolol, propranolol.', short: 'Lower heart O2 demand', pic: 'bb' },
+    { term: 'Beta blockers after a heart attack', def: 'They lower cardiovascular mortality (atenolol, metoprolol, carvedilol, propranolol, timolol). Carvedilol is used with LV dysfunction after MI.', short: 'Lower mortality', pic: 'bbMI' },
+    { term: 'Cardioselective vs. nonselective beta blockers', def: 'Cardioselective (beta-1) like metoprolol and atenolol are preferred. Nonselective ones like propranolol and nadolol also block beta-2 in the lungs, so use caution in asthma.', short: 'Beta-1 selective preferred', pic: 'card' },
+    { term: 'Stopping a beta blocker', def: 'Taper over 1–2 weeks. Stopping suddenly can trigger angina or a heart attack.', short: 'Taper 1–2 weeks', pic: 'bbStop' },
+    { term: 'Calcium channel blockers in angina', def: 'Amlodipine, nifedipine, diltiazem, and verapamil treat chronic stable angina, and all four treat variant (vasospastic) angina. Used when beta blockers aren\'t tolerated or need help.', short: 'Stable and variant angina', pic: 'ccb' },
+    { term: 'Best drug for variant (Prinzmetal) angina', def: 'A calcium channel blocker, because the pain comes from coronary artery spasm, often at rest', short: 'Calcium channel blocker', pic: 'angina' },
+    { term: 'Stable vs. variant angina', def: 'Stable angina comes with exertion and is relieved by rest or nitroglycerin. Variant (Prinzmetal) angina comes from coronary spasm, often at rest.', short: 'Exertion vs. spasm at rest', pic: 'angina' },
+    { term: 'ACE inhibitors and ARBs shown to cut cardiovascular deaths', def: 'ACE inhibitors ramipril and perindopril; ARBs telmisartan (if ACE-I not tolerated) and valsartan (after MI with LV dysfunction)', short: 'Ramipril, perindopril, telmisartan, valsartan', pic: 'acei' },
+    { term: 'How nitroglycerin works', def: 'It releases nitric oxide, which raises cGMP and relaxes smooth muscle. Mostly venodilation, which lowers preload and the heart\'s workload, plus some coronary dilation.', short: 'Nitric oxide → venodilation', pic: 'ntg' },
+    { term: 'Teaching sublingual nitroglycerin for chest pain', def: 'Put 1 tablet under the tongue at the first sign of pain and let it dissolve. If not better in 5 minutes, call 911. Repeat every 5 minutes, no more than 3 tablets in 15 minutes.', short: '1 tab; 911 at 5 min; max 3 in 15 min', pic: 'ntgUse' },
+    { term: 'Fastest vs. slowest nitroglycerin routes', def: 'Sublingual works in 1–3 minutes and spray in 2–4 minutes. Ointment takes 20–60 minutes and the patch 40–60 minutes.', short: 'Sublingual fastest; patch slowest', pic: 'ntgRoutes' },
+    { term: 'Preventing nitrate tolerance', def: 'Give a daily nitrate-free period of about 10–14 hours (for example, patch on 12–14 hours, off 10–12 hours)', short: 'Nitrate-free period 10–14 hours', pic: 'tolerance' },
+    { term: 'Drugs that must never be taken with nitrates', def: 'PDE-5 inhibitors (sildenafil, vardenafil, tadalafil). Together they can cause severe hypotension, syncope, MI, or death.', short: 'PDE-5 inhibitors (sildenafil)', pic: 'pde5' },
+    { term: 'Nitrate side effects', def: 'Throbbing headache (most common), dizziness, orthostatic hypotension, flushing, reflex tachycardia, and syncope', short: 'Headache, hypotension', pic: 'ntgAE' },
+    { term: 'Nitrate contraindications', def: 'PDE-5 inhibitor use, increased intracranial pressure, severe anemia, right ventricular MI, and closed-angle glaucoma (isosorbide)', short: 'PDE-5 use, high ICP, RV infarct', pic: 'ntgNo' },
+    { term: 'Isosorbide mononitrate vs. dinitrate', def: 'Mononitrate is for chronic angina only (not acute attacks) and is nearly 100% bioavailable. Dinitrate prevents or treats angina but loses much to first-pass metabolism. Don\'t stop either suddenly.', short: 'Long-acting nitrates; not for acute', pic: 'isosorbide' },
+    { term: 'Ranolazine (Ranexa)', say: 'ruh-NOH-luh-zeen', def: 'An add-on for chronic stable angina that doesn\'t change heart rate or BP. It prolongs the QT interval, is a CYP3A4 substrate (avoid grapefruit), and does not treat acute attacks.', short: 'Chronic angina; QT prolongation', pic: 'ranolazine' },
+    { term: 'Ranolazine contraindications', def: 'Liver cirrhosis, dialysis or CrCl under 30, and strong CYP3A4 inhibitors or inducers. Limit to 500 mg twice daily with moderate CYP3A4 inhibitors (diltiazem, verapamil).', short: 'Cirrhosis, dialysis, strong CYP3A4 drugs', pic: 'ranoNo' },
+    { term: 'Lifestyle teaching for coronary heart disease', def: 'Stop smoking, exercise at least 150 minutes a week, eat vegetables, fruit, legumes, and fish, take a statin per ASCVD risk, keep BP under 130/80, and screen for diabetes', short: 'No smoking, exercise, diet, statin', pic: 'lifestyle' },
+    { term: 'Supplements patients may use for heart disease', def: 'Omega-3 fish oil, plant sterols, fiber, garlic, and CoQ10. Evidence is limited, so check for drug interactions.', short: 'Fish oil, sterols, CoQ10', pic: 'supplements' },
+  ],
+};
+</script>
+<script src="art/rx11.js"></script>
+<script src="study.js"></script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Heart Failure Drugs | Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<link rel="stylesheet" href="study.css">
+<link rel="stylesheet" href="ch9-art.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="ch9-pics.js"></script>
+<script>
+const PICS = {
+  gdmt: listPic('GDMT for HFrEF: 4 pillars', ['ACE-I, ARB, or ARNI', 'Beta blocker', 'Aldosterone antagonist', 'SGLT2 inhibitor'], 'Lowers death and hospital stays'),
+  types: twoPic('Heart failure by ejection fraction', ['HFrEF', ['EF 40% or less', 'Can\'t pump out']], ['HFpEF', ['EF 50% or more', 'Stiff, can\'t fill']], 'Mildly reduced EF: 41–49%'),
+  ef: factPic('Ejection fraction', 'EF = SV ÷ EDV × 100', 'Normal about 60–65%'),
+  improved: factPic('HF with improved EF (HFimpEF)', 'EF was 40% or less, now over 40%', 'Improved on GDMT; not a full cure'),
+  stages: listPic('ACC/AHA stages', ['A: at risk, no structural disease', 'B: structural disease, no symptoms', 'C: structural disease + symptoms', 'D: end-stage, refractory']),
+  nyha: listPic('NYHA functional classes', ['I: no limits on activity', 'II: slight limits', 'III: marked limits, OK at rest', 'IV: symptoms even at rest']),
+  hfref: flowPic('HFrEF vicious cycle', ['Low cardiac output', 'RAAS + SNS turn on', 'More preload, afterload, remodeling'], 'Drugs block this cycle', 1),
+  congestion: listPic('HFrEF congestion signs', ['Dyspnea, orthopnea', 'Paroxysmal nocturnal dyspnea', 'Dependent edema', 'Ascites, weight gain', 'Fatigue, cool extremities']),
+  rightHF: flowPic('Right heart failure', ['Left HF or lung disease (cor pulmonale)', 'Right ventricle fails', 'JVD, liver/spleen big, leg edema'], '', 1),
+  acei: listPic('ACE inhibitors in HF', ['Start low, double every 1–2 weeks', 'Creatinine rise up to 30% is OK', 'Check K+ and creatinine in 1–2 weeks', 'Caution: SBP under 80, K over 5']),
+  arb: factPic('ARB in heart failure', 'Use if ACE-I cough or angioedema', 'Candesartan, valsartan; as good as ACE-I'),
+  arni: flowPic('Sacubitril-valsartan (Entresto)', ['Neprilysin inhibitor + ARB', 'More natriuretic peptides', 'Less vasoconstriction, Na retention'], 'Replaces ACE-I/ARB in symptomatic HFrEF', 0),
+  washout: factPic('Switching ACE inhibitor to ARNI', '36-hour washout', 'Together they cause angioedema'),
+  bb: listPic('Beta blockers proven in HFrEF', ['Carvedilol', 'Metoprolol succinate (ER)', 'Bisoprolol'], 'Start low, titrate slowly to target'),
+  carvedilol: twoPic('Carvedilol vs. metoprolol', ['Carvedilol', ['Blocks beta-1, beta-2, alpha-1', 'More hypotension', 'Avoid in asthma']], ['Metoprolol', ['Beta-1 selective', 'Preferred in lung disease']]),
+  bbAE: listPic('Beta blocker cautions in HF', ['Fluid retention, worse HF at start', 'Bradycardia, heart block', 'Masks hypoglycemia', 'Never stop abruptly', 'Not in acute decompensated HF']),
+  ara: listPic('Aldosterone antagonists', ['Spironolactone, eplerenone', 'HFrEF, NYHA II–IV', 'Need GFR over 30 and K under 5', 'Main danger: hyperkalemia']),
+  spiro: twoPic('Spironolactone vs. eplerenone', ['Spironolactone', ['Nonselective', 'Gynecomastia', 'Hyperkalemia']], ['Eplerenone', ['Selective', 'Less gynecomastia', 'CYP3A4 interactions']]),
+  araMonitor: listPic('Potassium checks on spironolactone', ['3 days and 1 week after start', 'Monthly for 3 months', 'Then every 3–6 months', 'Stop K supplements', 'No salt substitutes']),
+  sglt2: flowPic('SGLT2 inhibitors (dapagliflozin)', ['Block glucose and Na reabsorption', 'Diuresis, less preload and afterload', 'Fewer HF admissions, deaths'], 'With or without diabetes', 0),
+  sglt2AE: listPic('SGLT2 inhibitor side effects', ['Genital yeast infections, UTIs', 'Volume depletion, hypotension', 'Ketoacidosis', 'Fournier gangrene (rare)']),
+  ivab: listPic('Ivabradine (Corlanor)', ['Blocks If channel → slows HR', 'HFrEF EF 35% or less, HR 70+', 'Already on max beta blocker', 'Can cause AFib, bradycardia, flashes of light']),
+  bidil: factPic('Hydralazine + isosorbide dinitrate (BiDil)', 'Black patients, NYHA III–IV', 'Added to GDMT; lowers mortality; never with PDE-5 inhibitors'),
+  loop: listPic('Loop diuretics in HF', ['Furosemide, bumetanide, torsemide', 'Only for fluid overload', 'Relieve symptoms', 'Do NOT lower mortality', 'Goal: lose 1–2 lb a day']),
+  loopAE: listPic('Loop diuretic side effects', ['Low K, Na, Mg, Ca', 'Dehydration, hypotension', 'Ototoxicity at high doses', 'High uric acid, glucose', 'Sulfa allergy caution']),
+  metolazone: factPic('Diuretic resistance', 'Add metolazone', 'A thiazide-like diuretic given with a loop diuretic'),
+  digoxin: listPic('Digoxin', ['Positive inotrope', 'Fewer hospital stays, better exercise', 'Does NOT lower mortality', 'Narrow therapeutic index', 'Target level 0.5–0.9 ng/mL']),
+  digTox: listPic('Digoxin toxicity (level over 2)', ['Nausea, vomiting, anorexia', 'Visual changes (yellow-green)', 'Any arrhythmia, AV block', 'Confusion', 'Worse with low K, Mg']),
+  digDrugs: listPic('Drugs that raise digoxin levels', ['Amiodarone', 'Verapamil', 'Clarithromycin, erythromycin', 'Cyclosporine'], 'Draw level 6–8 h after the last dose'),
+  ccbNo: factPic('Calcium channel blockers in HFrEF', 'Not recommended', 'Diltiazem and verapamil are contraindicated'),
+  hfpef: listPic('HFpEF treatment', ['Diuretics for congestion', 'SGLT2 inhibitor', 'Consider ARNI or MRA', 'Control BP, AFib, weight']),
+  stageTx: listPic('Treatment by stage', ['A: control BP, lipids; SGLT2 if diabetic', 'B: ACE-I, beta blocker', 'C: full GDMT, ARNI', 'D: advanced HF specialist']),
+  bnp: factPic('Lab to help diagnose HF', 'BNP or NT-proBNP', 'Also: echo with Doppler, chest X-ray'),
+  teach: listPic('HF self-care teaching', ['Weigh daily before meds', 'Report gain of 2–3 lb in a day', 'Limit sodium', 'Missed dose: skip if under 6 h to next', 'Never double up']),
+};
+
+window.SET = {
+  title: 'Heart Failure Drugs',
+  chapter: 'Pharmacology · Unit 4 · Ch 12 Heart Failure',
+  pics: PICS,
+  mystery: true,
+  audio: 'audio/rx12',
+  speak: {},
+  cards: [
+    { term: 'Guideline-directed medical therapy (GDMT) for HFrEF', def: 'Four drug classes: an ACE inhibitor, ARB, or ARNI; a beta blocker; an aldosterone antagonist; and an SGLT2 inhibitor. Together they lower death and hospitalizations.', short: 'ACE-I/ARB/ARNI, BB, MRA, SGLT2i', pic: 'gdmt' },
+    { term: 'HFrEF vs. HFpEF', def: 'HFrEF (systolic) has an ejection fraction of 40% or less: the heart can\'t pump out. HFpEF (diastolic) has an EF of 50% or more: the stiff ventricle can\'t fill. EF 41–49% is mildly reduced.', short: 'EF 40% or less vs. 50% or more', pic: 'types' },
+    { term: 'Ejection fraction formula', def: 'Stroke volume divided by end-diastolic volume, times 100. Normal is about 60–65%.', short: 'SV ÷ EDV × 100', pic: 'ef' },
+    { term: 'HF with improved ejection fraction (HFimpEF)', def: 'EF was 40% or less and has risen above 40%, usually from GDMT. It is not a full recovery.', short: 'EF rose above 40% on GDMT', pic: 'improved' },
+    { term: 'ACC/AHA heart failure stages A–D', def: 'A: at risk without structural heart disease. B: structural disease without symptoms. C: structural disease with symptoms. D: end-stage HF.', short: 'At risk → structural → symptoms → end-stage', pic: 'stages' },
+    { term: 'NYHA functional classes I–IV', def: 'I: no limits on physical activity. II: slight limits. III: marked limits but comfortable at rest. IV: symptoms even at rest.', short: 'No limits → symptoms at rest', pic: 'nyha' },
+    { term: 'What drives worsening HFrEF', def: 'Low cardiac output turns on the RAAS and sympathetic nervous system, raising preload and afterload and remodeling the heart. GDMT blocks this cycle.', short: 'RAAS and SNS activation', pic: 'hfref' },
+    { term: 'Signs of congestion in heart failure', def: 'Dyspnea, orthopnea, paroxysmal nocturnal dyspnea, dependent edema, ascites, and weight gain, plus fatigue and cool extremities from low perfusion', short: 'Dyspnea, orthopnea, edema', pic: 'congestion' },
+    { term: 'Right heart failure', def: 'The right ventricle can\'t pump to the lungs, usually from left HF or lung disease (cor pulmonale). Causes JVD, enlarged liver and spleen, and leg edema.', short: 'JVD, hepatomegaly, leg edema', pic: 'rightHF' },
+    { term: 'Starting an ACE inhibitor in HF', def: 'Start low and double the dose every 1–2 weeks to target. A creatinine rise up to 30% is acceptable. Check potassium and creatinine in 1–2 weeks. Use caution with SBP under 80, creatinine over 3, or K over 5.', short: 'Start low; creatinine rise to 30% OK', pic: 'acei' },
+    { term: 'When to use an ARB in heart failure', def: 'When the patient can\'t tolerate an ACE inhibitor because of cough or angioedema. ARBs (candesartan, valsartan) work as well as ACE inhibitors.', short: 'ACE-I cough or angioedema', pic: 'arb' },
+    { term: 'Sacubitril-valsartan (Entresto)', say: 'sak-YOO-bih-tril', def: 'An ARNI: a neprilysin inhibitor plus an ARB. It is recommended in place of an ACE inhibitor or ARB for symptomatic HFrEF (NYHA II–III) to lower death and hospitalization.', short: 'ARNI; replaces ACE-I/ARB', pic: 'arni' },
+    { term: 'Switching from an ACE inhibitor to sacubitril-valsartan', def: 'Wait 36 hours after the last ACE inhibitor dose, because together they cause angioedema. Never combine an ARNI with an ACE inhibitor or ARB.', short: '36-hour washout', pic: 'washout' },
+    { term: 'Beta blockers proven to lower HF mortality', def: 'Carvedilol, metoprolol succinate (extended-release), and bisoprolol. Start low and titrate slowly to the target dose.', short: 'Carvedilol, metoprolol succinate, bisoprolol', pic: 'bb' },
+    { term: 'Carvedilol vs. metoprolol in heart failure', def: 'Carvedilol blocks beta-1, beta-2, and alpha-1, so it causes more hypotension and should be avoided in asthma. Metoprolol is beta-1 selective and preferred in lung disease.', short: 'Carvedilol nonselective; metoprolol beta-1', pic: 'carvedilol' },
+    { term: 'Beta blocker cautions in heart failure', def: 'They can cause fluid retention and worse HF at first, bradycardia, and heart block, and can mask hypoglycemia. Never stop suddenly, and don\'t start in acute decompensated HF.', short: 'Start low; never stop suddenly', pic: 'bbAE' },
+    { term: 'Aldosterone antagonists (MRAs) in heart failure', def: 'Spironolactone and eplerenone for HFrEF NYHA II–IV with GFR over 30 and potassium under 5. They lower death and hospitalization. The main danger is hyperkalemia.', short: 'Spironolactone, eplerenone; watch K', pic: 'ara' },
+    { term: 'Spironolactone vs. eplerenone', def: 'Spironolactone is nonselective and can cause gynecomastia. Eplerenone is selective, causes less gynecomastia, and is affected by CYP3A4 inhibitors.', short: 'Gynecomastia with spironolactone', pic: 'spiro' },
+    { term: 'Potassium monitoring on spironolactone', def: 'Check potassium and kidney function at 3 days and 1 week, monthly for 3 months, then periodically. Stop potassium supplements and avoid salt substitutes.', short: '3 days, 1 week, then monthly', pic: 'araMonitor' },
+    { term: 'SGLT2 inhibitors in heart failure', def: 'Dapagliflozin (and empagliflozin) lower HF hospitalizations and cardiovascular death in symptomatic HFrEF, with or without diabetes. They cause diuresis and lower preload and afterload.', short: 'Dapagliflozin; with or without diabetes', pic: 'sglt2' },
+    { term: 'SGLT2 inhibitor side effects', def: 'Genital yeast infections and UTIs, volume depletion and hypotension, ketoacidosis, and rarely Fournier gangrene', short: 'Yeast infections, UTIs, ketoacidosis', pic: 'sglt2AE' },
+    { term: 'Ivabradine (Corlanor)', say: 'eye-VAB-ruh-deen', def: 'Blocks the If channel to slow heart rate. For HFrEF with EF 35% or less, sinus rhythm, and resting HR 70 or higher despite a max beta blocker. Can cause AFib, bradycardia, and visual flashes.', short: 'Slows HR; EF 35% or less, HR 70+', pic: 'ivab' },
+    { term: 'Hydralazine plus isosorbide dinitrate (BiDil)', def: 'Added to GDMT for Black patients with HFrEF NYHA III–IV; lowers mortality. Never give with PDE-5 inhibitors.', short: 'Black patients, NYHA III–IV', pic: 'bidil' },
+    { term: 'Role of loop diuretics in heart failure', def: 'Furosemide, bumetanide, and torsemide relieve fluid overload and symptoms but do not lower mortality. Use the lowest effective dose; goal weight loss is 1–2 lb a day.', short: 'Relieve fluid; don\'t lower deaths', pic: 'loop' },
+    { term: 'Loop diuretic side effects', def: 'Low potassium, sodium, magnesium, and calcium; dehydration and hypotension; ototoxicity at high doses; high uric acid and glucose', short: 'Low K, Mg; ototoxicity', pic: 'loopAE' },
+    { term: 'Treating diuretic resistance in heart failure', def: 'Add metolazone, a thiazide-like diuretic, to the loop diuretic', short: 'Add metolazone', pic: 'metolazone' },
+    { term: 'Digoxin in heart failure', def: 'A positive inotrope that reduces hospitalizations and improves exercise tolerance but does not lower mortality. Narrow therapeutic index; target level 0.5–0.9 ng/mL. On the Beers list.', short: 'Fewer admissions, no mortality benefit', pic: 'digoxin' },
+    { term: 'Signs of digoxin toxicity', def: 'Level over 2 ng/mL with nausea, vomiting, anorexia, visual changes, confusion, and almost any arrhythmia or AV block. Low potassium or magnesium makes it worse.', short: 'GI upset, vision changes, arrhythmias', pic: 'digTox' },
+    { term: 'Drugs that raise digoxin levels', def: 'Amiodarone, verapamil, clarithromycin, erythromycin, and cyclosporine. Draw digoxin levels 6–8 hours after the last dose.', short: 'Amiodarone, verapamil, macrolides', pic: 'digDrugs' },
+    { term: 'Calcium channel blockers in HFrEF', def: 'Not recommended as routine treatment; diltiazem and verapamil are contraindicated', short: 'Not recommended', pic: 'ccbNo' },
+    { term: 'HFpEF treatment', def: 'Diuretics for congestion, an SGLT2 inhibitor, and consider an ARNI or MRA. Control blood pressure, AFib, and weight.', short: 'Diuretics, SGLT2i', pic: 'hfpef' },
+    { term: 'Heart failure treatment by stage', def: 'A: control BP and lipids, SGLT2 inhibitor if diabetic. B: ACE inhibitor and beta blocker. C: full GDMT including ARNI. D: refer to an advanced HF specialist.', short: 'A prevent, B ACE-I+BB, C GDMT, D specialist', pic: 'stageTx' },
+    { term: 'Lab that helps diagnose heart failure', def: 'BNP or NT-proBNP, along with an echocardiogram with Doppler and a chest X-ray', short: 'BNP / NT-proBNP', pic: 'bnp' },
+    { term: 'Heart failure self-care teaching', def: 'Weigh daily before meds and report a gain of 2–3 lb in a day, limit sodium, skip a missed dose if it\'s within 6 hours of the next, and never double up', short: 'Daily weights, low sodium', pic: 'teach' },
+  ],
+};
+</script>
+<script src="art/rx12.js"></script>
+<script src="study.js"></script>
+</body>
+</html>

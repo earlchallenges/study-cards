@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arrhythmia Drugs | Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<link rel="stylesheet" href="study.css">
+<link rel="stylesheet" href="ch9-art.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="ch9-pics.js"></script>
+<script>
+const PICS = {
+  conduction: flowPic('Normal conduction', ['SA node (pacemaker)', 'AV node → bundle of His', 'Bundle branches → ventricles'], 'Automaticity + conductivity'),
+  mech: twoPic('2 arrhythmia mechanisms', ['Increased automaticity', ['Ectopic focus fires', 'Prolong action potential']], ['Reentry', ['Impulse loops around', 'Prolong refractory period']]),
+  vw: listPic('Vaughan-Williams classes', ['I: sodium channel blockers', 'II: beta blockers', 'III: potassium channel blockers', 'IV: calcium channel blockers']),
+  classI: listPic('Class I subgroups', ['IA: quinidine, disopyramide, procainamide', 'IB: mexiletine, lidocaine', 'IC: flecainide, propafenone (strongest)']),
+  afib: listPic('Atrial fibrillation', ['Most common arrhythmia', 'Disorganized atrial activity', 'Clots in atria → stroke', 'Treat: rate, rhythm, anticoagulation']),
+  afibTypes: listPic('AFib by duration', ['Paroxysmal: stops on its own, under 7 days', 'Persistent: lasts longer than 7 days', 'Permanent: over 1 year, no conversion']),
+  rate: listPic('AFib rate control', ['Beta blockers', 'Diltiazem, verapamil', 'Digoxin', 'IV amiodarone or digoxin if HF']),
+  anticoag: factPic('Prevent stroke in AFib', 'Anticoagulate', 'A DOAC is first-line; warfarin also used'),
+  rhythm: listPic('AFib rhythm control', ['Cardioversion (after TEE rules out clot)', 'Amiodarone', 'Dronedarone, sotalol', 'Pill-in-pocket: flecainide or propafenone', 'Ablation']),
+  pocket: factPic('"Pill in the pocket"', 'Flecainide or propafenone', 'Give a beta blocker or non-DHP CCB first; no structural heart disease'),
+  flutter: twoPic('AFib vs. atrial flutter', ['AFib', ['Irregular, disorganized']], ['Atrial flutter', ['Regular "sawtooth" waves', '2:1 or 1:1 conduction']], 'Flutter: rate control first, then rhythm'),
+  psvt: listPic('PSVT', ['Rate 130–250, narrow QRS', 'Often AV node reentry (AVNRT)', 'Prophylaxis: digoxin or beta blocker', 'Verapamil second choice', 'Ablation can cure']),
+  wpw: factPic('Accessory pathway (WPW)', 'No digoxin, no CCBs', 'They can speed conduction down the bypass tract'),
+  pvc: factPic('PVCs', 'Treat only if symptomatic or heart disease', 'Simple PVCs without heart disease: just monitor'),
+  tdp: flowPic('Torsades de pointes', ['Prolonged QT', 'Polymorphic VT', 'Can become VFib, sudden death'], 'QT over 0.44 s is abnormal', 0),
+  qtDrugs: listPic('Drugs that prolong QT', ['Class IA and III antiarrhythmics', 'Macrolides, fluoroquinolones', 'Haloperidol, quetiapine', 'Tricyclic antidepressants']),
+  lqts: factPic('Long QT syndrome treatment', 'Beta blocker; ICD if high risk', 'ICD for aborted cardiac arrest, syncope, or QT over 500 ms'),
+  quinidine: listPic('Quinidine (IA)', ['Diarrhea (most common)', 'QT prolongation, torsades', 'Raises digoxin levels', 'Avoid grapefruit', 'Level 2–5 mcg/mL']),
+  diso: factPic('Disopyramide (IA)', 'Strong anticholinergic effects', 'Dry mouth, urinary retention, constipation; avoid in glaucoma, HF'),
+  mexil: listPic('Mexiletine (IB)', ['Life-threatening ventricular arrhythmias', 'Lidocaine look-alike (oral)', 'Nausea, tremor, dizziness', 'Black box: liver injury', 'Smoking speeds clearance']),
+  flec: listPic('Flecainide (IC)', ['Prevents PAF, PSVT if no heart disease', 'Black box: higher mortality', 'Avoid after MI, structural disease', 'Check ECG, levels']),
+  propaf: listPic('Propafenone (IC)', ['VT; AFib if no structural disease', 'Taste changes, nausea, dizziness', 'Unmasks Brugada', 'Start in hospital', 'CYP2D6 metabolism']),
+  bb: listPic('Class II: beta blockers', ['Slow HR and AV conduction', 'Rate control in AFib/flutter', 'Lower mortality after MI', 'Taper over 2 weeks']),
+  propranolol: listPic('Propranolol', ['Nonselective', 'Bronchospasm, cold hands', 'Avoid in asthma', 'Black box: don\'t stop suddenly']),
+  amio: listPic('Amiodarone (class III)', ['Recurrent VFib, unstable VT', 'Has all 4 class effects', 'Half-life about 53 days', 'Most effective; most toxic']),
+  amioBB: listPic('Amiodarone black box', ['Pulmonary toxicity (can be fatal)', 'Liver toxicity', 'Worsens arrhythmias', 'Only for life-threatening rhythms']),
+  amioAE: listPic('Other amiodarone effects', ['Thyroid: hypo- or hyperthyroid', 'Photosensitivity, blue-gray skin', 'Optic neuritis', 'Raises digoxin, warfarin']),
+  amioMon: listPic('Amiodarone monitoring', ['Chest X-ray + PFTs at baseline', 'Thyroid tests', 'Liver enzymes twice yearly', 'Yearly eye exam', 'Use sunscreen']),
+  drone: listPic('Dronedarone (Multaq)', ['Amiodarone cousin without iodine', 'Keeps sinus rhythm in paroxysmal AFib', 'Black box: no NYHA IV HF', 'Black box: no permanent AFib']),
+  sotalol: listPic('Sotalol', ['Class II + III', 'Prevents AFib, flutter, VT', 'Torsades risk', 'Start in hospital on monitor', 'No CrCl under 40, QTc over 450']),
+  ivCCB: twoPic('Class IV: verapamil and diltiazem', ['Uses', ['PSVT conversion', 'AFib rate control']], ['Avoid', ['HFrEF', 'WPW accessory pathway', 'AV block']]),
+  digoxin: listPic('Digoxin in arrhythmias', ['Rate control in chronic AFib', 'Slows AV node', 'Not first-line (Beers)', 'Yellow halo = toxicity']),
+  cardiovert: factPic('Unstable patient', 'Synchronized cardioversion', 'Often the first intervention before drugs'),
+  teach: listPic('Antiarrhythmic teaching', ['Wear a medical alert bracelet', 'Limit caffeine, alcohol, tobacco', 'Report new symptoms', 'Check before OTC or herbal meds']),
+};
+
+window.SET = {
+  title: 'Arrhythmia Drugs',
+  chapter: 'Pharmacology · Unit 4 · Ch 13 Antiarrhythmics',
+  pics: PICS,
+  mystery: true,
+  audio: 'audio/rx13',
+  speak: {},
+  cards: [
+    { term: 'Normal cardiac conduction pathway', def: 'The SA node (main pacemaker) fires, then the impulse travels to the AV node, bundle of His, and right and left bundle branches to make the ventricles contract', short: 'SA → AV → His → bundle branches', pic: 'conduction' },
+    { term: 'The 2 basic mechanisms of arrhythmias', def: 'Increased automaticity (an ectopic focus fires; treat with drugs that prolong the action potential) and reentry (the impulse loops; treat with drugs that prolong the refractory period)', short: 'Automaticity and reentry', pic: 'mech' },
+    { term: 'Vaughan-Williams antiarrhythmic classes', def: 'Class I: sodium channel blockers. Class II: beta blockers. Class III: potassium channel blockers. Class IV: calcium channel blockers.', short: 'Na, beta, K, Ca blockers', pic: 'vw' },
+    { term: 'Class IA, IB, and IC drugs', def: 'IA: quinidine, disopyramide, procainamide. IB: mexiletine, lidocaine. IC: flecainide, propafenone (the most powerful sodium blockers).', short: 'IA quinidine, IB mexiletine, IC flecainide', pic: 'classI' },
+    { term: 'Atrial fibrillation', def: 'The most common arrhythmia: disorganized atrial activity that lets clots form and raises stroke risk. Treatment covers rate control, rhythm control, and anticoagulation.', short: 'Disorganized atria; stroke risk', pic: 'afib' },
+    { term: 'Paroxysmal vs. persistent vs. permanent AFib', def: 'Paroxysmal stops on its own within 7 days. Persistent lasts longer than 7 days. Permanent lasts over 1 year and won\'t be converted.', short: 'Under 7 days, over 7 days, over 1 year', pic: 'afibTypes' },
+    { term: 'Drugs for AFib rate control', def: 'Beta blockers, non-dihydropyridine CCBs (diltiazem, verapamil), and digoxin. With heart failure, IV digoxin or amiodarone.', short: 'Beta blocker, diltiazem/verapamil, digoxin', pic: 'rate' },
+    { term: 'First-line stroke prevention in AFib', def: 'Oral anticoagulation, with a direct oral anticoagulant (DOAC) first-line; warfarin is also used', short: 'A DOAC', pic: 'anticoag' },
+    { term: 'AFib rhythm control options', def: 'Electrical cardioversion (after a TEE rules out clot), amiodarone, dronedarone, sotalol, "pill in the pocket" flecainide or propafenone, and radiofrequency ablation', short: 'Cardioversion, amiodarone, ablation', pic: 'rhythm' },
+    { term: '"Pill in the pocket" for AFib', def: 'A single dose of flecainide or propafenone taken at home to stop AFib, for patients without structural heart disease. Give a beta blocker or non-DHP CCB first.', short: 'Flecainide or propafenone', pic: 'pocket' },
+    { term: 'Atrial flutter vs. AFib', def: 'Flutter has organized, regular "sawtooth" atrial waves, often with 2:1 conduction. AFib is disorganized. Flutter treatment: rate control first, then rhythm control.', short: 'Regular sawtooth vs. disorganized', pic: 'flutter' },
+    { term: 'Paroxysmal supraventricular tachycardia (PSVT)', def: 'A narrow-QRS tachycardia (130–250 bpm), often AV nodal reentry. Prevented with digoxin or a beta blocker, verapamil second; ablation can cure it.', short: 'Narrow-QRS reentry tachycardia', pic: 'psvt' },
+    { term: 'Drugs to avoid with an accessory pathway (WPW)', def: 'Digoxin and calcium channel blockers, because they can speed conduction down the bypass tract', short: 'Digoxin and CCBs', pic: 'wpw' },
+    { term: 'When to treat PVCs', def: 'Only if they cause symptoms or occur with heart disease (like recent MI). Simple PVCs in a healthy heart are just monitored.', short: 'Only with symptoms or heart disease', pic: 'pvc' },
+    { term: 'Torsades de pointes', say: 'tor-SAHD duh PWANT', def: 'A life-threatening polymorphic ventricular tachycardia caused by a prolonged QT interval (over 0.44 seconds). It can turn into ventricular fibrillation.', short: 'Polymorphic VT from long QT', pic: 'tdp' },
+    { term: 'Drugs that prolong the QT interval', def: 'Class IA and III antiarrhythmics, macrolides, fluoroquinolones, antipsychotics like haloperidol and quetiapine, and tricyclic antidepressants', short: 'IA/III, macrolides, antipsychotics', pic: 'qtDrugs' },
+    { term: 'Long QT syndrome treatment', def: 'Stop QT-prolonging drugs and use a beta blocker. An ICD for high-risk patients: aborted cardiac arrest, syncope, or QT over 500 ms.', short: 'Beta blocker; ICD if high risk', pic: 'lqts' },
+    { term: 'Quinidine (class IA)', def: 'Rarely used now. Causes diarrhea, QT prolongation, and torsades, raises digoxin levels, and interacts with grapefruit. Target level 2–5 mcg/mL.', short: 'Diarrhea, QT prolongation', pic: 'quinidine' },
+    { term: 'Disopyramide (class IA)', def: 'Strong anticholinergic effects: dry mouth, urinary retention, and constipation. Avoid in glaucoma, urinary retention, and decompensated HF.', short: 'Anticholinergic effects', pic: 'diso' },
+    { term: 'Mexiletine (class IB)', def: 'An oral lidocaine-like drug for life-threatening ventricular arrhythmias. Causes nausea, tremor, and dizziness; black box for liver injury. Smoking speeds its clearance.', short: 'Oral lidocaine-like; liver black box', pic: 'mexil' },
+    { term: 'Flecainide (class IC)', def: 'Prevents paroxysmal AFib and PSVT in patients without structural heart disease. Black box warning for higher mortality; avoid after MI.', short: 'No structural heart disease', pic: 'flec' },
+    { term: 'Propafenone (class IC)', def: 'For VT and for AFib without structural heart disease. Causes taste changes, nausea, and dizziness, can unmask Brugada syndrome, and is started in the hospital.', short: 'Taste changes; unmasks Brugada', pic: 'propaf' },
+    { term: 'Class II antiarrhythmics', def: 'Beta blockers slow heart rate and AV conduction. Used for rate control and to lower mortality after MI. Taper over at least 2 weeks.', short: 'Beta blockers; rate control', pic: 'bb' },
+    { term: 'Propranolol for arrhythmias', def: 'A nonselective beta blocker for AFib and flutter rate control. Can cause bronchospasm and cold hands; avoid in asthma. Black box against stopping suddenly.', short: 'Nonselective; avoid in asthma', pic: 'propranolol' },
+    { term: 'Amiodarone', say: 'uh-MEE-oh-duh-rone', def: 'A class III drug (with effects of all 4 classes) for recurrent VFib and unstable VT. Very long half-life (about 53 days); the most effective but most toxic antiarrhythmic.', short: 'Class III; very long half-life', pic: 'amio' },
+    { term: 'Amiodarone black box warnings', def: 'Pulmonary toxicity (can be fatal), liver toxicity, and worsening arrhythmias. Use only for life-threatening arrhythmias.', short: 'Lungs, liver, arrhythmias', pic: 'amioBB' },
+    { term: 'Other amiodarone side effects', def: 'Hypo- or hyperthyroidism, photosensitivity, blue-gray skin, optic neuritis, and raised digoxin and warfarin levels', short: 'Thyroid, skin, eyes', pic: 'amioAE' },
+    { term: 'Amiodarone monitoring', def: 'Baseline chest X-ray and pulmonary function tests, thyroid tests, liver enzymes at least twice a year, and a yearly eye exam. Teach sunscreen use.', short: 'CXR/PFTs, thyroid, liver, eyes', pic: 'amioMon' },
+    { term: 'Dronedarone (Multaq)', def: 'An amiodarone relative without iodine, used to keep sinus rhythm after paroxysmal or persistent AFib. Black box: contraindicated in NYHA class IV HF and permanent AFib.', short: 'No NYHA IV HF, no permanent AFib', pic: 'drone' },
+    { term: 'Sotalol', def: 'A class II and III drug that prevents AFib, flutter, and VT. Can cause torsades, so start in a monitored hospital setting. Contraindicated with CrCl under 40 or QTc over 450.', short: 'Torsades risk; start in hospital', pic: 'sotalol' },
+    { term: 'Class IV: verapamil and diltiazem', def: 'Convert PSVT and control AFib and flutter rate. Avoid in HFrEF, AV block, and AFib with an accessory pathway. Verapamil causes constipation.', short: 'PSVT and rate control; avoid HFrEF', pic: 'ivCCB' },
+    { term: 'Digoxin in arrhythmias', def: 'Controls ventricular rate in chronic AFib by slowing the AV node. Not first-line (Beers list). A yellow halo around objects is an early toxicity sign.', short: 'AFib rate control; yellow halo', pic: 'digoxin' },
+    { term: 'First intervention for an unstable arrhythmia', def: 'Synchronized cardioversion, often before any antiarrhythmic drug', short: 'Synchronized cardioversion', pic: 'cardiovert' },
+    { term: 'Antiarrhythmic patient teaching', def: 'Wear a medical alert bracelet, limit caffeine, alcohol, and tobacco, report new symptoms, and check before taking OTC or herbal products', short: 'Alert bracelet; limit caffeine', pic: 'teach' },
+  ],
+};
+</script>
+<script src="art/rx13.js"></script>
+<script src="study.js"></script>
+</body>
+</html>

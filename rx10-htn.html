@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Blood Pressure Drugs | Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<link rel="stylesheet" href="study.css">
+<link rel="stylesheet" href="ch9-art.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="ch9-pics.js"></script>
+<script>
+const PICS = {
+  define: twoPic('Hypertension (ACC/AHA)', ['Stage 1', ['130–139 / 80–89']], ['Stage 2', ['140/90 or higher']], 'Normal under 120/80; elevated 120–129 / under 80'),
+  firstLine: listPic('4 first-line classes', ['Thiazide diuretics', 'ACE inhibitors', 'ARBs', 'Calcium channel blockers'], 'Stage 2: start 2 drugs from different classes'),
+  secondLine: listPic('Second-line options', ['Beta blockers', 'Loop diuretics', 'Direct renin inhibitor', 'Alpha-1 blockers', 'Central alpha-2 agonists', 'Direct vasodilators']),
+  stage1: flowPic('Stage 1 plan', ['Lifestyle changes', 'ASCVD/CVD risk 10%+? add 1 drug', 'Recheck in 1 month'], 'Risk under 10%: lifestyle only, recheck in 3–6 months', 1),
+  goal: factPic('BP goal for most adults', 'Under 130/80', 'Including diabetes, CKD, heart failure, coronary disease'),
+  black: factPic('Black patients without HF or CKD', 'Thiazide or CCB first', 'ACE inhibitors and ARBs lower BP less; angioedema more common with ACE-Is'),
+  ckd: factPic('Hypertension + CKD or diabetes with protein in urine', 'ACE inhibitor or ARB', 'They protect the kidneys'),
+  preg: twoPic('Pregnancy', ['Never', ['ACE inhibitors', 'ARBs', 'Aliskiren']], ['Can use', ['Labetalol', 'Nifedipine', 'Methyldopa, hydralazine']]),
+  secondary: listPic('Secondary hypertension causes', ['Sleep apnea', 'Chronic kidney disease', 'Primary aldosteronism', 'Hyperthyroidism, alcohol', 'NSAIDs, decongestants, OCPs', 'Coarctation of aorta']),
+  primary: factPic('Most common type', 'Primary (essential)', 'Over 90% of cases; no single cause found'),
+  risk: listPic('Hypertension risk factors', ['Older age', 'Black race', 'Family history', 'Obesity, inactivity', 'High sodium, low potassium', 'Alcohol, tobacco, diabetes, CKD']),
+  whiteCoat: twoPic('Office vs. home readings', ['White coat', ['High in office', 'Normal at home']], ['Masked', ['Normal in office', 'High at home', 'Higher CV risk']]),
+  homeBP: listPic('Home BP monitoring', ['Same validated cuff', 'Cuff above elbow bend', '2 readings 1 min apart', 'Morning before meds and evening', 'Log the numbers']),
+  lifestyle: listPic('Nonpharmacologic steps', ['Lose weight (1 mmHg per kg)', 'DASH diet', 'Sodium under 1,500 mg/day', 'Potassium 3,500–5,000 mg', 'Exercise 90–150 min/week', 'Limit alcohol']),
+  bpPhys: flowPic('Blood pressure equals', ['Cardiac output', 'times', 'Peripheral resistance'], 'Normal MAP 70–110 mmHg'),
+  raas: flowPic('RAAS', ['Kidney releases renin', 'Angiotensin I → ACE → angiotensin II', 'Vasoconstriction + aldosterone'], 'Aldosterone keeps sodium and water, raises BP', 1),
+  thiazide: flowPic('Thiazide diuretics', ['Block Na/Cl reabsorption at distal tubule', 'Less fluid volume', 'Lower resistance over time'], 'HCTZ, chlorthalidone, indapamide, metolazone', 0),
+  chlorthal: factPic('Preferred thiazide', 'Chlorthalidone', 'Longer acting (24h+) with better outcome data than HCTZ'),
+  thiazideAE: listPic('Thiazide side effects', ['Low K, Na, Mg', 'High Ca', 'High uric acid (gout)', 'High glucose', 'Sulfa allergy cross-reaction', 'Photosensitivity']),
+  thiazideCrCl: factPic('Thiazides in kidney disease', 'Less effective under CrCl 30', 'Metolazone still works; loop diuretics are used instead'),
+  acei: flowPic('ACE inhibitors (-pril)', ['Block ACE', 'Less angiotensin II, less aldosterone', 'Bradykinin builds up'], 'Lisinopril, enalapril, ramipril, benazepril, quinapril', 0),
+  aceiAE: listPic('ACE inhibitor side effects', ['Dry cough (bradykinin)', 'Angioedema', 'Hyperkalemia', 'First-dose hypotension', 'Raised creatinine']),
+  aceiNo: listPic('ACE inhibitor contraindications', ['Pregnancy (black box)', 'History of angioedema', 'With ARB or aliskiren', 'Avoid salt substitutes (K)']),
+  arb: flowPic('ARBs (-sartan)', ['Block AT1 receptor', 'Angiotensin II can\'t act', 'No bradykinin buildup'], 'Losartan, valsartan, irbesartan, candesartan, olmesartan', 0),
+  arbVsAcei: twoPic('ACE inhibitor vs. ARB', ['ACE inhibitor', ['Cough common', 'Angioedema']], ['ARB', ['Little cough', 'Use if ACE-I cough']], 'Never combine them'),
+  arbAdd: factPic('ARB not controlling BP', 'Add a thiazide', 'Raising the ARB dose adds little because AT1 receptors are nearly saturated'),
+  ccb: twoPic('Calcium channel blockers', ['Dihydropyridines', ['Amlodipine, nifedipine', 'Felodipine', 'Mostly vessels']], ['Non-DHP', ['Diltiazem, verapamil', 'Heart rate + vessels']]),
+  dhpAE: listPic('Dihydropyridine side effects', ['Peripheral (ankle) edema', 'Headache, flushing', 'Reflex tachycardia', 'Orthostatic dizziness'], 'Edema is from vasodilation, not heart failure'),
+  amlodipine: factPic('HFrEF and CCBs', 'Avoid most CCBs', 'If one is essential, amlodipine or felodipine'),
+  nondhp: listPic('Diltiazem and verapamil cautions', ['Not with beta blockers (bradycardia, block)', 'Avoid in HFrEF', 'AV block, sick sinus', 'CYP3A4 interactions', 'Verapamil: constipation']),
+  bb: listPic('Beta blockers for BP', ['Second-line unless another reason', 'Metoprolol, atenolol, carvedilol, bisoprolol', 'Don\'t stop suddenly: taper 1–2 weeks', 'Caution in asthma']),
+  aliskiren: factPic('Aliskiren (Tekturna)', 'Direct renin inhibitor', 'Never with ACE-I or ARB; black box in pregnancy; hyperkalemia'),
+  alpha1: listPic('Alpha-1 blockers (-zosin)', ['Prazosin, doxazosin, terazosin', 'First-dose orthostatic hypotension', 'Give first dose at bedtime', 'Also treat BPH', 'Beers: avoid in older adults']),
+  clonidine: listPic('Clonidine (alpha-2 agonist)', ['Last-line', 'Sedation, bradycardia, dry mouth', 'Rebound hypertension if stopped', 'Taper slowly', 'Beers list']),
+  methyldopa: listPic('Methyldopa', ['Central alpha-2 agonist', 'Used in pregnancy', 'Drowsiness', 'Positive Coombs, hemolytic anemia', 'Liver problems']),
+  hydralazine: listPic('Hydralazine', ['Direct vasodilator', 'Reflex tachycardia, fluid retention', 'Give with diuretic + beta blocker', 'Lupus-like syndrome', 'Pregnancy (preeclampsia)']),
+  minox: factPic('Minoxidil', 'Last resort for severe HTN', 'Give with a beta blocker and a diuretic; causes fluid retention and tachycardia'),
+  adherence: listPic('Improve adherence', ['Single-pill combinations', 'Once-daily drugs', 'Home BP monitoring', 'One pharmacy for all meds', 'Reminders, teach-back']),
+};
+
+window.SET = {
+  title: 'Blood Pressure Drugs',
+  chapter: 'Pharmacology · Unit 4 · Ch 10 Antihypertensives',
+  pics: PICS,
+  mystery: true,
+  audio: 'audio/rx10',
+  speak: {},
+  cards: [
+    { term: 'ACC/AHA definition of hypertension', def: 'Blood pressure of 130/80 mmHg or higher on two readings on two separate occasions. Stage 1 is 130–139 or 80–89; stage 2 is 140/90 or higher.', short: '130/80 or higher', pic: 'define' },
+    { term: 'Normal vs. elevated blood pressure', def: 'Normal is under 120/80. Elevated is systolic 120–129 with diastolic under 80.', short: 'Under 120/80 vs. 120–129/under 80', pic: 'define' },
+    { term: 'The 4 first-line drug classes for hypertension', def: 'Thiazide diuretics, ACE inhibitors, ARBs, and calcium channel blockers', short: 'Thiazide, ACE-I, ARB, CCB', pic: 'firstLine' },
+    { term: 'Starting treatment in stage 2 hypertension', def: 'Lifestyle changes plus two drugs from different first-line classes', short: 'Two drugs from different classes', pic: 'firstLine' },
+    { term: 'Second-line antihypertensives', def: 'Beta blockers, loop diuretics, direct renin inhibitors, alpha-1 blockers, central alpha-2 agonists, and direct vasodilators', short: 'Beta blockers, alpha blockers, clonidine, vasodilators', pic: 'secondLine' },
+    { term: 'When to start a drug in stage 1 hypertension', def: 'If the patient has clinical CVD or a 10-year ASCVD risk of 10% or more: lifestyle plus one drug, recheck in 1 month. Otherwise lifestyle alone, recheck in 3–6 months.', short: 'CVD or ASCVD risk 10%+', pic: 'stage1' },
+    { term: 'Blood pressure goal for most adults', def: 'Under 130/80, including those with diabetes, CKD, heart failure, or coronary heart disease', short: 'Under 130/80', pic: 'goal' },
+    { term: 'First-line choice for Black patients without HF or CKD', def: 'A thiazide-type diuretic or a calcium channel blocker. ACE inhibitors and ARBs lower BP less in this group, and ACE-I angioedema is more common.', short: 'Thiazide or CCB', pic: 'black' },
+    { term: 'Best first drug with chronic kidney disease or diabetic kidney disease', def: 'An ACE inhibitor or ARB, because they protect the kidneys (losartan and irbesartan are used for diabetic nephropathy)', short: 'ACE inhibitor or ARB', pic: 'ckd' },
+    { term: 'Antihypertensives to avoid in pregnancy', def: 'ACE inhibitors, ARBs, and direct renin inhibitors (aliskiren), because they harm the fetus. Women who may become pregnant should not be on them.', short: 'ACE-Is, ARBs, aliskiren', pic: 'preg' },
+    { term: 'Primary vs. secondary hypertension', def: 'Primary (essential) has no single cause and is over 90% of cases. Secondary comes from a treatable condition or drug.', short: 'No cause found vs. treatable cause', pic: 'primary' },
+    { term: 'Causes of secondary hypertension', def: 'Sleep apnea, chronic kidney disease, primary aldosteronism, hyperthyroidism, heavy alcohol, coarctation of the aorta, and drugs like NSAIDs, decongestants, oral contraceptives, SNRIs, and amphetamines', short: 'Sleep apnea, CKD, aldosteronism, NSAIDs', pic: 'secondary' },
+    { term: 'When to suspect secondary hypertension', def: 'Sudden onset, onset before age 30 without risk factors, or onset after starting a new medication', short: 'Sudden, young, or new drug', pic: 'secondary' },
+    { term: 'Hypertension risk factors', def: 'Older age, Black race, family history, obesity, inactivity, high sodium or low potassium intake, alcohol, tobacco, stress, sleep apnea, diabetes, and kidney disease', short: 'Age, race, obesity, sodium, alcohol', pic: 'risk' },
+    { term: 'White coat vs. masked hypertension', def: 'White coat: BP is high in the office but normal at home. Masked: BP is normal in the office but high at home, and carries higher cardiovascular risk.', short: 'High in office vs. high at home', pic: 'whiteCoat' },
+    { term: 'Teaching home blood pressure monitoring', def: 'Use the same validated cuff above the elbow bend, take 2 readings 1 minute apart in the morning before meds and in the evening, and record them', short: 'Same cuff, 2 readings, morning and evening', pic: 'homeBP' },
+    { term: 'Lifestyle changes for hypertension', def: 'Lose weight (about 1 mmHg per kg), DASH diet, sodium under 1,500 mg/day, potassium 3,500–5,000 mg, aerobic exercise 90–150 minutes a week, and limit alcohol', short: 'Weight loss, DASH, low sodium, exercise', pic: 'lifestyle' },
+    { term: 'Blood pressure formula', def: 'Blood pressure equals cardiac output times peripheral resistance. Normal mean arterial pressure is 70–110 mmHg.', short: 'Cardiac output × peripheral resistance', pic: 'bpPhys' },
+    { term: 'Renin-angiotensin-aldosterone system (RAAS)', def: 'The kidney releases renin; angiotensin I is turned into angiotensin II by ACE (mostly in the lungs). Angiotensin II constricts vessels and triggers aldosterone, which holds onto sodium and water.', short: 'Renin → angiotensin II → aldosterone', pic: 'raas' },
+    { term: 'How thiazide diuretics lower blood pressure', def: 'They block sodium and chloride reabsorption in the distal tubule, lowering fluid volume at first and peripheral resistance over time', short: 'Block Na/Cl at distal tubule', pic: 'thiazide' },
+    { term: 'Preferred thiazide diuretic', def: 'Chlorthalidone, a thiazide-like diuretic that lasts longer and has better outcome evidence than HCTZ', short: 'Chlorthalidone', pic: 'chlorthal' },
+    { term: 'Thiazide side effects', def: 'Low potassium, sodium, and magnesium; high calcium, uric acid (gout), and glucose; sulfa allergy cross-reaction; photosensitivity', short: 'Low K, high glucose and uric acid', pic: 'thiazideAE' },
+    { term: 'Thiazides in poor kidney function', def: 'Most thiazides don\'t work well when CrCl is under 30 mL/min; metolazone still works', short: 'Weak under CrCl 30', pic: 'thiazideCrCl' },
+    { term: 'How ACE inhibitors work', def: 'They block ACE, so less angiotensin II and aldosterone are made, and bradykinin builds up. Names end in -pril (lisinopril, ramipril, benazepril, quinapril).', short: 'Block ACE (-pril)', pic: 'acei' },
+    { term: 'ACE inhibitor side effects', def: 'Dry cough (from bradykinin), angioedema (more common in Black patients), hyperkalemia, first-dose hypotension, and a rise in creatinine', short: 'Cough, angioedema, high K', pic: 'aceiAE' },
+    { term: 'ACE inhibitor contraindications', def: 'Pregnancy (black box warning), a history of angioedema, and combining with an ARB or aliskiren. Avoid potassium salt substitutes.', short: 'Pregnancy, angioedema history', pic: 'aceiNo' },
+    { term: 'How ARBs work', def: 'They block angiotensin II at the AT1 receptor, without building up bradykinin. Names end in -sartan (losartan, valsartan, irbesartan, candesartan).', short: 'Block AT1 receptor (-sartan)', pic: 'arb' },
+    { term: 'Switch for a patient with ACE inhibitor cough', def: 'An ARB, which rarely causes cough. Never combine an ACE inhibitor with an ARB.', short: 'Switch to an ARB', pic: 'arbVsAcei' },
+    { term: 'ARB not controlling blood pressure', def: 'Add a thiazide diuretic rather than raising the ARB dose, because higher ARB doses add little', short: 'Add a thiazide', pic: 'arbAdd' },
+    { term: 'Dihydropyridine vs. non-dihydropyridine CCBs', def: 'Dihydropyridines (amlodipine, nifedipine, felodipine) mostly relax blood vessels. Non-DHPs (diltiazem, verapamil) also slow heart rate and conduction.', short: 'Vessels vs. heart rate', pic: 'ccb' },
+    { term: 'Most common amlodipine side effect', def: 'Peripheral (ankle) edema from vasodilation, more common in women and at higher doses. Also headache, flushing, and palpitations.', short: 'Ankle edema', pic: 'dhpAE' },
+    { term: 'CCBs in heart failure with reduced ejection fraction', def: 'Avoid them. If one is essential, use amlodipine or felodipine. Diltiazem and verapamil are contraindicated.', short: 'Avoid; amlodipine if essential', pic: 'amlodipine' },
+    { term: 'Diltiazem and verapamil cautions', def: 'Don\'t combine with beta blockers (bradycardia, heart block); avoid in HFrEF, AV block, and sick sinus syndrome; many CYP3A4 interactions. Verapamil commonly causes constipation.', short: 'No beta blockers; avoid HFrEF', pic: 'nondhp' },
+    { term: 'Beta blockers for hypertension', def: 'Second-line unless there is another reason to use them (like heart failure or coronary disease). Taper over 1–2 weeks; never stop suddenly.', short: 'Second-line; taper to stop', pic: 'bb' },
+    { term: 'Aliskiren (Tekturna)', say: 'uh-LIS-kih-ren', def: 'A direct renin inhibitor. Never combine with an ACE inhibitor or ARB; black box warning in pregnancy; can cause hyperkalemia.', short: 'Direct renin inhibitor', pic: 'aliskiren' },
+    { term: 'Alpha-1 blockers (prazosin, doxazosin, terazosin)', def: 'Relax vessel smooth muscle and also help BPH. Main risk is first-dose orthostatic hypotension, so give the first dose at bedtime. On the Beers list for older adults.', short: 'First-dose hypotension; bedtime', pic: 'alpha1' },
+    { term: 'Clonidine', def: 'A central alpha-2 agonist used as last-line therapy. Causes sedation, bradycardia, and dry mouth. Stopping suddenly causes rebound hypertension, so taper slowly.', short: 'Last-line; rebound if stopped', pic: 'clonidine' },
+    { term: 'Methyldopa', def: 'A central alpha-2 agonist used in pregnancy. Causes drowsiness, a positive Coombs test with possible hemolytic anemia, and liver problems.', short: 'Pregnancy; Coombs-positive', pic: 'methyldopa' },
+    { term: 'Hydralazine', def: 'A direct vasodilator that causes reflex tachycardia and fluid retention, so it is given with a diuretic and beta blocker. Can cause a lupus-like syndrome; used for preeclampsia.', short: 'Vasodilator; lupus-like syndrome', pic: 'hydralazine' },
+    { term: 'Minoxidil', def: 'A last-resort vasodilator for severe hypertension, given with a beta blocker and a diuretic because it causes tachycardia and fluid retention', short: 'Last resort; add BB + diuretic', pic: 'minox' },
+    { term: 'Ways to improve antihypertensive adherence', def: 'Single-pill combinations, once-daily drugs, home BP monitoring, using one pharmacy, reminders, and teach-back education', short: 'Combo pills, once daily, home BP', pic: 'adherence' },
+  ],
+};
+</script>
+<script src="art/rx10.js"></script>
+<script src="study.js"></script>
+</body>
+</html>

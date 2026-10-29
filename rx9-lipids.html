@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cholesterol Drugs | Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<link rel="stylesheet" href="study.css">
+<link rel="stylesheet" href="ch9-art.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="ch9-pics.js"></script>
+<script>
+const PICS = {
+  firstLine: factPic('Primary hyperlipidemia', 'Statins first', 'HMG-CoA reductase inhibitors lower LDL-C the most and cut ASCVD risk'),
+  hmg: flowPic('How statins work', ['Block HMG-CoA reductase', 'Liver makes less cholesterol', 'More LDL receptors pull LDL-C out'], 'Also: HDL up a little, TG down a little, CRP down', 0),
+  groups: listPic('4 statin benefit groups', ['Clinical ASCVD', 'LDL-C 190 or higher', 'Diabetes, age 40–75, LDL-C 70–189', 'Age 40–75, 10-yr risk 7.5%+']),
+  intensity: twoPic('Statin intensity', ['High (LDL-C down 50%+)', ['Atorvastatin 40–80', 'Rosuvastatin 20–40']], ['Low (under 30%)', ['Simvastatin 10', 'Pravastatin 10–20', 'Lovastatin 20']], 'Moderate = 30–49% (most others)'),
+  riskCalc: listPic('10-year ASCVD risk', ['Low: under 5%', 'Borderline: 5–7.4%', 'Intermediate: 7.5–19.9%', 'High: 20% or more'], 'Use the ASCVD Risk Calculator, ages 40–75'),
+  sase: listPic('Statin-associated side effects (SASE)', ['Myalgia, normal CK (most common)', 'Myopathy: CK up', 'Rhabdomyolysis: CK over 10x', 'New diabetes', 'Liver enzymes up (rare)']),
+  saseRisk: listPic('Who gets statin muscle pain', ['Older, female, low BMI', 'Asian descent', 'Alcohol, hard exercise', 'CYP3A4 inhibitors', 'Kidney, liver, thyroid disease']),
+  saseFix: flowPic('Statin muscle aches', ['Check CK', 'Switch statin or lower dose', 'Still can\'t? Add non-statin'], 'Keep them on some therapy if possible', 1),
+  cyp: listPic('Strong CYP3A4 inhibitors raise these statins', ['Atorvastatin', 'Lovastatin', 'Simvastatin'], 'e.g., clarithromycin, ketoconazole, erythromycin, amiodarone, diltiazem'),
+  grapefruit: twoPic('Grapefruit juice', ['Interacts', ['Simvastatin', 'Atorvastatin', 'Lovastatin']], ['No interaction', ['Rosuvastatin', 'Pravastatin', 'Pitavastatin']]),
+  asian: factPic('Asian patients', 'Start statins low', 'Higher blood levels from the same dose (e.g., rosuvastatin 5 mg)'),
+  preg: twoPic('Pregnancy and breastfeeding', ['Statins', ['Contraindicated']], ['If a drug is needed', ['Bile acid sequestrant', '(cholestyramine)']]),
+  monitor: listPic('Statin monitoring', ['Fasting lipids 4–12 weeks after start or change', 'Then every 3–12 months', 'LFTs and CK only if symptoms', 'Watch glucose (diabetes risk)']),
+  evening: twoPic('Dosing time', ['Evening', ['Simvastatin', 'Lovastatin', '(short-acting)']], ['Any time', ['Atorvastatin', 'Rosuvastatin']]),
+  renal: factPic('Kidney disease', 'Atorvastatin: no renal adjustment', 'Most other statins need lower doses in severe renal impairment'),
+  ezetimibe: flowPic('Ezetimibe (Zetia)', ['Blocks cholesterol absorption in the gut', 'Less cholesterol to liver', 'LDL-C down'], 'Second-line: add to a maxed-out statin', 0),
+  pcsk9: flowPic('PCSK9 inhibitors', ['PCSK9 normally destroys LDL receptors', 'Antibody blocks PCSK9', 'More receptors, LDL-C way down'], 'Alirocumab, evolocumab: subQ injections', 1),
+  inclisiran: factPic('Inclisiran', 'PCSK9 synthesis inhibitor', 'siRNA stops the liver making PCSK9; subQ shot, then every 6 months'),
+  bempedoic: listPic('Bempedoic acid (Nexletol)', ['ACL inhibitor: blocks cholesterol making', 'Option if statin intolerant', 'Watch uric acid (gout)', 'Tendon rupture risk']),
+  fibrate: twoPic('Fibrates', ['Gemfibrozil', ['Lowers TG most', 'Gallstone risk', 'Avoid with statins']], ['Fenofibrate', ['Severe high TG', 'Watch kidneys, LFTs']], 'Lower TG 20–50%, raise HDL; little LDL effect'),
+  fibrateStatin: factPic('Fibrate + statin', 'Myopathy risk up', 'Especially gemfibrozil; worse in elderly, diabetes, kidney disease, hypothyroid'),
+  bas: listPic('Bile acid sequestrants', ['Cholestyramine, colestipol, colesevelam', 'Bind bile acids in gut; not absorbed', 'Constipation, bloating', 'Low vitamins A, D, E, K']),
+  basTG: factPic('Bile acid sequestrants', 'Can raise triglycerides', 'Avoid when TG are very high (over 400; colesevelam over 500)'),
+  basSpacing: factPic('Bile acid sequestrants', 'Space other drugs', 'Give other meds 1 hour before or 4–6 hours after'),
+  omega: listPic('Omega-3 fatty acids (Lovaza, Vascepa)', ['For TG 500 or higher', 'Mild diarrhea, fishy taste', 'May raise AFib risk', 'Bleeding with anticoagulants']),
+  niacin: factPic('Niacin', 'No longer recommended', 'Questionable benefit and bad side effects'),
+  fh: listPic('Familial hypercholesterolemia', ['Genes: LDLR, APOB, PCSK9', 'Autosomal dominant', 'Early heart attacks', 'Screen kids from age 2 if family history']),
+  polygenic: factPic('Most common hyperlipidemia', 'Polygenic', 'Genes plus saturated and trans fat, obesity, inactivity'),
+  secondary: twoPic('Secondary causes of high lipids', ['Conditions', ['Diabetes, obesity', 'Hypothyroidism, CKD', 'Liver cirrhosis, alcohol', 'Cushing syndrome']], ['Drugs', ['Thiazide, loop diuretics', 'Some beta blockers', 'Steroids, antipsychotics', 'Protease inhibitors']]),
+  lipo: twoPic('LDL vs. HDL', ['LDL ("bad")', ['Carries cholesterol', 'from liver to tissues']], ['HDL ("good")', ['Carries cholesterol', 'back to the liver']]),
+  diet: listPic('Lifestyle teaching', ['Swap saturated for unsaturated fats', 'More fruit, veg, whole grains', 'DASH eating plan', 'Exercise 40 min, 3–4x/week', 'Stop smoking', 'Alcohol limits']),
+};
+
+window.SET = {
+  title: 'Cholesterol Drugs',
+  chapter: 'Pharmacology · Unit 4 · Ch 9 Antihyperlipidemics',
+  pics: PICS,
+  mystery: true,
+  audio: 'audio/rx9',
+  speak: {},
+  cards: [
+    { term: 'Best first drug for primary hyperlipidemia', say: 'hyper-lip-ih-DEE-mee-uh', def: 'A statin (HMG-CoA reductase inhibitor). Statins lower LDL-C the most and lower the risk of ASCVD.', short: 'A statin', pic: 'firstLine' },
+    { term: 'How statins work', def: 'They block HMG-CoA reductase, so the liver makes less cholesterol and adds LDL receptors that clear LDL-C from the blood. They also slightly raise HDL, lower TG, and lower CRP.', short: 'Block HMG-CoA reductase', pic: 'hmg' },
+    { term: 'The 4 statin benefit groups', def: 'Clinical ASCVD; LDL-C 190 mg/dL or higher; diabetes age 40–75 with LDL-C 70–189; or age 40–75 without diabetes with a 10-year ASCVD risk of 7.5% or more', short: 'ASCVD, LDL 190+, diabetes, risk 7.5%+', pic: 'groups' },
+    { term: 'High-intensity statins', def: 'Atorvastatin 40–80 mg and rosuvastatin 20–40 mg. They lower LDL-C by 50% or more.', short: 'Atorvastatin 40–80, rosuvastatin 20–40', pic: 'intensity' },
+    { term: 'Moderate vs. low-intensity statins', def: 'Moderate lowers LDL-C 30–49% (e.g., atorvastatin 10–20, rosuvastatin 5–10, simvastatin 20–40, pravastatin 40–80). Low lowers under 30% (e.g., simvastatin 10, pravastatin 10–20, lovastatin 20).', short: 'Moderate 30–49%; low under 30%', pic: 'intensity' },
+    { term: 'ASCVD 10-year risk categories', def: 'Low under 5%, borderline 5–7.4%, intermediate 7.5–19.9%, high 20% or more, from the ASCVD Risk Calculator for ages 40–75', short: 'Under 5, 5–7.4, 7.5–19.9, 20+', pic: 'riskCalc' },
+    { term: 'Target LDL-C in the guidelines', def: '"Lower is better." Aim for LDL-C at or below 100 mg/dL and total cholesterol around 150 mg/dL.', short: 'LDL-C 100 or lower', pic: 'riskCalc' },
+    { term: 'Statin-associated side effects (SASE)', def: 'Most common is myalgia with a normal CK. Rarer: myopathy (high CK), rhabdomyolysis (CK over 10 times normal), new diabetes, and raised liver enzymes.', short: 'Myalgia most common', pic: 'sase' },
+    { term: 'Risk factors for statin muscle symptoms', def: 'Older age, female, low BMI, Asian descent, heavy alcohol use, intense exercise, CYP3A4 inhibitors, and kidney, liver, or thyroid disease', short: 'Older, female, Asian, CYP3A4 drugs', pic: 'saseRisk' },
+    { term: 'What to do if a statin causes muscle aches', def: 'Check CK, then switch to another statin or lower the dose. If statins still aren\'t tolerated, use a non-statin per the guidelines.', short: 'Switch statin or lower dose', pic: 'saseFix' },
+    { term: 'Statins most affected by CYP3A4 inhibitors', def: 'Atorvastatin, lovastatin, and simvastatin. Drugs like clarithromycin, erythromycin, ketoconazole, amiodarone, and diltiazem raise their levels and the risk of rhabdomyolysis.', short: 'Atorvastatin, lovastatin, simvastatin', pic: 'cyp' },
+    { term: 'Statins that interact with grapefruit juice', def: 'Simvastatin, atorvastatin, and lovastatin. Rosuvastatin, pravastatin, and pitavastatin do not.', short: 'Simvastatin, atorvastatin, lovastatin', pic: 'grapefruit' },
+    { term: 'Statin dosing in Asian patients', def: 'Start lower (e.g., rosuvastatin 5 mg) because the same dose gives higher blood levels and more side effects', short: 'Start at a lower dose', pic: 'asian' },
+    { term: 'Statins in pregnancy and breastfeeding', def: 'Contraindicated. If a lipid drug is truly needed, a bile acid sequestrant like cholestyramine may be considered.', short: 'Contraindicated; use a bile acid sequestrant', pic: 'preg' },
+    { term: 'Statin monitoring', def: 'Fasting lipids 4–12 weeks after starting or changing the dose, then every 3–12 months. Check LFTs and CK only if symptoms. Watch glucose because of diabetes risk.', short: 'Lipids at 4–12 weeks', pic: 'monitor' },
+    { term: 'Statins best given in the evening', def: 'Short-acting simvastatin and lovastatin, because the body makes the most cholesterol at night. Atorvastatin and rosuvastatin can be taken any time.', short: 'Simvastatin, lovastatin', pic: 'evening' },
+    { term: 'Statin that needs no kidney dose adjustment', def: 'Atorvastatin', short: 'Atorvastatin', pic: 'renal' },
+    { term: 'Ezetimibe (Zetia)', say: 'eh-ZET-ih-mibe', def: 'Blocks cholesterol absorption in the small intestine. Second-line: added to the highest tolerated statin when LDL-C is still too high, or used alone.', short: 'Blocks gut cholesterol absorption', pic: 'ezetimibe' },
+    { term: 'PCSK9 inhibitors', def: 'Alirocumab (Praluent) and evolocumab (Repatha): monoclonal antibody shots that stop PCSK9 from destroying LDL receptors. For high-risk patients not at goal on statin plus ezetimibe, or statin intolerant.', short: 'Alirocumab, evolocumab (shots)', pic: 'pcsk9' },
+    { term: 'Inclisiran', say: 'in-klih-SEER-an', def: 'A PCSK9 synthesis inhibitor (siRNA) that stops the liver from making PCSK9. Given as a shot, then every 6 months, added to diet and a statin.', short: 'Stops PCSK9 production', pic: 'inclisiran' },
+    { term: 'Bempedoic acid (Nexletol)', say: 'bem-peh-DOH-ik', def: 'An ACL inhibitor that blocks an early step in cholesterol making. An oral option for statin-intolerant patients. Can raise uric acid (gout) and cause tendon rupture.', short: 'ACL inhibitor; statin-intolerant option', pic: 'bempedoic' },
+    { term: 'Best drug class for very high triglycerides', def: 'Fibrates (gemfibrozil, fenofibrate). They lower TG by 20–50% and raise HDL but barely lower LDL-C. Omega-3 fatty acids are another option for TG of 500 or more.', short: 'Fibrates (or omega-3s)', pic: 'fibrate' },
+    { term: 'Danger of combining a fibrate with a statin', def: 'Higher risk of myopathy and rhabdomyolysis, especially with gemfibrozil, older adults, diabetes, kidney disease, and hypothyroidism', short: 'Myopathy and rhabdomyolysis', pic: 'fibrateStatin' },
+    { term: 'Gemfibrozil side effect to watch', say: 'jem-FIB-roh-zil', def: 'Gallstones (cholelithiasis), plus dyspepsia. Avoid in gallbladder, liver, or kidney disease.', short: 'Gallstones', pic: 'fibrate' },
+    { term: 'Bile acid sequestrants', def: 'Cholestyramine, colestipol, and colesevelam bind bile acids in the gut and are not absorbed. Main side effect is constipation; they can lower vitamins A, D, E, and K.', short: 'Cholestyramine, colestipol, colesevelam', pic: 'bas' },
+    { term: 'When to avoid bile acid sequestrants', def: 'When triglycerides are very high (over 400 mg/dL; colesevelam over 500), because they can raise TG further. Also biliary obstruction.', short: 'Very high triglycerides', pic: 'basTG' },
+    { term: 'Timing other drugs with bile acid sequestrants', def: 'Give other medicines 1 hour before or 4–6 hours after, because the resin can bind them', short: '1 hour before or 4–6 hours after', pic: 'basSpacing' },
+    { term: 'Omega-3 fatty acids (Lovaza, Vascepa)', def: 'FDA-approved fish oil for triglycerides of 500 mg/dL or higher. Side effects: mild diarrhea; may raise AFib recurrence and bleeding with anticoagulants.', short: 'For TG 500+', pic: 'omega' },
+    { term: 'Why niacin is no longer recommended', def: 'Its benefit is questionable and its side effects are unpleasant', short: 'Poor benefit, bad side effects', pic: 'niacin' },
+    { term: 'Familial hypercholesterolemia', def: 'Inherited (autosomal dominant) LDLR, APOB, or PCSK9 mutations causing very high LDL-C and early heart attacks. Screen children from age 2 with a family history.', short: 'Inherited high LDL-C', pic: 'fh' },
+    { term: 'Most common type of hyperlipidemia', def: 'Polygenic hypercholesterolemia: gene variants plus saturated and trans fat, obesity, and inactivity', short: 'Polygenic', pic: 'polygenic' },
+    { term: 'Secondary causes of hyperlipidemia', def: 'Diabetes, obesity, hypothyroidism, chronic kidney disease, cirrhosis, heavy alcohol, Cushing syndrome, and drugs like thiazide and loop diuretics, some beta blockers, steroids, and antipsychotics', short: 'Diabetes, hypothyroid, CKD, diuretics', pic: 'secondary' },
+    { term: 'LDL vs. HDL', def: 'LDL carries cholesterol from the liver to the tissues and arteries. HDL carries cholesterol back to the liver to be removed.', short: 'LDL to tissues; HDL back to liver', pic: 'lipo' },
+    { term: 'Lifestyle teaching for high cholesterol', def: 'Swap saturated fats for unsaturated, eat more fruits, vegetables, and whole grains (DASH plan), exercise about 40 minutes 3–4 times a week, stop smoking, and limit alcohol', short: 'Diet, exercise, no smoking', pic: 'diet' },
+  ],
+};
+</script>
+<script src="art/rx9.js"></script>
+<script src="study.js"></script>
+</body>
+</html>
