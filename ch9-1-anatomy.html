@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GI Anatomy and Physiology | Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<link rel="stylesheet" href="study.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="ch9-pics.js"></script>
+<script>
+const pill = (x, y, w, lines, on = false) => `<rect x="${x}" y="${y}" width="${w}" height="34" rx="12" class="${on ? 'ac' : 'wh'}"/>` +
+  lines.map((t, i) => `<text x="${x + w / 2}" y="${y + (lines.length === 1 ? 21 : 15 + i * 12)}" text-anchor="middle" style="font-size:10.5px${on ? ';fill:var(--surface);font-weight:700' : ''}">${t}</text>`).join('');
+
+const PICS = {
+  jobs: flowPic('What the GI system does', ['1. Take in food', '2. Digest it', '3. Eliminate waste'], 'Gives the body nutrients, water, electrolytes', 1),
+  canal: V(label(8, 18, 'Food travels one way, start to finish', 'b') +
+    [['Mouth'], ['Pharynx'], ['Esophagus'], ['Stomach']].map((l, i) => pill(6 + i * 74, 34, 62, l)).join('') +
+    [arrow(68, 51, 78, 51), arrow(142, 51, 152, 51), arrow(216, 51, 226, 51)].join('') +
+    `<path class="acs" d="M257 70 L257 100"/><circle class="ac" cx="257" cy="102" r="3.5"/>` +
+    [['Small', 'intestine'], ['Large', 'intestine'], ['Anus']].map((l, i) => pill(226 - i * 74, 106, 62, l)).join('') +
+    [arrow(226, 123, 216, 123), arrow(152, 123, 142, 123)].join('') +
+    label(8, 172, '7 parts of the alimentary canal (the GI tube)')),
+  accessory: V(label(8, 18, 'Helpers outside the tube', 'b') +
+    [['Salivary', 'glands'], ['Liver'], ['Gall-', 'bladder'], ['Bile', 'ducts'], ['Pancreas']].map((l, i) => pill(4 + i * 59, 34, 54, l, true)).join('') +
+    [0, 1, 2, 3, 4].map(i => arrow(31 + i * 59, 70, 31 + i * 59, 112)).join('') +
+    `<rect x="4" y="118" width="292" height="26" rx="13" class="tis"/>` +
+    `<text x="150" y="135" text-anchor="middle" style="font-size:11px">Alimentary canal (food never passes through the helpers)</text>` +
+    label(8, 170, 'They make or deliver juices that help digest food', '', 11)),
+  hepato: listPic('The hepatobiliary system', ['Liver', 'Gallbladder', 'Pancreas'], 'Grouped: they sit close together and work together'),
+  layers: layersPic(-1),
+  mucosa: layersPic(0),
+  peri: flowPic('Peristalsis', ['Muscle ring squeezes behind the food', 'Ring ahead relaxes', 'Food moves forward'], 'Wavelike squeezing by the muscle layer', 0),
+  plexus: listPic('Enteric nervous system: 3 nerve networks', ['Submucosal (Meissner)', 'Myenteric (Auerbach)', 'Subserosal'], 'Built into the GI wall itself'),
+  peritoneum: twoPic('Peritoneum: a 2-layer sac', ['Parietal layer', ['Lines the belly wall', 'Covers top of bladder', 'and uterus']], ['Visceral layer', ['Wraps the organs', 'Fluid between the', 'layers cuts friction']]),
+  mesentery: listPic('Mesentery', ['Double fold of peritoneum', 'Anchors the intestines', 'Carries blood vessels and nerves', 'Still lets the gut move and stretch']),
+  upper: flowPic('Upper GI tract', ['Mouth', 'Pharynx', 'Esophagus', 'Stomach'], 'Lower GI: small intestine, large intestine, anus'),
+  saliva: listPic('What saliva does', ['Amylase starts carb digestion', 'IgA antibodies fight bacteria', 'Moistens food', 'Water, mucus, electrolytes']),
+  swallow: flowPic('Swallowing', ['Chew and form a bolus (voluntary)', 'Bolus hits back of throat', 'Reflex takes over (involuntary)'], 'Run by the swallowing center in the medulla and pons', 2),
+  ues: twoPic('The two esophageal sphincters', ['Upper (UES)', ['Top of esophagus', 'Under voluntary control', 'Keeps food out of lungs']], ['Lower (LES)', ['Bottom of esophagus', 'Opens to let food in', 'Keeps acid from coming up']]),
+  les: twoPic('What changes LES tone', ['Relaxes it (opens)', ['Vagal impulses', 'Progesterone', 'Secretin, glucagon']], ['Tightens it', ['Gastrin', 'Cholinergic (vagal)', 'stimulation']]),
+  rugae: factPic('Rugae: folds in the stomach wall', 'Stretch to hold up to 4 liters', 'Folded when empty, unfold as the stomach fills'),
+  parietal: listPic('Parietal (oxyntic) cells make', ['Hydrochloric acid', 'Intrinsic factor (for B12)', 'Gastroferrin'], 'Mostly found in the fundus', 0),
+  chief: flowPic('Chief cells', ['Make pepsinogen', 'Acid activates it', 'Pepsin digests protein'], '', 0),
+  gcells: listPic('Other stomach cells', ['G cells → gastrin', 'D cells → somatostatin', 'Enterochromaffin cells → histamine', 'Mucous cells → alkaline mucus']),
+  chyme: flowPic('Making chyme', ['Food', 'Acid + enzymes + churning', 'Chyme (acidic mush)'], 'The acid also kills bacteria', 2),
+  stomachAbs: listPic('The stomach absorbs only a few things', ['Alcohol', 'Aspirin', 'NSAIDs'], 'Nutrients are absorbed later, in the small intestine'),
+  pylorus: flowPic('Pyloric sphincter', ['Stomach', 'Lets chyme out 1–3 mL at a time', 'Duodenum'], 'Also stops bile from flowing back up', 1),
+  small: flowPic('Small intestine (about 20 feet)', ['Duodenum', 'Jejunum', 'Ileum'], 'Where most digestion and absorption happens'),
+  fluid: twoPic('About 10 liters of fluid reach the gut daily', ['Small intestine', ['Absorbs about 90%']], ['Large intestine', ['Absorbs the last 10%']], 'Fluid = food and drink + saliva + GI juices'),
+  villi: flowPic('Building a bigger surface', ['Circular folds', 'Villi', 'Microvilli'], 'More surface = more nutrients absorbed', 2),
+  peyer: factPic('Peyer patches', 'Immune guards in the gut', 'Lymphocytes and macrophages under the villi watch the gut bacteria and fight germs'),
+  large: flowPic('Large intestine (about 5 feet)', ['Cecum', 'Colon', 'Rectum', 'Anus'], 'No villi, lots of mucus-making goblet cells'),
+  haustra: listPic('Haustra', ['Pouches in the colon wall', 'Muscle band (teniae coli) gathers them', 'Gives the colon its puckered look']),
+  icv: flowPic('Ileocecal valve', ['Ileum (end of small int.)', 'Ileocecal valve', 'Cecum (start of large int.)'], 'Normally closed; stops backflow into the small intestine', 1),
+  colon: flowPic('Colon sections in order', ['Ascending', 'Transverse', 'Descending', 'Sigmoid'], 'Then the rectum stores the stool'),
+  ecoli: listPic('Gut bacteria (E. coli) make vitamins', ['Vitamin K', 'Vitamin B12', 'Vitamin B1', 'Vitamin B2'], 'The large intestine then absorbs them', 0),
+  defec: flowPic('Defecation reflex', ['Stool stretches the rectum', 'Stretch receptors fire', 'Sphincters relax, rectum pushes'], 'Valsalva (bear down) raises pressure to help'),
+  ans: twoPic('Nerves and digestion', ['Parasympathetic', ['Speeds digestion up', '"Rest and digest"']], ['Sympathetic', ['Slows digestion down', '"Fight or flight"']]),
+  liverJobs: listPic('A few of the liver\'s ~500 jobs', ['Makes albumin and clotting factors', 'Stores glycogen, iron, B12', 'Detoxifies drugs and alcohol', 'Makes bile', 'Recycles old red cells', 'Holds a blood reserve']),
+  phase1: flowPic('Phase 1 drug metabolism', ['Fat-soluble drug', 'CYP450 enzymes change it', 'More water-soluble metabolite'], 'Most important: CYP3A4 and CYP2D6', 1),
+  phase2: flowPic('Phase 2 (conjugation)', ['Metabolite', 'Attach a polar group', 'Water soluble, ready to excrete'], 'Leaves in urine, or in bile and stool', 1),
+  pgx: twoPic('Pharmacogenomics', ['Poor metabolizer', ['Drug builds up', 'Risk of toxicity']], ['Ultra-rapid metabolizer', ['Drug cleared fast', 'May not work']], 'Genes (e.g., CYP2D6) change how drugs are handled'),
+  blood: twoPic('The liver\'s 2 blood supplies', ['Hepatic artery', ['Oxygen-rich blood', '~300 mL/min']], ['Portal vein', ['Nutrients from gut', '~1,000 mL/min']], 'Liver gets 25% of cardiac output'),
+  firstpass: flowPic('First-pass effect', ['Swallowed pill absorbed in gut', 'Portal vein to liver', 'Liver breaks some down first'], 'IV, skin patch, under-tongue routes skip it', 2),
+  regen: factPic('Liver regeneration', 'Up to 75% can regrow', 'Hepatocytes divide to rebuild it, so protect it from liver-toxic drugs while it heals'),
+  bile: listPic('Bile', ['Made by hepatocytes, 600–1,200 mL/day', 'Bile salts emulsify fat', 'Needed to absorb vitamins A, D, E, K', 'Recycled at the end of the ileum']),
+  gb: flowPic('Gallbladder', ['Stores bile', 'Concentrates it (removes water)', 'Squeezes when fat arrives (CCK)'], 'Without one, bile drips straight to the gut'),
+  pancreas: twoPic('The pancreas has two jobs', ['Exocrine', ['Digestive enzymes', 'Bicarbonate + water', 'Sent to duodenum']], ['Endocrine', ['Insulin', 'Somatostatin', 'Blood sugar control']]),
+  cck: flowPic('Cholecystokinin (CCK)', ['Fat enters small intestine', 'CCK released', 'Bile + pancreatic juice out'], 'Also slows stomach emptying', 1),
+  secretin: flowPic('Secretin', ['Acid enters duodenum', 'Secretin released', 'Less stomach acid, more bicarbonate'], '', 1),
+  aging: listPic('GI changes with aging', ['Weaker LES → more reflux', 'Less acid → B12 deficiency', 'Smaller liver → slower drug breakdown', 'Less calcium absorbed', 'Less lactase', 'Slower gut → constipation']),
+};
+
+window.SET = {
+  title: 'GI Anatomy and Physiology',
+  chapter: 'Chapter 9 · Gastrointestinal Function · Part 1',
+  pics: PICS,
+  audio: 'audio/ch9-1',
+  speak: {},
+  cards: [
+    { term: 'The 3 main jobs of the GI system', def: 'Take in food, digest it, and get rid of the waste. This supplies the body with nutrients, water, and electrolytes.', short: 'Take in, digest, eliminate', pic: 'jobs' },
+    { term: 'The 7 parts of the alimentary canal, in order', say: 'al-ih-MEN-tuh-ree', def: 'Mouth, pharynx, esophagus, stomach, small intestine, large intestine, and anus', short: 'Mouth → pharynx → esophagus → stomach → small int. → large int. → anus', pic: 'canal' },
+    { term: 'The 5 accessory organs of digestion', def: 'Salivary glands, liver, gallbladder, bile ducts, and pancreas. Food does not pass through them, but they help digest it.', short: 'Salivary glands, liver, gallbladder, bile ducts, pancreas', pic: 'accessory' },
+    { term: 'Hepatobiliary system', say: 'hep-uh-toe-BIL-ee-air-ee', def: 'The liver, gallbladder, and pancreas, grouped because they sit close together and work together', short: 'Liver, gallbladder, pancreas', pic: 'hepato' },
+    { term: 'The 4 layers of the GI wall, inside to outside', def: 'Mucosa, submucosa, muscle layer, and serosa. The esophagus has adventitia instead of serosa.', short: 'Mucosa, submucosa, muscle, serosa', pic: 'layers' },
+    { term: 'Mucosa', say: 'myoo-KOH-suh', def: 'The innermost layer. It makes mucus that helps food slide and protects the wall from strong acid (stomach pH is 1 to 2). Its cells are replaced quickly.', short: 'Inner layer that makes protective mucus', pic: 'mucosa' },
+    { term: 'Peristalsis', say: 'pair-ih-STAHL-sis', def: 'Wavelike squeezing of the GI muscle layer that pushes food along the tract', short: 'Wavelike squeezing that moves food', pic: 'peri' },
+    { term: 'The 3 nerve plexuses of the enteric nervous system', say: 'en-TAIR-ik', def: 'Submucosal (Meissner) plexus, myenteric (Auerbach) plexus, and subserosal plexus', short: 'Submucosal, myenteric, subserosal', pic: 'plexus' },
+    { term: 'Parietal vs. visceral peritoneum', say: 'pair-EYE-uh-tul, VISS-er-ul', def: 'Parietal lines the abdominal wall. Visceral wraps the abdominal organs. The space between holds fluid to reduce friction.', short: 'Parietal lines the wall; visceral wraps organs', pic: 'peritoneum' },
+    { term: 'Mesentery', say: 'MEZ-en-tair-ee', def: 'A double fold of peritoneum that anchors the intestines and carries their blood vessels and nerves, while still letting them move', short: 'Peritoneal fold that anchors the intestines', pic: 'mesentery' },
+    { term: 'Parts of the upper GI tract', def: 'Mouth, pharynx, esophagus, and stomach', short: 'Mouth, pharynx, esophagus, stomach', pic: 'upper' },
+    { term: 'What saliva does', def: 'Its amylase starts carbohydrate digestion, its IgA antibodies fight bacteria, and it moistens food', short: 'Starts carb digestion, fights bacteria', pic: 'saliva' },
+    { term: 'When swallowing becomes involuntary', def: 'Once the bolus reaches the back of the throat. Cranial nerves V, IX, and X trigger the reflex, run by the swallowing center in the medulla and pons.', short: 'Once the bolus reaches the back of the throat', pic: 'swallow' },
+    { term: 'Upper vs. lower esophageal sphincter', def: 'The upper (voluntary) keeps food out of the airway. The lower (LES) opens to let food into the stomach and keeps stomach contents from coming back up.', short: 'Upper protects airway; LES blocks reflux', pic: 'ues' },
+    { term: 'What relaxes vs. tightens the LES', def: 'Relaxes: vagal impulses, progesterone, secretin, glucagon. Tightens: gastrin and cholinergic vagal stimulation.', short: 'Relax: progesterone, secretin, glucagon; tighten: gastrin', pic: 'les' },
+    { term: 'Rugae', say: 'ROO-gee', def: 'Folds in the empty stomach wall that unfold so the stomach can stretch to hold up to 4 liters', short: 'Stomach folds that let it stretch', pic: 'rugae' },
+    { term: 'Parietal (oxyntic) cells', say: 'puh-RYE-uh-tul, ox-IN-tik', def: 'Stomach cells that make hydrochloric acid and intrinsic factor (needed to absorb vitamin B12). Mostly in the fundus.', short: 'Make acid and intrinsic factor', pic: 'parietal' },
+    { term: 'Chief cells', def: 'Stomach cells that make pepsinogen, which becomes pepsin to digest protein', short: 'Make pepsinogen', pic: 'chief' },
+    { term: 'G cells, D cells, and enterochromaffin cells', say: 'en-ter-oh-KROH-muh-fin', def: 'G cells release gastrin. D cells release somatostatin. Enterochromaffin cells release histamine.', short: 'Gastrin, somatostatin, histamine', pic: 'gcells' },
+    { term: 'Chyme', say: 'kime', def: 'The acidic, soupy mix of food, acid, and enzymes made by stomach churning', short: 'Acidic food mix leaving the stomach', pic: 'chyme' },
+    { term: 'What the stomach absorbs', def: 'Only a few things, such as alcohol, aspirin, and NSAIDs. Nutrients are absorbed in the small intestine.', short: 'Alcohol, aspirin, NSAIDs (not nutrients)', pic: 'stomachAbs' },
+    { term: 'Pyloric sphincter', say: 'pie-LOR-ik', def: 'Lets chyme leave the stomach in small amounts (1 to 3 mL at a time) and keeps bile from flowing back up', short: 'Meters chyme into the duodenum', pic: 'pylorus' },
+    { term: 'The 3 parts of the small intestine', def: 'Duodenum, jejunum, and ileum. It is about 20 feet long and does most of the absorbing.', short: 'Duodenum, jejunum, ileum', pic: 'small' },
+    { term: 'Where gut fluid is absorbed', def: 'About 10 liters reach the gut each day. About 90% is absorbed in the small intestine and the rest in the large intestine.', short: '90% small intestine, 10% large', pic: 'fluid' },
+    { term: 'Villi and microvilli', say: 'VIL-eye', def: 'Tiny finger-like projections on the small intestine wall that greatly increase the surface for absorbing nutrients', short: 'Projections that increase absorption surface', pic: 'villi' },
+    { term: 'Peyer patches', say: 'PIE-er', def: 'Clusters of immune cells under the villi that watch the gut bacteria and defend against germs', short: 'Immune cell clusters in the small intestine', pic: 'peyer' },
+    { term: 'Parts of the large intestine', def: 'Cecum, colon, rectum, and anus. It is about 5 feet long, wider than the small intestine, and has no villi.', short: 'Cecum, colon, rectum, anus', pic: 'large' },
+    { term: 'Haustra', say: 'HAW-struh', def: 'The chain of pouches in the colon wall, gathered by a muscle band called the teniae coli', short: 'Pouches of the colon wall', pic: 'haustra' },
+    { term: 'Ileocecal valve', say: 'ill-ee-oh-SEE-kul', def: 'The usually closed valve between the ileum and the cecum that controls flow into the large intestine and stops backflow', short: 'Valve between small and large intestine', pic: 'icv' },
+    { term: 'The colon sections in order', def: 'Ascending, transverse, descending, then sigmoid colon, which leads to the rectum', short: 'Ascending, transverse, descending, sigmoid', pic: 'colon' },
+    { term: 'Vitamins made by gut bacteria', def: 'E. coli in the colon make vitamins K, B12, B1, and B2, which the large intestine absorbs', short: 'Vitamins K, B12, B1, B2', pic: 'ecoli' },
+    { term: 'Defecation reflex', say: 'def-uh-KAY-shun', def: 'Stool stretches the rectum, stretch receptors fire, the anal sphincters relax, and the rectum contracts. The Valsalva maneuver (bearing down) helps.', short: 'Rectal stretch triggers emptying', pic: 'defec' },
+    { term: 'Sympathetic vs. parasympathetic effect on digestion', def: 'Sympathetic slows digestion down. Parasympathetic speeds it up.', short: 'Sympathetic slows; parasympathetic speeds', pic: 'ans' },
+    { term: 'Key jobs of the liver', def: 'Makes albumin, clotting factors, bile, and glucose; stores glycogen, iron, and B12; detoxifies drugs and alcohol; recycles old red blood cells', short: 'Makes proteins and bile, stores, detoxifies', pic: 'liverJobs' },
+    { term: 'Phase 1 drug metabolism', def: 'CYP450 enzymes oxidize, reduce, or hydrolyze a drug to make it more water soluble. CYP3A4 and CYP2D6 are the most important.', short: 'CYP450 oxidation, reduction, hydrolysis', pic: 'phase1' },
+    { term: 'Phase 2 drug metabolism', def: 'Conjugation: a polar group (such as glucuronic acid) is attached so the drug becomes water soluble and can be excreted', short: 'Conjugation to make it water soluble', pic: 'phase2' },
+    { term: 'Pharmacogenomics', say: 'far-muh-koh-jeh-NOH-miks', def: 'How a person\'s genes change their response to drugs. Poor metabolizers can build up toxic levels; ultra-rapid metabolizers clear drugs too fast.', short: 'How genes change drug response', pic: 'pgx' },
+    { term: 'The liver\'s two blood supplies', def: 'The hepatic artery brings oxygen-rich blood. The portal vein brings nutrient-rich blood from the gut. Together the liver gets 25% of cardiac output.', short: 'Hepatic artery and portal vein', pic: 'blood' },
+    { term: 'First-pass effect', def: 'Swallowed drugs go through the portal vein to the liver, which breaks some down before they reach the body. IV, transdermal, and sublingual routes skip it.', short: 'Liver breaks down oral drugs first', pic: 'firstpass' },
+    { term: 'How much of the liver can regenerate', def: 'Up to 75% can be lost and slowly regrow, because hepatocytes can divide', short: 'Up to 75%', pic: 'regen' },
+    { term: 'Bile', def: 'Made by hepatocytes (600 to 1,200 mL a day). Bile salts emulsify fat so fat and vitamins A, D, E, and K can be absorbed. Most is recycled at the end of the ileum.', short: 'Emulsifies fat; needed for A, D, E, K', pic: 'bile' },
+    { term: 'What the gallbladder does', def: 'Stores and concentrates bile, then squeezes it into the small intestine when food (especially fat) arrives', short: 'Stores and concentrates bile', pic: 'gb' },
+    { term: 'Exocrine vs. endocrine pancreas', def: 'Exocrine: sends digestive enzymes, bicarbonate, and water to the duodenum. Endocrine: makes hormones like insulin to control blood sugar.', short: 'Exocrine enzymes; endocrine insulin', pic: 'pancreas' },
+    { term: 'Cholecystokinin (CCK)', say: 'koh-luh-sis-toe-KY-nin', def: 'A small intestine hormone that makes the gallbladder release bile and the pancreas release its juice, and slows stomach emptying', short: 'Releases bile and pancreatic juice', pic: 'cck' },
+    { term: 'Secretin', say: 'sih-KREE-tin', def: 'A small intestine hormone that lowers stomach acid and boosts bicarbonate to neutralize it', short: 'Lowers acid, raises bicarbonate', pic: 'secretin' },
+    { term: 'GI changes with aging', def: 'Weaker LES (more reflux), less stomach acid (B12 deficiency), smaller liver (slower drug metabolism), less calcium and lactase, and slower movement (constipation)', short: 'More reflux, less acid, slower liver and gut', pic: 'aging' },
+  ],
+};
+</script>
+<script src="study.js"></script>
+</body>
+</html>

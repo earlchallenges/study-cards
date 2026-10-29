@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Celiac, IBD, IBS, and Diverticula | Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<link rel="stylesheet" href="study.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="ch9-pics.js"></script>
+<script>
+// a stretch of bowel wall: patchy full-thickness spots (Crohn) or one continuous band from the rectum (UC)
+const gut = (title, crohn) => V(label(8, 18, title, 'b') +
+  `<rect x="8" y="50" width="284" height="40" rx="20" class="tis"/>` +
+  (crohn
+    ? [30, 120, 210].map(x => `<rect x="${x}" y="50" width="44" height="40" rx="10" class="rd"/>`).join('') + label(30, 112, 'Skip lesions: patches with normal gut between', '', 11) + label(30, 130, 'Full thickness (transmural)', '', 11) + label(30, 148, 'Mouth to anus; most often distal ileum', '', 11)
+    : `<rect x="160" y="50" width="132" height="40" rx="20" class="rd"/>` + label(250, 42, 'Rectum', 'b', 11) + arrow(150, 70, 110, 70) + label(30, 112, 'Starts in the rectum and spreads up', '', 11) + label(30, 130, 'One continuous stretch', '', 11) + label(30, 148, 'Mucosa only; colon and rectum only', '', 11)));
+
+const PICS = {
+  celiac: flowPic('Celiac disease', ['Gluten (wheat, barley, rye)', 'Immune attack (HLA-DQ2/DQ8)', 'Villi flatten'], 'Less surface → malabsorption', 2),
+  celiacGenes: factPic('Celiac genes', 'HLA-DQ2 and HLA-DQ8', 'In over 99% of people with celiac, but having them alone is not enough'),
+  celiacAssoc: listPic('Conditions linked to celiac', ['Type 1 diabetes', 'Hashimoto thyroiditis', 'Dermatitis herpetiformis', 'Iron-deficiency anemia', 'Osteoporosis', 'Lymphoma risk']),
+  celiacSx: listPic('Celiac GI symptoms', ['Bulky, foul, floating diarrhea', 'Bloating, gas, pain', 'Steatorrhea', 'Weight loss', 'Lactose intolerance at first'], 'Infants: starts when cereals are added'),
+  celiacDx: twoPic('Celiac workup', ['Blood antibodies', ['tTG-IgA', 'EMA-IgA', 'Gliadin (DGP) antibodies']], ['Confirm', ['EGD with', 'duodenal biopsy']]),
+  celiacTx: listPic('Celiac treatment', ['Lifelong gluten-free diet', 'No wheat, barley, rye', 'Rice and corn are fine', 'Watch for cancer over time'], 'Works for about 90%; lining never fully heals'),
+  sprue: twoPic('Celiac vs. tropical sprue', ['Celiac', ['Autoimmune', 'Lifelong']], ['Tropical sprue', ['Infection, tropics travel', 'Cured by antibiotics']], 'Both flatten the villi'),
+  ibd: twoPic('IBD = 2 diseases', ['Crohn disease', ['Anywhere mouth to anus']], ['Ulcerative colitis', ['Colon and rectum only']], 'Flares and remissions; more in Ashkenazi Jews, Whites'),
+  crohnPic: gut('Crohn disease', true),
+  ucPic: gut('Ulcerative colitis', false),
+  cobble: factPic('Crohn disease look', 'Cobblestone + granulomas', 'Deep fissures between thick nodules; wall thickens and narrows'),
+  crohnCx: listPic('Crohn complications', ['Strictures, obstruction', 'Fistulas (bowel, bladder, vagina)', 'Abscesses', 'Malnutrition, B12, vitamin D', 'Perianal fissures']),
+  crohnSx: listPic('Crohn symptoms', ['Right lower quadrant pain', 'Watery diarrhea', 'Weight loss', 'Belly mass', 'Delayed growth in kids']),
+  ucSx: listPic('Ulcerative colitis symptoms', ['Up to 20 bloody, mucus stools a day', 'Tenesmus and urgency', 'Cramping', 'Weight loss']),
+  extra: listPic('Problems outside the gut in IBD', ['Mouth ulcers', 'Joint pain', 'Erythema nodosum', 'Uveitis, iritis', 'Kidney stones (Crohn)']),
+  megacolon: flowPic('Toxic megacolon', ['Severe colitis', 'Colon rapidly dilates', 'Fever, fast pulse, high WBC'], 'Life threatening', 1),
+  ibdDx: listPic('IBD workup', ['Colonoscopy + biopsy', 'CT, MRI, capsule camera', 'CRP, ESR', 'Fecal calprotectin', 'Stool cultures']),
+  ladder: flowPic('IBD drug ladder', ['5-ASA: mild', 'Steroids: moderate-severe', 'Immune modulators', 'Biologics: infliximab'], 'Plus nutrition support; surgery if needed'),
+  diet: twoPic('IBD diets', ['Crohn', ['Low-residue', 'High calorie, protein']], ['Ulcerative colitis', ['High-fiber', 'High calorie, protein']], 'Both raise colon cancer risk: screen'),
+  ibs: twoPic('IBS vs. IBD', ['IBS', ['Functional', 'No inflammation', 'No lasting damage']], ['IBD', ['Inflammatory', 'Ulcers, bleeding', 'Lasting damage']]),
+  ibsCause: listPic('Theories behind IBS', ['Altered gut motility', 'Visceral hyperalgesia', 'Stress and psychology', 'Gut bacteria, food sensitivity'], 'More common in women'),
+  ibsSx: listPic('IBS symptoms', ['Cramps eased by a BM', 'Bloating, gas', 'Diarrhea, constipation, or both', 'Mucus, no blood', 'Feels incompletely emptied']),
+  rome: factPic('Rome IV criteria for IBS', 'Pain 1 day/week for 3 months', 'Plus 2 of: tied to BMs, change in stool frequency, change in stool form'),
+  ibsRed: listPic('Not IBS: red flags to work up', ['Weight loss', 'Rectal bleeding', 'Onset after 50', 'Diarrhea at night', 'Iron-deficiency anemia', 'Family history IBD or cancer']),
+  fodmap: listPic('IBS care', ['Low-FODMAP diet', 'Avoid gas-forming foods', 'Regular, smaller meals', 'Stress management', 'Antispasmodics, antidepressants']),
+  ibsDrugs: twoPic('IBS drugs by type', ['Constipation', ['Psyllium', 'Lubiprostone', 'Linaclotide']], ['Diarrhea', ['Loperamide', 'Bile acid binders', 'Eluxadoline']]),
+  divert: flowPic('How diverticula form', ['High pressure in colon', 'Weak spot where arteries enter', 'Mucosa pouches out'], 'More common after 60', 2),
+  divRisk: listPic('Diverticular disease risks', ['Low fiber, lots of red meat', 'Obesity', 'Inactivity', 'Smoking', 'Steroids, opioids, NSAIDs', 'Straining']),
+  osis: twoPic('Diverticulosis vs. diverticulitis', ['Diverticulosis', ['Pouches present', 'No symptoms', 'Maybe mild bleeding']], ['Diverticulitis', ['Pouches inflamed', 'LLQ pain, fever', 'High WBC']]),
+  divCx: listPic('Diverticulitis complications', ['Abscess', 'Perforation, peritonitis', 'Fistula', 'Obstruction', 'Bleeding']),
+  divTx: twoPic('Diverticulitis care', ['Acute', ['Antibiotics', 'Clear liquids', 'CT with contrast']], ['Long term', ['High-fiber diet', 'Plenty of fluids', 'Don\'t strain']], 'Nuts, seeds, and corn are fine'),
+  meckel: listPic('Meckel diverticulum: rule of 2s', ['2% of people', '2 feet from ileocecal valve', '2 inches long', 'Problems before age 2', 'Males 2:1']),
+};
+
+window.SET = {
+  title: 'Celiac, IBD, IBS, and Diverticula',
+  chapter: 'Chapter 9 · Gastrointestinal Function · Part 5',
+  pics: PICS,
+  audio: 'audio/ch9-5',
+  speak: {},
+  cards: [
+    { term: 'Celiac disease', say: 'SEE-lee-ak', def: 'An inherited autoimmune reaction to gluten (in wheat, barley, and rye) that flattens the small intestine villi and causes malabsorption', short: 'Gluten flattens the villi', pic: 'celiac' },
+    { term: 'Genes linked to celiac disease', def: 'HLA-DQ2 and HLA-DQ8. They are present in over 99% of people with celiac, but having them alone is not enough.', short: 'HLA-DQ2 and HLA-DQ8', pic: 'celiacGenes' },
+    { term: 'Conditions linked to celiac disease', def: 'Type 1 diabetes, Hashimoto thyroiditis, dermatitis herpetiformis, iron-deficiency anemia, osteoporosis, and a higher lymphoma risk', short: 'Type 1 diabetes, Hashimoto, anemia', pic: 'celiacAssoc' },
+    { term: 'Celiac GI symptoms', def: 'Bulky, foul-smelling, floating diarrhea, bloating, gas, steatorrhea, weight loss, and lactose intolerance at first. Infants show symptoms when cereals are added.', short: 'Bulky floating stools, bloating', pic: 'celiacSx' },
+    { term: 'How celiac disease is diagnosed', def: 'Blood antibodies (tTG-IgA, EMA-IgA, and gliadin antibodies), confirmed with an EGD and duodenal biopsy', short: 'tTG-IgA, then duodenal biopsy', pic: 'celiacDx' },
+    { term: 'Celiac disease treatment', def: 'A lifelong gluten-free diet: no wheat, barley, or rye (rice and corn are fine). It controls about 90% of cases, but the lining never fully heals, so watch for cancer.', short: 'Lifelong gluten-free diet', pic: 'celiacTx' },
+    { term: 'Celiac disease vs. tropical sprue', def: 'Both flatten the villi. Tropical sprue is likely infectious, follows time in tropical regions, and is cured with antibiotics. Celiac is autoimmune and lifelong.', short: 'Infectious and curable vs. lifelong', pic: 'sprue' },
+    { term: 'The 2 types of inflammatory bowel disease', def: 'Crohn disease and ulcerative colitis. Both have flares and remissions and are more common in Whites and Ashkenazi Jews.', short: 'Crohn disease and ulcerative colitis', pic: 'ibd' },
+    { term: 'Where Crohn disease occurs', def: 'Anywhere from mouth to anus, most often the distal ileum, usually sparing the rectum. It forms patchy skip lesions through the full thickness of the wall.', short: 'Anywhere; skip lesions; transmural', pic: 'crohnPic' },
+    { term: 'Where ulcerative colitis occurs', def: 'Only the colon and rectum. It starts in the rectum and spreads up in one continuous stretch, affecting only the mucosa.', short: 'Rectum upward, continuous, mucosa only', pic: 'ucPic' },
+    { term: 'Classic look of Crohn disease', def: 'A cobblestone pattern of fissures and nodules, with granulomas, and a thick, narrowed bowel wall', short: 'Cobblestone with granulomas', pic: 'cobble' },
+    { term: 'Complications of Crohn disease', def: 'Strictures and obstruction, fistulas (to bowel, bladder, or vagina), abscesses, perianal fissures, and malnutrition', short: 'Strictures, fistulas, abscesses', pic: 'crohnCx' },
+    { term: 'Crohn disease symptoms', def: 'Right lower quadrant pain, watery diarrhea, weight loss, a belly mass, and delayed growth and puberty in children', short: 'RLQ pain, watery diarrhea, weight loss', pic: 'crohnSx' },
+    { term: 'Ulcerative colitis symptoms', def: 'Frequent bloody stools with mucus (up to 20 a day), tenesmus and urgency, cramping, and weight loss', short: 'Many bloody, mucus stools', pic: 'ucSx' },
+    { term: 'Tenesmus', say: 'teh-NEZ-mus', def: 'A constant feeling of needing to have a bowel movement, with rectal spasms', short: 'Constant urge to pass stool', pic: 'ucSx' },
+    { term: 'Problems outside the gut in IBD', def: 'Mouth ulcers, joint pain, erythema nodosum (skin), eye inflammation (uveitis, iritis), and kidney stones in Crohn disease', short: 'Joints, skin, eyes, mouth ulcers', pic: 'extra' },
+    { term: 'Toxic megacolon', def: 'A life-threatening complication of ulcerative colitis: the colon rapidly dilates, with fever, a fast pulse, and a high white count', short: 'Rapid colon dilation with toxicity', pic: 'megacolon' },
+    { term: 'IBD workup', def: 'Colonoscopy with biopsy; CT, MRI, or capsule camera for the small bowel; CRP and ESR; fecal calprotectin; and stool cultures', short: 'Colonoscopy with biopsy', pic: 'ibdDx' },
+    { term: 'IBD drug ladder', def: '5-ASAs for mild disease, steroids for moderate to severe, immune modulators, then biologics like infliximab or adalimumab', short: '5-ASA, steroids, immune modulators, biologics', pic: 'ladder' },
+    { term: 'Crohn vs. ulcerative colitis diet', def: 'Crohn: low-residue, high-calorie, high-protein. Ulcerative colitis: high-fiber, high-calorie, high-protein. Both need colon cancer screening.', short: 'Low-residue vs. high-fiber', pic: 'diet' },
+    { term: 'IBS vs. IBD', def: 'IBS is functional: no inflammation and no lasting damage. IBD causes inflammation, ulcers, bleeding, and lasting damage.', short: 'Functional vs. inflammatory', pic: 'ibs' },
+    { term: 'Theories behind IBS', def: 'Altered gut motility, visceral hyperalgesia (oversensitive gut), and stress or psychological factors. Gut bacteria and food sensitivity may play a role. More common in women.', short: 'Motility, hypersensitivity, stress', pic: 'ibsCause' },
+    { term: 'IBS symptoms', def: 'Crampy pain eased by a bowel movement, bloating, diarrhea, constipation, or both, mucus without blood, and a feeling of incomplete emptying', short: 'Pain eased by a BM, bloating', pic: 'ibsSx' },
+    { term: 'Rome IV criteria for IBS', def: 'Belly pain at least 1 day a week for 3 months, with 2 or more of: related to bowel movements, change in stool frequency, or change in stool form', short: 'Pain weekly for 3 months + 2 features', pic: 'rome' },
+    { term: 'Red flags that point away from IBS', def: 'Weight loss, rectal bleeding, onset after 50, diarrhea at night, iron-deficiency anemia, or a family history of IBD or GI cancer', short: 'Weight loss, bleeding, age over 50', pic: 'ibsRed' },
+    { term: 'IBS treatment', def: 'Low-FODMAP diet, avoiding gas-forming foods, regular smaller meals, stress management, and antispasmodics or antidepressants for pain', short: 'Low-FODMAP, stress management', pic: 'fodmap' },
+    { term: 'IBS drugs for constipation vs. diarrhea', def: 'Constipation: psyllium, lubiprostone, linaclotide. Diarrhea: loperamide, bile acid binders, eluxadoline.', short: 'Linaclotide vs. loperamide', pic: 'ibsDrugs' },
+    { term: 'How diverticula form', say: 'dy-ver-TIK-yoo-luh', def: 'High pressure inside the colon pushes the mucosa out through weak spots where arteries enter the muscle layer, forming pouches', short: 'Mucosa pouches out through weak spots', pic: 'divert' },
+    { term: 'Risk factors for diverticular disease', def: 'Low fiber and lots of red meat, obesity, inactivity, smoking, straining, and drugs like steroids, opioids, and NSAIDs. More common after 60.', short: 'Low fiber, obesity, inactivity', pic: 'divRisk' },
+    { term: 'Diverticulosis vs. diverticulitis', def: 'Diverticulosis: pouches with no symptoms (maybe mild bleeding). Diverticulitis: inflamed pouches with left lower quadrant pain, fever, and a high white count.', short: 'Pouches vs. inflamed pouches', pic: 'osis' },
+    { term: 'Complications of diverticulitis', def: 'Abscess, perforation and peritonitis, fistula, obstruction, and bleeding', short: 'Abscess, perforation, fistula', pic: 'divCx' },
+    { term: 'Diverticulitis treatment', def: 'Acute: CT with contrast, antibiotics, and clear liquids or bowel rest. Long term: high fiber, plenty of fluids, and no straining. Nuts, seeds, and corn don\'t need to be avoided.', short: 'Antibiotics, then high fiber', pic: 'divTx' },
+    { term: 'Meckel diverticulum rule of 2s', say: 'MEK-ul', def: 'Found in 2% of people, about 2 feet from the ileocecal valve, 2 inches long, usually causing problems before age 2, and twice as common in males', short: '2%, 2 feet, 2 inches, age 2', pic: 'meckel' },
+  ],
+};
+</script>
+<script src="study.js"></script>
+</body>
+</html>

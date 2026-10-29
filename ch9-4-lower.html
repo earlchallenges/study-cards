@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Diarrhea to Peritonitis | Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<link rel="stylesheet" href="study.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="ch9-pics.js"></script>
+<script>
+const PICS = {
+  diarType: listPic('3 ways diarrhea happens', ['Secretory: gut pours out fluid', 'Osmotic: gut can\'t absorb fluid', 'Motility: gut moves too fast']),
+  diarTime: twoPic('Acute vs. chronic diarrhea', ['Acute', ['3+ loose stools a day', 'Under 14 days', 'Usually viral']], ['Chronic', ['Over 4 weeks', 'Usually not infection:', 'IBD, IBS, celiac']]),
+  diarBugs: listPic('Common causes of acute diarrhea', ['Viruses: norovirus, rotavirus', 'Bacteria: Salmonella, Shigella', 'Campylobacter, C. difficile', 'Protozoa: Giardia, Cryptosporidium']),
+  smallLarge: twoPic('Where the diarrhea comes from', ['Small intestine', ['Large, loose stools', 'Right lower pain', 'Rarely fever or blood']], ['Large intestine', ['Small, frequent stools', 'Left lower cramping', 'Fever, blood, mucus']]),
+  blood: listPic('Kinds of blood in stool', ['Frank: bright red on the stool', 'Occult: hidden, found by test', 'Melena: black, tarry (upper GI)']),
+  diarAB: flowPic('Diarrhea and acid-base', ['Lose bicarbonate in stool', 'Metabolic acidosis', 'Replace fluids and electrolytes'], 'Vomiting causes the opposite: alkalosis', 1),
+  diarTest: listPic('When to test stool', ['Severe illness', 'Immunocompromised', 'Elderly', 'Food handlers'], 'Most acute diarrhea needs no tests'),
+  diarTx: listPic('Infectious diarrhea care', ['Fluids and electrolytes first', 'Short fast, then clear liquids', 'Often hold antidiarrheals', 'Probiotics', 'Skip dairy and fatty food']),
+  hold: flowPic('Why hold antidiarrheals in infection', ['Slower gut', 'Toxins build up', 'Diarrhea gets worse'], ''),
+  rota: factPic('Rotavirus vaccine', 'Start at 2 months', 'Finish the series by 8 months. Rotavirus was the top cause of severe diarrhea under age 5.'),
+  constip: listPic('Causes of constipation', ['Low fiber, low fluid', 'Inactivity, ignoring the urge', 'Opioids, iron, anticholinergics', 'Laxative overuse', 'Pregnancy, IBS', 'Parkinson, stroke, depression']),
+  constipSx: listPic('Constipation signs', ['No BM for more than 3 days', 'Straining over 10 minutes', 'Painful passage', 'Hypoactive bowel sounds']),
+  constipCx: listPic('Constipation complications', ['Anal fissure', 'Hemorrhoids', 'Impaction', 'Obstruction', 'Diverticulitis']),
+  constipTx: listPic('Treat and prevent constipation', ['More fiber + more water', 'More activity', 'Go when you feel the urge', 'Stool softeners', 'Limit laxatives and enemas']),
+  obstrType: twoPic('Two kinds of bowel obstruction', ['Mechanical', ['A physical block:', 'adhesions, hernia, tumor']], ['Functional (ileus)', ['Gut stops moving:', 'surgery, opioids, low K']]),
+  sbo: twoPic('Top causes of mechanical obstruction', ['Small bowel', ['Adhesions + hernias', '(about 90%)']], ['Large bowel', ['Tumors', 'Diverticulitis', 'Volvulus']]),
+  intuss: twoPic('Twisting and telescoping', ['Intussusception', ['Bowel telescopes', 'into itself']], ['Volvulus', ['Bowel twists', 'on itself']]),
+  obstrPath: flowPic('Untreated complete obstruction', ['Fluid and gas build up', 'Blood flow cut off', 'Necrosis, perforation, shock'], 'Can kill within hours', 1),
+  obstrSx: listPic('Bowel obstruction signs', ['Distention, colicky cramps', 'Vomiting', 'No stool or gas', 'Early: loud rushes, borborygmi', 'Late: quiet or absent sounds', 'Then tachycardia, shock']),
+  obstrDx: factPic('Bowel obstruction on X-ray', 'Air-fluid levels', 'Dilated, gas-filled loops of bowel. CT confirms.'),
+  obstrTx: listPic('Bowel obstruction care', ['NG tube to suction', 'IV fluids, electrolytes', 'Walking helps ileus', 'No laxatives', 'Surgery for mechanical']),
+  appy: flowPic('Appendicitis', ['Blocked by fecalith', 'Swells, bacteria grow', 'Ischemia → rupture'], 'Peak ages 10 to 19', 0),
+  appyPain: flowPic('Appendicitis pain', ['Starts around the navel', 'Moves to McBurney point', 'Rupture: brief relief, then worse'], 'Right lower quadrant, over 12–24 hours', 1),
+  psoas: factPic('Psoas sign', 'Extend the right hip', 'Right lower quadrant pain points to appendicitis'),
+  appyDx: twoPic('Appendicitis workup', ['CBC', ['High WBC', 'Increased bands']], ['Imaging', ['CT preferred', 'Ultrasound or MRI in', 'kids and pregnancy']]),
+  appyTx: factPic('Appendicitis treatment', 'Appendectomy before rupture', 'One of the most common emergency surgeries in the U.S.'),
+  periType: twoPic('Primary vs. secondary peritonitis', ['Primary (spontaneous)', ['Infection via blood/lymph', 'Usually advanced cirrhosis', 'E. coli, Klebsiella']], ['Secondary', ['From an organ problem:', 'perforation, trauma', 'Many bacteria']]),
+  periSx: listPic('Peritonitis signs', ['Board-like rigid belly', 'Rebound tenderness', 'Fever, high WBC', 'Third spacing → shock', 'Ileus'], 'Hospital mortality up to 20%', 0),
+  rebound: flowPic('Rebound tenderness', ['Press slowly on the belly', 'Let go quickly', 'Pain is worse on release'], 'Points to inflamed parietal peritoneum', 2),
+  periDx: factPic('Key test in peritonitis', 'Paracentesis', 'Fluid sent for Gram stain, culture, cell count, and albumin'),
+  periTx: listPic('Peritonitis care', ['Fix the leak surgically', 'Drain infected fluid', 'Targeted antibiotics', 'Fluids and electrolytes', 'NG suction, TPN']),
+};
+
+window.SET = {
+  title: 'Diarrhea to Peritonitis',
+  chapter: 'Chapter 9 · Gastrointestinal Function · Part 4',
+  pics: PICS,
+  audio: 'audio/ch9-4',
+  speak: {},
+  cards: [
+    { term: 'The 3 mechanisms of diarrhea', def: 'Secretory (the gut pours out fluid), osmotic (the gut can\'t absorb fluid), and motility (the gut moves too fast)', short: 'Secretory, osmotic, motility', pic: 'diarType' },
+    { term: 'Acute vs. chronic diarrhea', def: 'Acute: 3 or more loose stools a day for under 14 days, usually viral. Chronic: over 4 weeks, usually not infectious (IBD, IBS, celiac disease).', short: 'Under 14 days vs. over 4 weeks', pic: 'diarTime' },
+    { term: 'Common causes of acute diarrhea', def: 'Viruses (norovirus, rotavirus), bacteria (Salmonella, Shigella, Campylobacter, C. difficile), and protozoa (Giardia, Cryptosporidium)', short: 'Norovirus, rotavirus, bacteria, Giardia', pic: 'diarBugs' },
+    { term: 'Small intestine vs. large intestine diarrhea', def: 'Small intestine: large, loose stools with right lower pain and rarely fever or blood. Large intestine: small, frequent stools with left lower cramping, fever, blood, or mucus.', short: 'Large loose vs. small frequent bloody', pic: 'smallLarge' },
+    { term: 'Frank blood vs. occult blood vs. melena', say: 'meh-LEE-nuh', def: 'Frank: bright red blood on the stool. Occult: hidden blood found by testing. Melena: black, tarry stool from bleeding higher up in the GI tract.', short: 'Red vs. hidden vs. black tarry', pic: 'blood' },
+    { term: 'Acid-base problem from diarrhea', def: 'Metabolic acidosis, from losing bicarbonate in the stool (vomiting causes alkalosis instead)', short: 'Metabolic acidosis', pic: 'diarAB' },
+    { term: 'When diarrhea needs stool testing', def: 'Severe illness, immunocompromised or elderly patients, and food handlers. Most acute diarrhea needs no testing.', short: 'Severe, immunocompromised, elderly, food handlers', pic: 'diarTest' },
+    { term: 'Care for infectious diarrhea', def: 'Fluids and electrolytes first, a short fast then clear liquids, probiotics, and avoiding dairy and fatty food. Antidiarrheals are often held.', short: 'Fluids, clear liquids, probiotics', pic: 'diarTx' },
+    { term: 'Why antidiarrheals may be withheld in infectious diarrhea', def: 'Slowing the gut lets the germs\' toxins build up, which can make the diarrhea worse', short: 'Toxins build up', pic: 'hold' },
+    { term: 'Rotavirus vaccine schedule', def: 'Starts at 2 months, with the series finished by 8 months of age', short: 'Start 2 months, done by 8 months', pic: 'rota' },
+    { term: 'Causes of constipation', def: 'Low fiber and fluid, inactivity, ignoring the urge, opioids, iron, anticholinergics, laxative overuse, pregnancy, IBS, and nerve diseases', short: 'Low fiber, inactivity, opioids, iron', pic: 'constip' },
+    { term: 'Signs of constipation', def: 'No bowel movement for more than 3 days, straining for over 10 minutes, painful passage, and hypoactive bowel sounds', short: 'No BM over 3 days, straining', pic: 'constipSx' },
+    { term: 'Complications of chronic constipation', def: 'Anal fissures, hemorrhoids, impaction, obstruction, and diverticulitis', short: 'Fissures, hemorrhoids, impaction', pic: 'constipCx' },
+    { term: 'Constipation treatment', def: 'More fiber with more water, more activity, going at the first urge, stool softeners, and limiting laxatives and enemas', short: 'Fiber, water, activity', pic: 'constipTx' },
+    { term: 'Mechanical vs. functional bowel obstruction', def: 'Mechanical: a physical block like adhesions, hernia, or tumor. Functional (paralytic ileus): the gut stops moving, from surgery, opioids, electrolyte problems, or infection.', short: 'Physical block vs. gut stops moving', pic: 'obstrType' },
+    { term: 'Top causes of small vs. large bowel obstruction', def: 'Small bowel: adhesions and hernias (about 90%). Large bowel: tumors, diverticulitis, and volvulus.', short: 'Adhesions/hernias vs. tumors', pic: 'sbo' },
+    { term: 'Intussusception vs. volvulus', say: 'in-tuh-suh-SEP-shun, VOL-vyoo-lus', def: 'Intussusception: one part of the bowel telescopes into the next. Volvulus: the bowel twists on itself.', short: 'Telescoping vs. twisting', pic: 'intuss' },
+    { term: 'What happens in an untreated complete obstruction', def: 'Fluid and gas build up, blood flow is cut off, and necrosis, perforation, and shock can kill within hours', short: 'Strangulation, perforation, shock', pic: 'obstrPath' },
+    { term: 'Signs of bowel obstruction', def: 'Distention, colicky cramps, vomiting, no stool or gas, loud rushes early (mechanical) and quiet or absent bowel sounds later, then signs of shock', short: 'Distention, vomiting, no stool or gas', pic: 'obstrSx' },
+    { term: 'Bowel obstruction on X-ray', def: 'Dilated, gas-filled loops of bowel with air-fluid levels. CT confirms the diagnosis.', short: 'Air-fluid levels, dilated loops', pic: 'obstrDx' },
+    { term: 'Bowel obstruction treatment', def: 'NG tube to suction to decompress, IV fluids and electrolytes, walking to help an ileus, no laxatives, and surgery for most mechanical blocks', short: 'NG suction, fluids, surgery', pic: 'obstrTx' },
+    { term: 'What causes appendicitis', say: 'uh-pen-dih-SY-tis', def: 'A blockage (often a hard stool called a fecalith) lets bacteria grow; swelling cuts off blood flow until the appendix can rupture. Peak ages 10 to 19.', short: 'Blockage, then infection and ischemia', pic: 'appy' },
+    { term: 'Classic appendicitis pain', def: 'Starts around the navel, then moves to the right lower quadrant (McBurney point) over 12 to 24 hours. If it ruptures, pain briefly eases, then gets worse.', short: 'Navel pain moving to McBurney point', pic: 'appyPain' },
+    { term: 'Psoas sign', say: 'SO-az', def: 'Right lower quadrant pain when the right hip is passively extended, a sign of appendicitis', short: 'RLQ pain on extending the right hip', pic: 'psoas' },
+    { term: 'Appendicitis workup', def: 'A CBC shows a high white count with increased bands. CT is the preferred imaging; ultrasound or MRI for children and pregnant women.', short: 'High WBC with bands; CT', pic: 'appyDx' },
+    { term: 'Appendicitis treatment', def: 'Appendectomy, ideally before the appendix ruptures', short: 'Appendectomy before rupture', pic: 'appyTx' },
+    { term: 'Primary vs. secondary peritonitis', say: 'pair-ih-toh-NY-tis', def: 'Primary (spontaneous): infection spreads through blood or lymph, usually in advanced cirrhosis. Secondary: from an organ problem such as a perforation or trauma.', short: 'Spontaneous vs. from a perforation', pic: 'periType' },
+    { term: 'Classic sign of peritonitis', def: 'A rigid, board-like abdomen, along with rebound tenderness, fever, and a high white count. Fluid shifts into the belly can cause shock.', short: 'Board-like rigid abdomen', pic: 'periSx' },
+    { term: 'Rebound tenderness', def: 'Pain that is worse when pressure on the belly is quickly released. It means the parietal peritoneum is inflamed.', short: 'Pain worse on release', pic: 'rebound' },
+    { term: 'Key diagnostic procedure for peritonitis', def: 'Paracentesis, so the fluid can be checked with Gram stain, culture, cell count, and albumin', short: 'Paracentesis', pic: 'periDx' },
+    { term: 'Peritonitis treatment', def: 'Surgery to fix the leak and drain infected fluid, targeted antibiotics, fluids and electrolytes, NG suction, and TPN', short: 'Fix the leak, drain, antibiotics', pic: 'periTx' },
+  ],
+};
+</script>
+<script src="study.js"></script>
+</body>
+</html>

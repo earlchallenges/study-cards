@@ -15,6 +15,10 @@ cards = re.findall(r"\{ term: '((?:[^'\\]|\\.)*)'.*?def: '((?:[^'\\]|\\.)*)'", h
 IPA = {
     "Galactocele": "/ɡəlˈæktəsˌil/",
     "NSAIDs": "/ˈɛnsɛdz/",
+    "Peyer": "/pˈaɪɚ/",
+    "Hepatobiliary": "/hˌɛpətoʊbˈɪliˌɛɹi/",
+    "Pyloric": "/paɪlˈɔɹɪk/",
+    "Ileocecal": "/ˌɪlioʊsˈikəl/",
 }
 
 

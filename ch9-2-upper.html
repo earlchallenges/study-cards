@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Upper GI Disorders | Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<link rel="stylesheet" href="study.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="ch9-pics.js"></script>
+<script>
+const PICS = {
+  twoIssues: twoPic('Two big underlying problems', ['Altered nutrition', ['Trouble eating', 'Trouble digesting', 'Trouble absorbing']], ['Impaired elimination', ['Constipation', 'Diarrhea']]),
+  cleft: twoPic('Cleft lip vs. cleft palate', ['Cleft lip', ['Lip parts fail to fuse', 'Males 2x more likely', 'Fix before 3 months']], ['Cleft palate', ['Palate fails to fuse', 'Females 2x more likely', 'Fix by 18 months']]),
+  cleftRisk: listPic('Cleft risk factors', ['Genetic mutations', 'Maternal diabetes', 'Anticonvulsants', 'Smoking', 'Alcohol', 'Vitamin deficiency'], 'Forms in weeks 4 to 9 of pregnancy'),
+  cleftProb: listPic('Problems a cleft causes', ['Weak suck, feeding trouble', 'Aspiration (nasal regurgitation)', 'Speech delay', 'Ear infections and hearing loss']),
+  ea: V(label(8, 18, 'Esophageal atresia with TEF (type C)', 'b') +
+    `<rect x="40" y="30" width="26" height="54" rx="12" class="tis"/>${label(10, 98, 'Upper pouch', '', 10.5)}${label(18, 110, '(dead end)', '', 10.5)}` +
+    `<rect x="190" y="30" width="22" height="130" rx="10" class="wh"/>${label(222, 50, 'Trachea', '', 10.5)}` +
+    `<rect x="70" y="116" width="26" height="50" rx="12" class="tis"/>${label(104, 172, 'Lower esophagus', '', 10.5)}` +
+    `<path class="acs" d="M96 128 L190 104"/>${label(118, 104, 'Fistula', 'hi', 11)}`),
+  eaSigns: listPic('Esophageal atresia signs at birth', ['Drooling', 'Choking with feeds', 'Trouble breathing', 'Catheter won\'t reach stomach'], 'Before birth: too much amniotic fluid (polyhydramnios)'),
+  eaTx: flowPic('Esophageal atresia care', ['Keep suctioning the pouch', 'Check heart, kidneys, spine', 'Surgery (may be staged)'], 'Suction prevents choking and pneumonia', 2),
+  pyloric: flowPic('Pyloric stenosis', ['Pyloric muscle thickens', 'Stomach can\'t empty', 'Projectile vomiting after feeds'], 'Usually shows up at 3 to 6 weeks old', 0),
+  pyloricSigns: listPic('Pyloric stenosis signs', ['Olive-shaped mass, right upper quadrant', 'Projectile vomiting', 'Hungry right after vomiting', 'Visible stomach waves', 'Poor weight gain', 'Metabolic alkalosis']),
+  pyloricRisk: listPic('Pyloric stenosis risks', ['Parent or sibling had it', 'Erythromycin early in life', 'Male', 'White'], 'Most common cause of infant bowel obstruction'),
+  pyloricTx: factPic('Pyloric stenosis treatment', 'Pyloromyotomy', 'Surgery cuts the thick muscle open. Fix fluids and electrolytes first. Feeds restart within about 8 hours.'),
+  dysType: twoPic('Two kinds of dysphagia', ['Oropharyngeal', ['Trouble starting', 'a swallow']], ['Esophageal', ['Food sticks after', 'swallowing starts']], 'Dysphagia = difficulty swallowing'),
+  dysCause: listPic('Causes of dysphagia', ['Blockage: stricture, tumor, diverticulum', 'Nerve: stroke, Parkinson, ALS, MS', 'Achalasia', 'Muscle disease', 'Drugs: sedatives, NSAIDs, KCl', 'Head and neck surgery']),
+  achalasia: factPic('Achalasia', 'The LES won\'t relax', 'Its nerves are lost, so food can\'t get into the stomach'),
+  solids: twoPic('Clues from what is hard to swallow', ['Solids only', ['Suggests a narrowing', '(stricture)']], ['Solids and liquids', ['Suggests a motility', 'problem']]),
+  odyno: factPic('Odynophagia', 'Painful swallowing', 'Different from dysphagia, which is difficulty swallowing'),
+  dysTests: listPic('Dysphagia tests', ['Barium swallow', 'Manometry (pressures)', 'EGD (scope)', 'Video swallow study']),
+  dysTx: listPic('Dysphagia care', ['Treat the cause', 'Dilation, myotomy, or Botox', 'Soft foods, thick liquids', 'Small bites, no straws'], 'Big goal: prevent aspiration'),
+  hema: factPic('Hematemesis', 'Coffee-ground vomit', 'Blood partly digested by stomach acid. Points to upper GI bleeding (ulcer, varices).'),
+  vomitColor: listPic('What the vomit color suggests', ['Coffee grounds → upper GI bleeding', 'Yellow-green → bile (obstruction)', 'Deep brown → fecal (lower obstruction)', 'Undigested food → poor emptying']),
+  projectile: listPic('Projectile vomiting', ['Intestinal obstruction', 'Raised intracranial pressure', 'Delayed gastric emptying', 'Poisoning or overeating'], 'Forceful, sudden, often no nausea first'),
+  vomitAB: flowPic('Repeated vomiting', ['Lose stomach acid', 'Metabolic alkalosis', 'Replace fluids and electrolytes'], 'Plus antiemetics such as ondansetron', 1),
+  hiatal: twoPic('Hiatal hernia types', ['Sliding (type I)', ['About 95% of cases', 'GE junction slides', 'above diaphragm']], ['Paraesophageal (II–IV)', ['Fundus pushes up', 'beside the esophagus', 'Risk: strangulation']]),
+  hiatalRisk: listPic('Hiatal hernia risks', ['Older age', 'Smoking', 'Obesity', 'Pregnancy', 'Coughing, straining']),
+  hiatalSx: twoPic('Hiatal hernia symptoms', ['Worse', ['Lying down', 'After big meals', 'Bending over']], ['Better', ['Standing up']], 'Heartburn, belching, chest pain, dysphagia'),
+  hiatalTx: listPic('Hiatal hernia care', ['6 small meals a day', 'Head of bed up 6 inches', 'No alcohol or smoking', 'Antacids, H2 blockers, PPIs', 'Surgery: fundoplication']),
+  gerd: flowPic('GERD', ['LES weak or relaxes', 'Acid and pepsin back up', 'Esophagus is irritated'], '', 1),
+  gerdCause: listPic('Things that weaken the LES', ['Chocolate, caffeine, peppermint', 'Fatty or spicy food', 'Citrus, tomatoes, soda', 'Alcohol, smoking', 'Nitrates, CCBs, beta blockers', 'Obesity, pregnancy']),
+  gerdInjury: factPic('What makes reflux injure the esophagus', 'Contact time + acidity', 'Not mainly extra acid. Normal reflux after meals is brief and harmless.'),
+  gerdSx: listPic('GERD symptoms', ['Heartburn after meals or lying down', 'Sour regurgitation', 'Dry cough, hoarse voice', 'Lump in throat', 'Water brash'], 'Chest pain can mimic angina'),
+  barrett: flowPic('Barrett esophagus', ['Years of reflux', 'Lining changes to columnar cells', 'Higher risk of adenocarcinoma'], 'Risk: GERD 5+ years, obesity, smoking', 1),
+  alarm: listPic('GERD red flags: test with EGD', ['Trouble or pain swallowing', 'GI bleeding or anemia', 'Weight loss', 'New dyspepsia after 60', 'Persistent vomiting', 'Family history GI cancer']),
+  gerdTx: listPic('GERD care', ['Small meals, none 2–3 h before bed', 'Head of bed up 6 inches', 'Lose weight, avoid triggers', 'PPIs or H2 blockers', 'Sucralfate, antacids', 'Surgery: Nissen fundoplication']),
+  cough: listPic('Top 3 causes of chronic cough', ['GERD', 'Asthma', 'Postnasal drip'], 'In a nonsmoker not on an ACE inhibitor'),
+  gastritis: twoPic('Acute vs. chronic gastritis', ['Acute', ['Neutrophils', 'Sudden', 'NSAIDs, alcohol, H. pylori']], ['Chronic', ['Lymphocytes, macrophages', 'Gradual', 'Can end in atrophy']]),
+  typeAB: twoPic('Chronic gastritis types', ['Type A', ['Autoimmune', 'Fundus and body', 'B12 deficiency']], ['Type B', ['H. pylori', 'Antrum', 'More common']]),
+  typeA: flowPic('Type A (autoimmune) gastritis', ['Antibodies attack parietal cells', 'No acid, no intrinsic factor', 'B12 deficiency, high gastrin'], 'High gastrin raises gastric tumor risk', 0),
+  hpylori: listPic('How H. pylori survives the acid', ['Urease neutralizes acid around it', 'Flagella to swim', 'Sticks to the lining', 'Hides in the mucus'], 'Spread fecal-oral; often caught in childhood'),
+  hpTest: twoPic('Testing for H. pylori', ['Shows active infection', ['Urea breath test', 'Stool antigen']], ['Can\'t tell old from new', ['Blood antibodies']]),
+  hpTx: factPic('Treating H. pylori', '2 antibiotics + PPI or bismuth', 'For at least 1 week'),
+  nsaid: flowPic('How NSAIDs hurt the stomach', ['Block cyclooxygenase', 'Less protective prostaglandin', 'Lining breaks down'], 'Cause gastritis and ulcers', 0),
+  pud: twoPic('Two main causes of peptic ulcer', ['H. pylori', ['Infection']], ['NSAIDs', ['Ibuprofen, naproxen', 'aspirin']], 'Ulcer = erodes through the muscularis mucosae'),
+  duoGas: twoPic('Duodenal vs. gastric ulcer', ['Duodenal', ['80% of ulcers', 'Ages 20–50', 'Food RELIEVES pain', 'Pain at night', 'No cancer risk']], ['Gastric', ['Less common, deadlier', 'Ages 50–70', 'Food WORSENS pain', 'NSAIDs common', 'Cancer risk']]),
+  stress: twoPic('Stress ulcers', ['Curling ulcer', ['After big burns']], ['Cushing ulcer', ['After head injury']], 'First sign is often bleeding; prevent with acid reducers'),
+  zes: flowPic('Zollinger-Ellison syndrome', ['Gastrinoma (tumor)', 'Huge gastrin levels', 'Severe ulcers + diarrhea'], 'Check a serum gastrin level', 0),
+  pudCx: listPic('Peptic ulcer complications', ['Bleeding', 'Perforation', 'Obstruction', 'Peritonitis']),
+  pudDx: flowPic('Peptic ulcer workup', ['EGD confirms it', 'Test for H. pylori', 'CBC + stool blood'], '', 0),
+};
+
+window.SET = {
+  title: 'Upper GI Disorders',
+  chapter: 'Chapter 9 · Gastrointestinal Function · Part 2',
+  pics: PICS,
+  audio: 'audio/ch9-2',
+  speak: {},
+  cards: [
+    { term: 'The 2 big underlying problems in GI disorders', def: 'Altered nutrition (trouble eating, digesting, or absorbing food) and impaired bowel elimination (constipation or diarrhea)', short: 'Altered nutrition and impaired elimination', pic: 'twoIssues' },
+    { term: 'Cleft lip vs. cleft palate', def: 'Cleft lip: the upper lip fails to fuse (males twice as likely). Cleft palate: the roof of the mouth fails to fuse (females twice as likely).', short: 'Lip vs. roof of mouth fails to fuse', pic: 'cleft' },
+    { term: 'Risk factors for cleft lip and palate', def: 'Genetic mutations, maternal diabetes, anticonvulsants, smoking, alcohol, and vitamin deficiencies. Clefts form in weeks 4 to 9 of pregnancy.', short: 'Genes, diabetes, anticonvulsants, smoking, alcohol', pic: 'cleftRisk' },
+    { term: 'Problems caused by a cleft', def: 'A weak suck and feeding problems, aspiration (nasal regurgitation), speech delay, ear infections, and hearing loss', short: 'Feeding, aspiration, speech, ear infections', pic: 'cleftProb' },
+    { term: 'When cleft lip and cleft palate are repaired', def: 'Cleft lip before 3 months of age; cleft palate by 18 months', short: 'Lip by 3 months; palate by 18 months', pic: 'cleft' },
+    { term: 'Esophageal atresia', say: 'uh-TREE-zhuh', def: 'The esophagus forms in two pieces that don\'t connect. Most cases (88%) also have a tracheoesophageal fistula; type C is the most common.', short: 'Esophagus in two unconnected pieces', pic: 'ea' },
+    { term: 'Signs of esophageal atresia', def: 'Right after birth: drooling, choking with feeds, and trouble breathing. A catheter can\'t reach the stomach. Before birth: polyhydramnios.', short: 'Drooling, choking, catheter won\'t pass', pic: 'eaSigns' },
+    { term: 'First treatment for esophageal atresia', def: 'Continuous suction of the upper pouch to prevent choking and pneumonia, then surgery (sometimes in stages)', short: 'Suction the pouch, then surgery', pic: 'eaTx' },
+    { term: 'Pyloric stenosis', say: 'pie-LOR-ik steh-NOH-sis', def: 'The pyloric muscle thickens and narrows so the stomach can\'t empty. It usually shows up at 3 to 6 weeks old.', short: 'Thick pylorus blocks stomach emptying', pic: 'pyloric' },
+    { term: 'Classic signs of pyloric stenosis', def: 'An olive-shaped mass in the right upper abdomen, projectile vomiting after feeds, hunger right after vomiting, visible stomach waves, and metabolic alkalosis', short: 'Olive mass, projectile vomiting, hungry', pic: 'pyloricSigns' },
+    { term: 'Risk factors for pyloric stenosis', def: 'A parent or sibling who had it, erythromycin in early infancy, male sex, and White race', short: 'Family history, erythromycin, male', pic: 'pyloricRisk' },
+    { term: 'Treatment for pyloric stenosis', def: 'Pyloromyotomy, surgery that cuts the thickened muscle open, after correcting fluids and electrolytes', short: 'Pyloromyotomy', pic: 'pyloricTx' },
+    { term: 'Oropharyngeal vs. esophageal dysphagia', say: 'dis-FAY-jee-uh', def: 'Oropharyngeal: trouble starting a swallow. Esophageal: food sticks after the swallow has started.', short: 'Can\'t start vs. sticks after starting', pic: 'dysType' },
+    { term: 'Causes of dysphagia', def: 'Blockages (stricture, tumor, diverticulum), nerve problems (stroke, Parkinson, ALS, MS), achalasia, muscle disease, and drugs like sedatives, NSAIDs, and potassium tablets', short: 'Blockage, nerve, muscle, or drug causes', pic: 'dysCause' },
+    { term: 'Achalasia', say: 'ak-uh-LAY-zhuh', def: 'The lower esophageal sphincter can\'t relax because its nerves are lost, so food can\'t pass into the stomach', short: 'LES won\'t relax', pic: 'achalasia' },
+    { term: 'Trouble swallowing solids only', def: 'Suggests a narrowing (stricture) of the esophagus. Trouble with both solids and liquids suggests a motility problem.', short: 'Points to a stricture', pic: 'solids' },
+    { term: 'Odynophagia', say: 'oh-din-oh-FAY-jee-uh', def: 'Painful swallowing', short: 'Painful swallowing', pic: 'odyno' },
+    { term: 'Tests for dysphagia', def: 'Barium swallow, esophageal manometry (measures pressures), EGD, and a videofluoroscopic swallow study', short: 'Barium swallow, manometry, EGD', pic: 'dysTests' },
+    { term: 'Care to prevent aspiration with dysphagia', def: 'Soft or pureed foods, thickened liquids, small bites, and no straws, plus treating the cause (dilation, myotomy, or Botox)', short: 'Soft food, thick liquids, no straws', pic: 'dysTx' },
+    { term: 'Hematemesis', say: 'hee-muh-TEM-uh-sis', def: 'Blood in vomit. Partly digested blood looks like coffee grounds and points to upper GI bleeding, such as an ulcer or varices.', short: 'Blood in vomit (coffee grounds)', pic: 'hema' },
+    { term: 'Yellow-green vomit vs. deep brown vomit', def: 'Yellow-green means bile, often from an obstruction. Deep brown can mean fecal content from a lower intestinal obstruction.', short: 'Bile vs. fecal (obstruction)', pic: 'vomitColor' },
+    { term: 'Causes of projectile vomiting', def: 'Intestinal obstruction, raised intracranial pressure, delayed stomach emptying, poisoning, and overeating. It is forceful and often comes without nausea.', short: 'Obstruction, raised ICP, poisoning', pic: 'projectile' },
+    { term: 'Acid-base problem from repeated vomiting', def: 'Metabolic alkalosis, from losing stomach acid. Treat with fluids, electrolytes, and antiemetics such as ondansetron.', short: 'Metabolic alkalosis', pic: 'vomitAB' },
+    { term: 'Sliding vs. paraesophageal hiatal hernia', def: 'Sliding (type I, about 95%): the GE junction slides above the diaphragm. Paraesophageal: the stomach fundus pushes up beside the esophagus and can strangulate.', short: 'GE junction slides up vs. fundus pushes up', pic: 'hiatal' },
+    { term: 'Hiatal hernia risk factors', def: 'Older age, smoking, obesity, pregnancy, and anything that raises belly or chest pressure, like coughing or straining', short: 'Age, smoking, obesity, pregnancy', pic: 'hiatalRisk' },
+    { term: 'What makes hiatal hernia symptoms worse', def: 'Lying down, big meals, bending over, and coughing. Standing up usually helps.', short: 'Lying down, big meals, bending', pic: 'hiatalSx' },
+    { term: 'Hiatal hernia treatment', def: 'Six small meals a day, sitting up after meals, head of bed up 6 inches, no alcohol or smoking, weight loss, acid reducers, and surgery (fundoplication) if needed', short: 'Small meals, head up, acid reducers', pic: 'hiatalTx' },
+    { term: 'GERD', def: 'Gastroesophageal reflux disease: stomach acid and pepsin back up into the esophagus because the lower esophageal sphincter is weak or relaxes', short: 'Acid backs up through a weak LES', pic: 'gerd' },
+    { term: 'Foods and drugs that weaken the LES', def: 'Chocolate, caffeine, peppermint, fatty or spicy food, citrus, tomatoes, soda, alcohol, smoking, nitrates, calcium channel blockers, and beta blockers', short: 'Chocolate, caffeine, mint, fat, alcohol', pic: 'gerdCause' },
+    { term: 'What decides how much reflux hurts the esophagus', def: 'How long the acid stays in contact and how acidic it is, not mainly extra acid production', short: 'Contact time and acidity', pic: 'gerdInjury' },
+    { term: 'GERD symptoms', def: 'Heartburn after meals or lying down, sour regurgitation, dry cough, hoarseness, a lump in the throat, and water brash. The chest pain can mimic angina.', short: 'Heartburn, regurgitation, cough', pic: 'gerdSx' },
+    { term: 'Barrett esophagus', def: 'After long-standing reflux, the esophagus lining changes from squamous to columnar cells. It is a precursor to esophageal adenocarcinoma.', short: 'Lining change that can lead to cancer', pic: 'barrett' },
+    { term: 'GERD red flags that need an EGD', def: 'Trouble or pain swallowing, GI bleeding, anemia, weight loss, persistent vomiting, new indigestion after 60, or a family history of GI cancer', short: 'Dysphagia, bleeding, weight loss, age 60+', pic: 'alarm' },
+    { term: 'GERD treatment', def: 'Small meals and none 2 to 3 hours before bed, head of bed up 6 inches, weight loss, avoiding triggers, PPIs or H2 blockers, and surgery (Nissen fundoplication) if needed', short: 'Lifestyle changes, PPIs, fundoplication', pic: 'gerdTx' },
+    { term: 'Top 3 causes of chronic cough', def: 'GERD, asthma, and postnasal drip (in a nonsmoker not taking an ACE inhibitor)', short: 'GERD, asthma, postnasal drip', pic: 'cough' },
+    { term: 'Acute vs. chronic gastritis', say: 'gas-TRY-tis', def: 'Acute: sudden, with neutrophils, from infection, NSAIDs, alcohol, or severe stress. Chronic: gradual, with lymphocytes and macrophages, and can end in atrophy.', short: 'Sudden with neutrophils vs. gradual', pic: 'gastritis' },
+    { term: 'Type A vs. type B chronic gastritis', def: 'Type A is autoimmune, hits the fundus and body, and causes B12 deficiency. Type B is from H. pylori, hits the antrum, and is more common.', short: 'Autoimmune vs. H. pylori', pic: 'typeAB' },
+    { term: 'Why type A gastritis causes B12 deficiency', def: 'Antibodies destroy parietal cells, so there is no intrinsic factor to absorb B12. The lack of acid also raises gastrin, which increases tumor risk.', short: 'Parietal cells lost, no intrinsic factor', pic: 'typeA' },
+    { term: 'How H. pylori survives stomach acid', say: 'heli-koh-BAK-ter pie-LOR-eye', def: 'It makes urease to neutralize the acid around it, swims with flagella, sticks to the lining, and hides in the mucus layer', short: 'Urease neutralizes acid around it', pic: 'hpylori' },
+    { term: 'Tests that show active H. pylori infection', def: 'The urea breath test and the stool antigen test. Blood antibodies can\'t tell an old infection from a current one.', short: 'Urea breath test, stool antigen', pic: 'hpTest' },
+    { term: 'H. pylori treatment', def: 'Two antibiotics plus a proton pump inhibitor or bismuth, for at least 1 week', short: '2 antibiotics + PPI or bismuth', pic: 'hpTx' },
+    { term: 'How NSAIDs damage the stomach', def: 'They block cyclooxygenase, which lowers the prostaglandins that protect the stomach lining', short: 'Block cyclooxygenase, lose protection', pic: 'nsaid' },
+    { term: 'The two main causes of peptic ulcers', def: 'H. pylori infection and NSAID use. Both become more likely with age.', short: 'H. pylori and NSAIDs', pic: 'pud' },
+    { term: 'Duodenal vs. gastric ulcer pain', def: 'Duodenal: food relieves the pain, and it often hurts at night. Gastric: food makes the pain worse.', short: 'Food helps duodenal, worsens gastric', pic: 'duoGas' },
+    { term: 'Duodenal vs. gastric ulcer facts', def: 'Duodenal: 80% of ulcers, ages 20 to 50, no cancer risk. Gastric: ages 50 to 70, less common but deadlier, often NSAID-related, and raises cancer risk.', short: 'Duodenal common; gastric deadlier', pic: 'duoGas' },
+    { term: 'Curling vs. Cushing stress ulcer', def: 'Curling ulcers follow major burns. Cushing ulcers follow head injuries. Bleeding is often the first sign, so at-risk patients get acid reducers.', short: 'Burns vs. head injury', pic: 'stress' },
+    { term: 'Zollinger-Ellison syndrome', def: 'A gastrin-making tumor (gastrinoma) drives huge acid output, causing severe ulcers and chronic diarrhea. Check a serum gastrin level.', short: 'Gastrinoma: severe ulcers + diarrhea', pic: 'zes' },
+    { term: 'Peptic ulcer complications', def: 'Bleeding, perforation, obstruction, and peritonitis', short: 'Bleeding, perforation, obstruction', pic: 'pudCx' },
+    { term: 'How a peptic ulcer is confirmed', def: 'EGD (upper endoscopy), plus H. pylori testing, a CBC for anemia, and a stool test for blood', short: 'EGD', pic: 'pudDx' },
+  ],
+};
+</script>
+<script src="study.js"></script>
+</body>
+</html>

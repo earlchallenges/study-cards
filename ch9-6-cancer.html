@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GI Cancers | Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<link rel="stylesheet" href="study.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="ch9-pics.js"></script>
+<script>
+const PICS = {
+  oralRisk: listPic('Oral cancer risks', ['Tobacco (~75% of cases)', 'Alcohol', 'Tobacco + alcohol: up to 100x', 'HPV', 'Areca nut chewing', 'Sun on the lips'], 'Men 2x more likely'),
+  plakia: twoPic('Precancer patches in the mouth', ['Leukoplakia', ['White patch']], ['Erythroplakia', ['Red patch']], 'Painless, lasting over 3 weeks: biopsy'),
+  oralSx: listPic('Oral cancer signs', ['Sore that won\'t heal', 'Bleeds easily', 'Lump or thickening', 'Trouble chewing or swallowing'], 'Spreads to neck lymph nodes; 5-year survival ~63%'),
+  esoType: twoPic('Two esophageal cancers', ['Squamous cell', ['Middle esophagus', 'Smoking, alcohol, HPV']], ['Adenocarcinoma', ['Lower esophagus', 'Barrett, GERD, obesity']]),
+  esoSx: listPic('Esophageal cancer signs', ['Worsening dysphagia', 'Weight loss', 'Painful swallowing', 'Hoarseness, cough', 'Iron-deficiency anemia'], 'Usually found late; poor prognosis'),
+  gastricRisk: listPic('Gastric cancer risks', ['Salted, smoked, pickled food', 'Nitrates and nitrites', 'H. pylori', 'Pernicious anemia', 'Atrophic gastritis', 'Smoking, alcohol']),
+  gastricSx: listPic('Gastric cancer signs', ['Early fullness', 'Epigastric pain', 'Weight loss', 'Melena or hematemesis', 'Belly mass']),
+  gastricTx: twoPic('Gastric cancer', ['Diagnose', ['Endoscopy + biopsy']], ['Cure', ['Gastrectomy (only cure)', 'Treat H. pylori', 'Give B12 and iron']], '5-year survival about 32%'),
+  liverCa: twoPic('Liver cancer', ['Most common', ['Metastasis from', 'breast, lung, GI']], ['Primary (HCC)', ['From cirrhosis or', 'hepatitis B or C']], '5-year survival about 20%'),
+  liverTx: listPic('Liver cancer treatments', ['Partial hepatectomy', 'Transplant if not spread', 'Chemo into the tumor', 'Cryoablation (freeze)', 'Radiofrequency (heat)', 'Alcohol injection']),
+  pancCa: listPic('Pancreatic cancer risks', ['Smoking', 'Obesity', 'Chronic pancreatitis', 'Long-standing diabetes', 'Family history', 'Non-O blood type']),
+  pancSx: listPic('Pancreatic cancer signs', ['Epigastric pain to the back', 'Painless jaundice, itching', 'Weight loss', 'New diabetes', 'Blood clots'], 'Found late: 5-year survival about 10%'),
+  whipple: factPic('Pancreatic cancer surgery', 'Whipple procedure', 'Pancreaticoduodenectomy; chemo and radiation are often palliative'),
+  crcRisk: listPic('Colorectal cancer risks', ['Red and processed meat', 'Low fiber, high fat', 'Older age, obesity', 'Smoking, alcohol, inactivity', 'IBD', 'FAP (100% risk)']),
+  crcPolyp: flowPic('How colon cancer starts', ['Adenomatous polyp', '10–15 years', 'Adenocarcinoma'], 'Remove polyps during colonoscopy', 0),
+  crcSx: listPic('Colorectal cancer signs', ['Blood in stool', 'Change in bowel habits', 'Pencil-thin stools', 'Iron-deficiency anemia', 'Weight loss', 'Obstruction']),
+  crcScreen: factPic('When to start colon cancer screening', 'Age 45 (ACS)', 'USPSTF said 50; earlier with risk factors. Caught early: ~90% 5-year survival.'),
+  crcTests: listPic('Colon screening intervals', ['FIT or gFOBT: every year', 'FIT-DNA (Cologuard): 3 years', 'Sigmoidoscopy: 5 years', 'CT colonography: 5 years', 'Colonoscopy: 10 years'], 'Colonoscopy is preferred', 4),
+  crcTx: listPic('Colorectal cancer treatment', ['Stage 0: remove at colonoscopy', 'Stages I–III: colon resection', 'Chemo and radiation by stage', 'Colostomy for low rectal tumors']),
+  rank: twoPic('Deadliest GI cancers (U.S.)', ['Colorectal', ['3rd most common', '3rd deadliest', '65% 5-year survival']], ['Pancreatic', ['4th leading cancer death', '10% 5-year survival']]),
+};
+
+window.SET = {
+  title: 'GI Cancers',
+  chapter: 'Chapter 9 · Gastrointestinal Function · Part 6',
+  pics: PICS,
+  audio: 'audio/ch9-6',
+  speak: {},
+  cards: [
+    { term: 'Oral cancer risk factors', def: 'Tobacco (about 75% of cases), alcohol (together up to 100 times the risk), HPV, chewing areca nut, poor dental hygiene, and sun on the lips. Men are twice as likely.', short: 'Tobacco, alcohol, HPV', pic: 'oralRisk' },
+    { term: 'Leukoplakia vs. erythroplakia', say: 'loo-koh-PLAY-kee-uh, eh-rith-roh-PLAY-kee-uh', def: 'Precancerous mouth patches: leukoplakia is white and erythroplakia is red. A painless patch lasting over 3 weeks needs a biopsy.', short: 'White vs. red precancer patch', pic: 'plakia' },
+    { term: 'Oral cancer signs', def: 'A sore that won\'t heal and bleeds easily, a lump or thickening, and trouble chewing or swallowing. It spreads to the neck lymph nodes; 5-year survival is about 63%.', short: 'Non-healing sore, lump', pic: 'oralSx' },
+    { term: 'Squamous cell vs. adenocarcinoma of the esophagus', def: 'Squamous cell: middle esophagus, linked to smoking, alcohol, and HPV. Adenocarcinoma: lower esophagus, linked to Barrett esophagus, GERD, and obesity.', short: 'Smoking/alcohol vs. Barrett', pic: 'esoType' },
+    { term: 'Esophageal cancer signs', def: 'Worsening dysphagia and weight loss, plus painful swallowing, hoarseness, cough, and iron-deficiency anemia. Usually found late, so prognosis is poor.', short: 'Worsening dysphagia, weight loss', pic: 'esoSx' },
+    { term: 'Gastric cancer risk factors', def: 'Salted, smoked, pickled, or cured foods (nitrates), H. pylori, pernicious anemia, atrophic gastritis, smoking, alcohol, and obesity', short: 'Salted and smoked food, H. pylori', pic: 'gastricRisk' },
+    { term: 'Gastric cancer signs', def: 'Often silent early. Later: early fullness, epigastric pain, weight loss, melena or hematemesis, and a belly mass.', short: 'Early fullness, weight loss', pic: 'gastricSx' },
+    { term: 'Gastric cancer diagnosis and cure', def: 'Endoscopy with biopsy confirms it. Gastrectomy is the only cure. Treat H. pylori and give B12 and iron. 5-year survival is about 32%.', short: 'Biopsy; gastrectomy', pic: 'gastricTx' },
+    { term: 'Primary vs. secondary liver cancer', def: 'Most liver cancer has spread from elsewhere (breast, lung, GI). Primary hepatocellular carcinoma usually comes from cirrhosis or hepatitis B or C.', short: 'Metastatic vs. from cirrhosis/hepatitis', pic: 'liverCa' },
+    { term: 'Liver cancer treatments', def: 'Partial hepatectomy, transplant if it hasn\'t spread, chemo injected into the tumor, cryoablation, radiofrequency ablation, and alcohol injection', short: 'Resection, transplant, ablation', pic: 'liverTx' },
+    { term: 'Pancreatic cancer risk factors', def: 'Smoking, obesity, chronic pancreatitis, long-standing diabetes, cirrhosis, alcohol, family history, and non-O blood type', short: 'Smoking, obesity, chronic pancreatitis', pic: 'pancCa' },
+    { term: 'Pancreatic cancer signs', def: 'Epigastric pain to the back, jaundice with itching, dark urine and clay stools, weight loss, new diabetes, and blood clots. Found late; 5-year survival is about 10%.', short: 'Pain to back, jaundice, new diabetes', pic: 'pancSx' },
+    { term: 'Whipple procedure', def: 'Pancreaticoduodenectomy, the main surgery for pancreatic cancer. Chemo and radiation are often palliative.', short: 'Surgery for pancreatic cancer', pic: 'whipple' },
+    { term: 'Colorectal cancer risk factors', def: 'Red and processed meat, low fiber, high fat, alcohol, older age, obesity, smoking, inactivity, IBD, and familial adenomatous polyposis (100% risk)', short: 'Red meat, low fiber, age, IBD', pic: 'crcRisk' },
+    { term: 'How colorectal cancer develops', def: 'Most start as an adenomatous polyp that turns into adenocarcinoma over 10 to 15 years, so removing polyps prevents it', short: 'From a polyp over 10–15 years', pic: 'crcPolyp' },
+    { term: 'Colorectal cancer signs', def: 'Blood in the stool, a change in bowel habits, pencil-thin stools, iron-deficiency anemia, weight loss, and obstruction', short: 'Blood, pencil stools, anemia', pic: 'crcSx' },
+    { term: 'When to start colorectal cancer screening', def: 'At 45 for average risk (American Cancer Society; USPSTF had said 50), earlier with risk factors. Found early, 5-year survival is about 90%.', short: 'Age 45 (average risk)', pic: 'crcScreen' },
+    { term: 'Colorectal screening test intervals', def: 'FIT or guaiac stool test every year, FIT-DNA (Cologuard) every 3 years, sigmoidoscopy or CT colonography every 5 years, colonoscopy every 10 years', short: 'FIT yearly, colonoscopy every 10 years', pic: 'crcTests' },
+    { term: 'Colorectal cancer treatment', def: 'Stage 0 can be removed during colonoscopy. Stages I to III need colon resection, plus chemo or radiation by stage, and sometimes a colostomy.', short: 'Colon resection; colostomy if low', pic: 'crcTx' },
+    { term: 'Most deadly GI cancers in the U.S.', def: 'Colorectal cancer is the 3rd most common and 3rd deadliest cancer (65% 5-year survival). Pancreatic cancer is the 4th leading cancer death (10% survival).', short: 'Colorectal and pancreatic', pic: 'rank' },
+  ],
+};
+</script>
+<script src="study.js"></script>
+</body>
+</html>
