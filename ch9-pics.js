@@ -76,3 +76,18 @@ const layersPic = hi => V(label(8, 18, 'GI wall, inside (food side) to outside',
     .map(([n, d], i) => `<rect x="8" y="${30 + i * 34}" width="284" height="30" rx="6" class="${i === hi ? 'ac' : i % 2 ? 'tis' : 'wh'}"/>` +
       `<text x="18" y="${49 + i * 34}" style="font-size:11.5px;font-weight:700${i === hi ? ';fill:var(--surface)' : ''}">${n}</text>` +
       `<text x="112" y="${49 + i * 34}" style="font-size:10.5px${i === hi ? ';fill:var(--surface)' : ''}">${d}</text>`).join(''));
+
+/* ---------- colorful art helpers (see ch9-art.css for the color and animation classes) ---------- */
+// white label pill with dark text, centered on (x, y); cls adds e.g. 'ans' so it hides on the front
+const tag = (x, y, t, cls = '', size = 10.5) => {
+  const w = String(t).length * size * 0.56 + 10, h = size + 7;
+  return `<g class="${cls}"><rect class="tagbg" x="${x - w / 2}" y="${y - h / 2}" width="${w}" height="${h}" rx="${h / 2}"/>` +
+    `<text class="tagtx" x="${x}" y="${y + size * 0.36}" text-anchor="middle" style="font-size:${size}px">${esc(t)}</text></g>`;
+};
+// orange "?" badge that only shows on the front (mystery) side
+const q = (x, y, r = 9) => `<g class="q"><circle class="qbg" cx="${x}" cy="${y}" r="${r}"/>` +
+  `<text class="qtx" x="${x}" y="${y + r * 0.42}" text-anchor="middle" style="font-size:${r * 1.25}px">?</text></g>`;
+// a label that is a "?" on the front and the real word on the back
+const qtag = (x, y, t, size = 10.5) => q(x, y) + tag(x, y, t, 'ans', size);
+// the art version of V: same 300 x 180 frame
+const ART = inner => `<svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;

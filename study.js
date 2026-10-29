@@ -95,7 +95,8 @@
     clearInterval(matchTimer);
     modes[m]();
   }
-  const picHTML = c => c.pic && PICS[c.pic] ? `<div class="pic" role="img" aria-label="${c.picLabel || 'Diagram'}">${PICS[c.pic]}</div>` : '';
+  // mystery = the front-of-card version: answer labels hidden (.ans), "?" badges shown (.q), no animation
+  const picHTML = (c, mystery) => c.pic && PICS[c.pic] ? `<div class="pic ${mystery ? 'mystery' : 'play'}" role="img" aria-label="${mystery ? 'Mystery diagram' : c.picLabel || 'Diagram'}">${PICS[c.pic]}</div>` : '';
   const progress = (n, total, label) => `<div class="bar"><div class="track"><div class="fill" style="width:${n / total * 100}%"></div></div><span>${label || `${n} / ${total}`}</span></div>`;
 
   /* ---------- Flashcards ---------- */
@@ -132,7 +133,7 @@
       <div class="card-top"><span class="tag">${flipped ? 'Definition' : 'Term'}</span>
         <span><button class="icon-btn" id="spk" aria-label="Read out loud">${ICON.sound}</button>
         <button class="icon-btn ${stars.has(i) ? 'on' : ''}" id="str" aria-label="Star this card">${stars.has(i) ? ICON.starOn : ICON.star}</button></span></div>
-      ${flipped ? `${picHTML(c)}<div class="def">${c.def}</div>` : `<div class="term">${c.term}</div>${c.say ? `<div class="say">${c.say}</div>` : ''}<div class="tap">Tap to flip</div>`}`;
+      ${flipped ? `${picHTML(c)}<div class="def">${c.def}</div>` : `${window.SET.mystery ? picHTML(c, true) : ''}<div class="term">${c.term}</div>${c.say ? `<div class="say">${c.say}</div>` : ''}<div class="tap">Tap to flip</div>`}`;
     $('counter').textContent = `${pos + 1} / ${order.length}`;
     $('spk').onclick = () => speakCard(i, flipped ? 'd' : 't');
     $('str').onclick = () => { stars.has(i) ? stars.delete(i) : stars.add(i); store.set(KEY + 'stars', [...stars]); drawCard(); };

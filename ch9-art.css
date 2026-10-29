@@ -1,0 +1,116 @@
+/* Chapter 9 art: bright organ colors, label tags, mystery (front) mode, and small looping animations.
+   Organ colors stay the same in light and dark themes so the anatomy always reads the same way. */
+:root {
+  --c-mouth: #ff8fab;
+  --c-esoph: #ff9e80;
+  --c-stomach: #ff6b8b;
+  --c-small: #ffa36c;
+  --c-large: #e8833a;
+  --c-liver: #b23a48;
+  --c-gall: #2fbf71;
+  --c-bile: #9be15d;
+  --c-pancreas: #ffcf56;
+  --c-spleen: #8e5ccf;
+  --c-blood: #e63946;
+  --c-vein: #3a86ff;
+  --c-lymph: #b8f2e6;
+  --c-nerve: #ffd60a;
+  --c-acid: #fff04d;
+  --c-mucus: #8ee3ef;
+  --c-water: #4cc9f0;
+  --c-food: #c68b59;
+  --c-fat: #ffe8a3;
+  --c-stool: #8d5b3a;
+  --c-germ: #9b5de5;
+  --c-immune: #00bbf9;
+  --c-good: #06d6a0;
+  --c-bad: #ef476f;
+  --c-warn: #ff9f1c;
+  --c-bone: #f1e3c8;
+  --c-skin: #f6c8a8;
+  --c-muscle: #d6455d;
+  --c-scar: #9c8f87;
+  --c-tumor: #6d2e46;
+  --art-line: #3b2430;
+  --tag-bg: #ffffff;
+  --tag-ink: #1d2238;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --art-line: #1a0f16; }
+}
+
+/* fills and strokes by color name: f-stomach, s-blood, ... */
+.pic .f-mouth { fill: var(--c-mouth); } .pic .f-esoph { fill: var(--c-esoph); } .pic .f-stomach { fill: var(--c-stomach); }
+.pic .f-small { fill: var(--c-small); } .pic .f-large { fill: var(--c-large); } .pic .f-liver { fill: var(--c-liver); }
+.pic .f-gall { fill: var(--c-gall); } .pic .f-bile { fill: var(--c-bile); } .pic .f-pancreas { fill: var(--c-pancreas); }
+.pic .f-spleen { fill: var(--c-spleen); } .pic .f-blood { fill: var(--c-blood); } .pic .f-vein { fill: var(--c-vein); }
+.pic .f-lymph { fill: var(--c-lymph); } .pic .f-nerve { fill: var(--c-nerve); } .pic .f-acid { fill: var(--c-acid); }
+.pic .f-mucus { fill: var(--c-mucus); } .pic .f-water { fill: var(--c-water); } .pic .f-food { fill: var(--c-food); }
+.pic .f-fat { fill: var(--c-fat); } .pic .f-stool { fill: var(--c-stool); } .pic .f-germ { fill: var(--c-germ); }
+.pic .f-immune { fill: var(--c-immune); } .pic .f-good { fill: var(--c-good); } .pic .f-bad { fill: var(--c-bad); }
+.pic .f-warn { fill: var(--c-warn); } .pic .f-bone { fill: var(--c-bone); } .pic .f-skin { fill: var(--c-skin); }
+.pic .f-muscle { fill: var(--c-muscle); } .pic .f-scar { fill: var(--c-scar); } .pic .f-tumor { fill: var(--c-tumor); }
+.pic .f-white { fill: #ffffff; }
+.pic [class*="f-"] { stroke: var(--art-line); stroke-width: 1.5; stroke-linejoin: round; }
+.pic .noline { stroke: none; }
+
+.pic [class*="s-"] { fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.pic .s-blood { stroke: var(--c-blood); } .pic .s-vein { stroke: var(--c-vein); } .pic .s-bile { stroke: var(--c-bile); }
+.pic .s-nerve { stroke: var(--c-nerve); } .pic .s-food { stroke: var(--c-food); } .pic .s-water { stroke: var(--c-water); }
+.pic .s-good { stroke: var(--c-good); } .pic .s-bad { stroke: var(--c-bad); } .pic .s-warn { stroke: var(--c-warn); }
+.pic .s-line { stroke: var(--art-line); } .pic .s-ink { stroke: var(--pic-ink); } .pic .s-acid { stroke: var(--c-acid); }
+.pic .s-germ { stroke: var(--c-germ); } .pic .s-immune { stroke: var(--c-immune); } .pic .s-muscle { stroke: var(--c-muscle); }
+.pic .s-white { stroke: #ffffff; } .pic .s-scar { stroke: var(--c-scar); }
+
+/* label tags: white pill + dark text, readable on any color and either theme */
+.pic .tagbg { fill: var(--tag-bg); stroke: var(--art-line); stroke-width: 1.2; }
+.pic text.tagtx { fill: var(--tag-ink); font-weight: 700; }
+.pic text.ink { fill: var(--pic-ink); }
+.pic text.on { fill: #ffffff; font-weight: 700; paint-order: stroke; stroke: rgba(0,0,0,.35); stroke-width: 2px; }
+
+/* mystery (front of the card): hide the answers, show the "?" badges, freeze motion */
+.pic .q { display: none; }
+.pic.mystery .q { display: inline; }
+.pic.mystery .ans { display: none; }
+.pic .qbg { fill: var(--c-warn); stroke: var(--art-line); stroke-width: 1.5; }
+.pic text.qtx { fill: #ffffff; font-weight: 800; }
+.pic.mystery * { animation: none !important; }
+.pic.mystery .ansmotion { display: none; }
+
+/* little animations (only on the back of the card) */
+.pic .a-flow { stroke-dasharray: 6 8; animation: a-flow 1.2s linear infinite; }
+.pic .a-flow-slow { stroke-dasharray: 5 9; animation: a-flow 2.4s linear infinite; }
+@keyframes a-flow { to { stroke-dashoffset: -28; } }
+.pic .a-pulse { transform-box: fill-box; transform-origin: center; animation: a-pulse 1.6s ease-in-out infinite; }
+@keyframes a-pulse { 50% { transform: scale(1.12); } }
+.pic .a-beat { transform-box: fill-box; transform-origin: center; animation: a-beat 1s ease-in-out infinite; }
+@keyframes a-beat { 15% { transform: scale(1.18); } 30% { transform: scale(1); } }
+.pic .a-squeeze { transform-box: fill-box; transform-origin: center; animation: a-squeeze 1.4s ease-in-out infinite; }
+@keyframes a-squeeze { 50% { transform: scaleY(.6); } }
+.pic .a-bob { animation: a-bob 1.8s ease-in-out infinite; }
+@keyframes a-bob { 50% { transform: translateY(-4px); } }
+.pic .a-sway { transform-box: fill-box; transform-origin: bottom center; animation: a-sway 2.2s ease-in-out infinite; }
+@keyframes a-sway { 25% { transform: rotate(-6deg); } 75% { transform: rotate(6deg); } }
+.pic .a-blink { animation: a-blink 1.4s ease-in-out infinite; }
+@keyframes a-blink { 50% { opacity: .25; } }
+.pic .a-spin { transform-box: fill-box; transform-origin: center; animation: a-spin 3s linear infinite; }
+@keyframes a-spin { to { transform: rotate(360deg); } }
+.pic .a-shake { transform-box: fill-box; transform-origin: center; animation: a-shake .5s ease-in-out infinite; }
+@keyframes a-shake { 25% { transform: translateX(-2px); } 75% { transform: translateX(2px); } }
+.pic .a-grow { transform-box: fill-box; transform-origin: center; animation: a-grow 2.4s ease-in-out infinite; }
+@keyframes a-grow { 0%, 100% { transform: scale(.7); } 50% { transform: scale(1.05); } }
+.pic .a-drop { animation: a-drop 1.6s ease-in infinite; }
+@keyframes a-drop { 0% { transform: translateY(-8px); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(14px); opacity: 0; } }
+.pic .a-rise { animation: a-rise 1.8s ease-out infinite; }
+@keyframes a-rise { 0% { transform: translateY(10px); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(-14px); opacity: 0; } }
+.pic .a-draw { stroke-dasharray: 400; animation: a-draw 2.6s ease-in-out infinite; }
+@keyframes a-draw { 0% { stroke-dashoffset: 400; } 60%, 100% { stroke-dashoffset: 0; } }
+/* pop in one after another: put style="--d:2" on each piece (0, 1, 2, ...) */
+.pic .a-pop { transform-box: fill-box; transform-origin: center; animation: a-pop .5s cubic-bezier(.3,1.6,.6,1) both; animation-delay: calc(var(--d, 0) * .25s); }
+@keyframes a-pop { from { transform: scale(0); opacity: 0; } }
+.pic .a-fadein { animation: a-fadein .6s ease-out both; animation-delay: calc(var(--d, 0) * .3s); }
+@keyframes a-fadein { from { opacity: 0; transform: translateY(6px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .pic *, .pic *::before { animation: none !important; }
+}
