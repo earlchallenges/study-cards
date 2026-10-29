@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Thyroid Drugs | Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<link rel="stylesheet" href="study.css">
+<link rel="stylesheet" href="ch9-art.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="ch9-pics.js"></script>
+<script>
+const PICS = {
+  axis: flowPic('Thyroid feedback loop', ['Hypothalamus: TRH', 'Pituitary: TSH', 'Thyroid: T4 + T3'], 'High T3/T4 shuts off TRH and TSH', 2),
+  t4t3: twoPic('T4 vs. T3', ['T4 (90%)', ['Prohormone', 'Long half-life']], ['T3 (10%)', ['Active form', 'Made from T4 in tissues']], 'Only the free (unbound) part is active'),
+  labsHypo: twoPic('Thyroid labs', ['Primary hypothyroid', ['TSH high', 'Free T4 low']], ['Primary hyperthyroid', ['TSH low', 'Free T4, T3 high']]),
+  subclin: twoPic('Subclinical thyroid disease', ['Subclinical hypo', ['TSH high', 'T4 normal']], ['Subclinical hyper', ['TSH low', 'T4, T3 normal']]),
+  tsh: factPic('Best screening test for hypothyroidism', 'TSH', 'Most sensitive; then check free T4 and T3'),
+  hashi: listPic('Causes of hypothyroidism', ['Hashimoto thyroiditis (anti-TPO)', 'Iodine deficiency', 'Radioactive iodine or surgery', 'Lithium, amiodarone', 'Postpartum thyroiditis']),
+  types: listPic('Hypothyroidism types', ['Primary: thyroid gland fails (most common)', 'Secondary: pituitary lacks TSH', 'Tertiary: hypothalamus lacks TRH']),
+  hypoSx: listPic('Hypothyroid symptoms', ['Fatigue, lethargy', 'Weight gain', 'Cold intolerance', 'Constipation', 'Dry skin, hair thinning', 'Bradycardia, depression']),
+  myx: listPic('Myxedema coma', ['Medical emergency', 'Low consciousness', 'Hypothermia without shivering', 'Hypotension, bradypnea', 'Hypoglycemia', 'IV levothyroxine']),
+  cretin: factPic('Untreated congenital hypothyroidism', 'Cretinism', 'Intellectual disability, short limbs, big tongue; screen newborns'),
+  levo: factPic('Drug of choice for hypothyroidism', 'Levothyroxine (T4)', 'Synthetic; 1.6 mcg/kg/day by ideal body weight'),
+  levoStart: twoPic('Starting levothyroxine', ['Healthy adult', ['Full dose', '1.6 mcg/kg/day']], ['Older or heart disease', ['Start low: 12.5–25 mcg', 'Go slow']]),
+  levoTake: listPic('Taking levothyroxine', ['Empty stomach, 1 h before breakfast', 'Same brand every time', 'Lifelong therapy', 'Never double a missed dose']),
+  levoDrugs: listPic('Drugs that block levothyroxine absorption', ['Iron', 'Calcium, antacids', 'PPIs', 'Sucralfate'], 'Separate them; rifampin, phenytoin speed its breakdown'),
+  levoTSH: factPic('After starting or changing levothyroxine', 'Recheck TSH in about 6 weeks', 'Then every 4–6 months, then yearly'),
+  levoAE: listPic('Too much levothyroxine', ['Palpitations, tachycardia', 'Anxiety, insomnia', 'Heat intolerance, sweating', 'Bone loss over time']),
+  bbw: listPic('Levothyroxine black box', ['Never for weight loss or obesity', 'Toxic with sympathomimetics'], 'Also: fix adrenal insufficiency first'),
+  adrenal: factPic('Thyroid hormone + untreated adrenal insufficiency', 'Can cause adrenal crisis', 'Start steroids before thyroid hormone'),
+  lio: listPic('Liothyronine (Cytomel, T3)', ['Fast onset, short half-life', 'Not ideal for maintenance', 'Option if symptoms persist on T4', 'IV form for myxedema coma']),
+  armour: listPic('Desiccated thyroid (Armour)', ['From pig thyroid (T4 + T3)', 'Option if symptoms persist', 'Avoid with pork allergy', 'Beers: avoid in older adults']),
+  pregHypo: factPic('Hypothyroidism in pregnancy', 'Raise dose about 50%', 'Continue therapy; watch TSH closely'),
+  hyperSx: listPic('Thyrotoxicosis signs', ['Palpitations, tachycardia', 'Tremor, anxiety', 'Heat intolerance, sweating', 'Weight loss, diarrhea', 'Goiter, exophthalmos']),
+  graves: flowPic('Graves disease', ['Autoantibodies (TSI)', 'Bind TSH receptors', 'Thyroid overproduces hormone'], 'Most common cause of hyperthyroidism', 1),
+  nospecs: listPic('Graves eye changes: NO SPECS', ['No signs', 'Only signs', 'Soft tissue swelling', 'Proptosis', 'Extraocular muscle weakness', 'Corneal, Sight loss']),
+  goiter: factPic('Toxic nodular goiter', 'Hot nodules make hormone', 'Iodine load (amiodarone, contrast) can trigger it'),
+  thyroiditis: twoPic('Thyroiditis', ['Subacute (viral)', ['Beta blocker for HR', 'NSAIDs for pain']], ['Painless (postpartum)', ['Beta blocker', 'for symptoms']]),
+  storm: listPic('Thyroid storm', ['HR 120–140, maybe AFib', 'Fever over 102°F', 'Profuse sweating', 'Confusion, agitation', 'Vomiting, jaundice'], 'Emergency: PTU + beta blocker'),
+  methimazole: factPic('Drug of choice for hyperthyroidism', 'Methimazole', 'Blocks thyroid hormone synthesis; once daily'),
+  ptu: listPic('PTU (propylthiouracil)', ['Blocks synthesis AND T4 → T3', 'Drug of choice in thyroid storm', 'First trimester of pregnancy', 'Higher liver toxicity risk']),
+  pregHyper: flowPic('Hyperthyroidism in pregnancy', ['1st trimester: PTU', '2nd–3rd trimester: methimazole'], 'Methimazole causes birth defects early on'),
+  thionAE: listPic('Thionamide side effects', ['Agranulocytosis', 'Hepatotoxicity', 'Rash, arthralgia', 'Lupus-like symptoms']),
+  thionMon: listPic('Thionamide monitoring', ['CBC with differential', 'LFTs', 'Free T4, T3 every 3–6 wks', 'Report fever or sore throat']),
+  rai: listPic('Radioactive iodine (RAI)', ['Destroys thyroid tissue', 'Stop methimazole 3–4 days before', 'Never in pregnancy', 'Lifelong thyroid hormone after']),
+  bb: factPic('Symptom relief in hyperthyroidism', 'Beta blockers', 'Control heart rate, tremor, anxiety'),
+  hyperTeach: listPic('Hyperthyroid teaching', ['Check HR daily: report under 50 or over 120', 'Report fever 101°F+', 'Avoid kelp, seaweed, iodine', 'Stop smoking (worse eye disease)']),
+};
+
+window.SET = {
+  title: 'Thyroid Drugs',
+  chapter: 'Pharmacology · Unit 12 · Ch 38 Thyroid',
+  pics: PICS,
+  mystery: true,
+  audio: 'audio/rx38',
+  speak: {},
+  cards: [
+    { term: 'Hypothalamic-pituitary-thyroid feedback loop', def: 'The hypothalamus releases TRH, which makes the pituitary release TSH, which makes the thyroid release T4 and T3. High T3 and T4 shut off TRH and TSH.', short: 'TRH → TSH → T4/T3', pic: 'axis' },
+    { term: 'T4 vs. T3', def: 'The thyroid releases mostly T4 (90%), a prohormone, which tissues convert to the active T3 (10%). Only the free, unbound hormone is active.', short: 'T4 prohormone; T3 active', pic: 't4t3' },
+    { term: 'Labs in primary hypothyroidism vs. hyperthyroidism', def: 'Primary hypothyroidism: TSH high, free T4 low. Primary hyperthyroidism: TSH low, free T4 and T3 high.', short: 'Hypo: TSH up; hyper: TSH down', pic: 'labsHypo' },
+    { term: 'Subclinical hypothyroidism vs. hyperthyroidism', def: 'Subclinical hypo: TSH high with normal T4. Subclinical hyper: TSH low with normal T4 and T3, often found from vague complaints.', short: 'Abnormal TSH, normal T4', pic: 'subclin' },
+    { term: 'Most sensitive test for hypothyroidism', def: 'TSH. If it is high, check free T4 and T3. Anti-TPO antibodies are high in Hashimoto thyroiditis.', short: 'TSH', pic: 'tsh' },
+    { term: 'Most common causes of hypothyroidism', def: 'Hashimoto thyroiditis (autoimmune) and iodine deficiency. Others: radioactive iodine or surgery, lithium, amiodarone, and postpartum thyroiditis.', short: 'Hashimoto, iodine deficiency', pic: 'hashi' },
+    { term: 'Primary vs. secondary vs. tertiary hypothyroidism', def: 'Primary: the thyroid gland fails (most common). Secondary: the pituitary doesn\'t make enough TSH. Tertiary: the hypothalamus doesn\'t make enough TRH.', short: 'Gland vs. pituitary vs. hypothalamus', pic: 'types' },
+    { term: 'Hypothyroidism symptoms', def: 'Fatigue, lethargy, weight gain, cold intolerance, constipation, dry skin, hair thinning, bradycardia, depression, and sometimes goiter', short: 'Tired, cold, weight gain', pic: 'hypoSx' },
+    { term: 'Myxedema coma', def: 'A medical emergency from severe hypothyroidism: low consciousness, hypothermia without shivering, hypotension, bradypnea, and hypoglycemia. Treat with IV levothyroxine.', short: 'Emergency; IV levothyroxine', pic: 'myx' },
+    { term: 'Untreated congenital hypothyroidism', def: 'Cretinism: intellectual disability, short limbs, and an enlarged tongue. Screen newborns with free T4 and TSH.', short: 'Cretinism', pic: 'cretin' },
+    { term: 'Drug of choice for hypothyroidism', def: 'Levothyroxine (synthetic T4, Synthroid), dosed at about 1.6 mcg/kg/day based on ideal body weight', short: 'Levothyroxine', pic: 'levo' },
+    { term: 'Starting levothyroxine in older adults or heart disease', def: 'Start low (12.5–25 mcg daily) and increase slowly, because too much can trigger angina or arrhythmias', short: 'Start low, go slow', pic: 'levoStart' },
+    { term: 'How to take levothyroxine', def: 'On an empty stomach, 1 hour before breakfast and other meds, at the same time daily. Stay on the same brand. It is lifelong. Never double a missed dose.', short: 'Empty stomach, 1 h before breakfast', pic: 'levoTake' },
+    { term: 'Drugs that interfere with levothyroxine', def: 'Iron, calcium, antacids, PPIs, and sucralfate block absorption. Rifampin, carbamazepine, phenytoin, and phenobarbital speed its breakdown.', short: 'Iron, calcium, antacids, PPIs', pic: 'levoDrugs' },
+    { term: 'When to recheck TSH on levothyroxine', def: 'About 6 weeks after starting or changing the dose (it has a long half-life), then every 4–6 months once stable, then yearly', short: 'About 6 weeks', pic: 'levoTSH' },
+    { term: 'Signs of too much levothyroxine', def: 'Hyperthyroid symptoms: palpitations, tachycardia, high BP, anxiety, insomnia, heat intolerance, sweating, and long-term bone loss', short: 'Palpitations, anxiety, heat intolerance', pic: 'levoAE' },
+    { term: 'Levothyroxine black box warning', def: 'Never use it for obesity or weight loss; large doses can be toxic, especially with sympathomimetic drugs', short: 'Not for weight loss', pic: 'bbw' },
+    { term: 'Thyroid hormone with untreated adrenal insufficiency', def: 'It can trigger an adrenal crisis, so adrenal insufficiency must be treated with steroids first', short: 'Adrenal crisis; give steroids first', pic: 'adrenal' },
+    { term: 'Liothyronine (Cytomel)', say: 'lie-oh-THY-roh-neen', def: 'Synthetic T3 with a fast onset and short half-life. Not ideal for maintenance; an option if symptoms persist on T4. IV form for myxedema coma.', short: 'Synthetic T3; fast, short-acting', pic: 'lio' },
+    { term: 'Desiccated thyroid (Armour Thyroid)', def: 'T4 plus T3 from pig thyroid, an option if symptoms persist on other drugs. Avoid with pork protein allergy; on the Beers list for older adults.', short: 'Pig thyroid T4 + T3', pic: 'armour' },
+    { term: 'Hypothyroidism in pregnancy', def: 'Continue therapy and usually raise the dose about 50%, with close TSH monitoring. Thyroid hormone is safe in breastfeeding.', short: 'Raise dose ~50%', pic: 'pregHypo' },
+    { term: 'Thyrotoxicosis signs', def: 'Palpitations, tachycardia, tremor, anxiety, heat intolerance, sweating, weight loss, diarrhea, hyperreflexia, goiter, and exophthalmos', short: 'Fast heart, tremor, heat intolerance', pic: 'hyperSx' },
+    { term: 'Graves disease', def: 'The most common cause of hyperthyroidism: autoantibodies bind TSH receptors and make the thyroid overproduce hormone', short: 'Autoantibodies stimulate the thyroid', pic: 'graves' },
+    { term: 'NO SPECS (Graves eye disease)', def: 'No signs, Only signs, Soft tissue swelling, Proptosis, Extraocular muscle weakness, Corneal involvement, Sight loss. Refer to an ophthalmologist.', short: 'Stages of Graves eye disease', pic: 'nospecs' },
+    { term: 'Toxic nodular goiter', def: 'One or more thyroid nodules make hormone on their own. An iodine load (amiodarone, contrast, lithium) can trigger it.', short: 'Hot nodules overproduce hormone', pic: 'goiter' },
+    { term: 'Treating thyroiditis', def: 'Subacute (viral): beta blockers for heart rate and NSAIDs for pain. Painless or postpartum: beta blockers for symptoms during the hyperthyroid phase.', short: 'Beta blockers ± NSAIDs', pic: 'thyroiditis' },
+    { term: 'Thyroid storm', def: 'A life-threatening emergency from untreated hyperthyroidism: HR 120–140 or AFib, fever over 102°F, heavy sweating, confusion, agitation, vomiting, and jaundice', short: 'Fever, tachycardia, confusion', pic: 'storm' },
+    { term: 'Drug of choice for hyperthyroidism', def: 'Methimazole, a thionamide that blocks thyroid hormone synthesis. It is the drug of choice in nonpregnant patients and in the 2nd and 3rd trimesters.', short: 'Methimazole', pic: 'methimazole' },
+    { term: 'Propylthiouracil (PTU)', def: 'A thionamide that blocks hormone synthesis and the conversion of T4 to T3. Drug of choice in thyroid storm and the first trimester. Higher risk of liver toxicity.', short: 'Thyroid storm, 1st trimester', pic: 'ptu' },
+    { term: 'Hyperthyroidism treatment in pregnancy', def: 'PTU in the first trimester, then switch to methimazole for the second and third trimesters. Methimazole can cause birth defects early on.', short: 'PTU first, then methimazole', pic: 'pregHyper' },
+    { term: 'Thionamide side effects', def: 'Agranulocytosis (bone marrow suppression), hepatotoxicity, rash, arthralgia, and lupus-like symptoms', short: 'Agranulocytosis, liver toxicity', pic: 'thionAE' },
+    { term: 'Thionamide monitoring', def: 'CBC with differential, LFTs, and free T4 and T3 every 3–6 weeks until normal. Teach patients to report fever or sore throat right away.', short: 'CBC, LFTs; report sore throat', pic: 'thionMon' },
+    { term: 'Radioactive iodine (RAI)', def: 'Destroys thyroid tissue to treat hyperthyroidism. Stop methimazole 3–4 days before. Never in pregnancy. Most patients need lifelong thyroid hormone afterward.', short: 'Destroys thyroid; not in pregnancy', pic: 'rai' },
+    { term: 'Drug class for symptom relief in hyperthyroidism', def: 'Beta blockers, which control heart rate, tremor, and anxiety while other treatment takes effect', short: 'Beta blockers', pic: 'bb' },
+    { term: 'Hyperthyroidism patient teaching', def: 'Check heart rate daily and report under 50 or over 120, report fever of 101°F or more, avoid kelp and other iodine sources, and stop smoking (it worsens eye disease)', short: 'Daily HR; report fever', pic: 'hyperTeach' },
+  ],
+};
+</script>
+<script src="art/rx38.js"></script>
+<script src="study.js"></script>
+</body>
+</html>

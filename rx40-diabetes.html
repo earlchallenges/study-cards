@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Diabetes Drugs | Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<link rel="stylesheet" href="study.css">
+<link rel="stylesheet" href="ch9-art.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="ch9-pics.js"></script>
+<script>
+const PICS = {
+  dx: listPic('Diabetes diagnosis', ['A1c 6.5% or higher', 'Fasting glucose 126+', 'OGTT 2-hour 200+', 'Random 200+ with symptoms']),
+  prediab: listPic('Prediabetes', ['A1c 5.7–6.4%', 'Fasting 100–125', 'OGTT 140–199']),
+  t1t2: twoPic('Type 1 vs. type 2', ['Type 1', ['Autoimmune beta-cell loss', 'No insulin made', 'Needs insulin for life']], ['Type 2', ['Insulin resistance', '90–95% of cases', 'Lifestyle + oral drugs first']]),
+  t1sx: listPic('Type 1 classic signs', ['Polyuria', 'Polydipsia', 'Polyphagia', 'Weight loss', 'Blurred vision, fatigue']),
+  t2risk: listPic('Type 2 risk factors', ['Obesity, belly fat', 'Inactivity', 'Older age', 'Past gestational diabetes', 'HTN, high lipids', 'Family history, ethnicity']),
+  islets: twoPic('Pancreatic islet cells', ['Beta cells', ['Insulin', 'Lower glucose']], ['Alpha cells', ['Glucagon', 'Raise glucose']]),
+  metformin: factPic('First-line drug for type 2 diabetes', 'Metformin', 'Lowers liver glucose output; cheap, safe, effective'),
+  metAE: listPic('Metformin side effects', ['GI: diarrhea most common', 'Low B12 over time', 'Mild weight loss', 'Rarely causes hypoglycemia', 'Black box: lactic acidosis']),
+  metNo: listPic('Stop or avoid metformin', ['eGFR under 30', 'Hold for iodinated contrast', 'Metabolic/lactic acidosis', 'Liver disease, alcoholism, HF', 'Type 1 or DKA']),
+  sglt2: flowPic('SGLT2 inhibitors (-gliflozin)', ['Block glucose reabsorption in kidney', 'Glucose leaves in urine', 'A1c, BP, weight down'], 'Heart and kidney protection', 0),
+  sglt2AE: listPic('SGLT2 inhibitor cautions', ['Genital yeast, UTIs', 'Volume depletion', 'Euglycemic DKA', 'Fournier gangrene', 'Canagliflozin: amputation box']),
+  dpp4: listPic('DPP-4 inhibitors (-gliptin)', ['Boost incretins (GLP-1, GIP)', 'Weight neutral', 'Low hypoglycemia risk', 'Good for older adults', 'Linagliptin: no renal dosing']),
+  su: listPic('Sulfonylureas (glipizide, glyburide, glimepiride)', ['Make beta cells release insulin', 'Main risk: hypoglycemia', 'Weight gain', 'Need working beta cells']),
+  gly: twoPic('Which sulfonylurea', ['Glipizide', ['Preferred in kidney disease']], ['Glyburide', ['Most hypoglycemia', 'Avoid in older adults']]),
+  tzd: listPic('Pioglitazone (TZD)', ['Improves insulin sensitivity', 'Slow onset', 'Edema, weight gain', 'Black box: heart failure', 'Bladder cancer risk']),
+  glp1: listPic('GLP-1 receptor agonists', ['More insulin, less glucagon', 'Slow stomach emptying', 'Weight loss', 'Preferred injectable before insulin', 'Heart benefit: liraglutide, semaglutide, dulaglutide']),
+  glp1AE: listPic('GLP-1 RA cautions', ['Nausea, vomiting (most common)', 'Pancreatitis, gallbladder disease', 'Boxed: medullary thyroid cancer', 'No MEN2 history']),
+  tirz: factPic('Tirzepatide (Mounjaro)', 'Dual GIP + GLP-1 agonist', 'Weekly shot; same thyroid cancer warning'),
+  pram: listPic('Pramlintide (amylin mimetic)', ['Mealtime shot', 'Type 1 and type 2 on insulin', 'Nausea', 'No gastroparesis', 'Severe hypoglycemia with insulin']),
+  insulin: listPic('Insulin types', ['Rapid: lispro, aspart, glulisine', 'Short: regular', 'Intermediate: NPH', 'Long: glargine, detemir, degludec']),
+  rapid: twoPic('Insulin timing', ['Rapid-acting', ['Onset 5–15 min', 'Peak 30–90 min', 'Lasts 3–4 h']], ['Regular', ['Onset 30–60 min', 'Peak 2–4 h', 'Lasts 6–8 h']]),
+  nph: factPic('NPH insulin', 'Peaks 6–10 hours', 'Intermediate-acting; lasts 10–16 hours'),
+  glargine: factPic('Insulin glargine', 'No peak, about 24 hours', 'Basal insulin; onset about 2 hours'),
+  insAE: listPic('Insulin side effects', ['Hypoglycemia (most common)', 'Weight gain', 'Low potassium', 'Lipohypertrophy: rotate sites']),
+  hypo: listPic('Hypoglycemia signs', ['Shaky, sweaty, anxious', 'Fast heartbeat', 'Hunger', 'Confusion, dizziness', 'Blurred vision', 'Tingling lips']),
+  hyper: listPic('Hyperglycemia signs', ['High blood sugar', 'Sugar in urine', 'Frequent urination', 'Thirst']),
+  older: factPic('Older adults (65+)', 'Less strict A1c goal', 'Avoid hypoglycemia; frequent checks'),
+  teach: listPic('Diabetes teaching', ['Wear medical alert ID', 'Know low and high blood sugar signs', 'Call 911 if not responding', 'Monitor glucose, A1c']),
+};
+
+window.SET = {
+  title: 'Diabetes Drugs',
+  chapter: 'Pharmacology · Unit 12 · Ch 40 Diabetes Mellitus',
+  pics: PICS,
+  mystery: true,
+  audio: 'audio/rx40',
+  speak: {},
+  cards: [
+    { term: 'Diagnostic criteria for diabetes', def: 'A1c 6.5% or higher, fasting plasma glucose 126 mg/dL or higher, 2-hour OGTT 200 or higher, or a random glucose of 200 or higher with symptoms', short: 'A1c 6.5+, fasting 126+', pic: 'dx' },
+    { term: 'Prediabetes criteria', def: 'A1c 5.7–6.4%, fasting glucose 100–125 mg/dL, or 2-hour OGTT 140–199', short: 'A1c 5.7–6.4%', pic: 'prediab' },
+    { term: 'Type 1 vs. type 2 diabetes', def: 'Type 1: autoimmune destruction of beta cells, no insulin made, needs insulin for life. Type 2 (90–95% of cases): insulin resistance with declining insulin secretion.', short: 'Autoimmune vs. insulin resistance', pic: 't1t2' },
+    { term: 'Classic signs of type 1 diabetes', def: 'Polyuria, polydipsia, polyphagia, unexplained weight loss, blurred vision, and fatigue', short: 'Polyuria, polydipsia, polyphagia', pic: 't1sx' },
+    { term: 'Type 2 diabetes risk factors', def: 'Obesity and belly fat, inactivity, older age, past gestational diabetes, hypertension, high lipids, family history, and certain ethnic groups', short: 'Obesity, inactivity, age', pic: 't2risk' },
+    { term: 'Beta cells vs. alpha cells', def: 'Beta cells in the islets of Langerhans make insulin (lowers glucose). Alpha cells make glucagon (raises glucose).', short: 'Insulin vs. glucagon', pic: 'islets' },
+    { term: 'First-line drug for type 2 diabetes', def: 'Metformin, a biguanide that mainly lowers glucose production by the liver. Chosen for its effectiveness, safety, and low cost.', short: 'Metformin', pic: 'metformin' },
+    { term: 'Metformin side effects', def: 'GI upset (diarrhea most common; less with extended-release), low B12 over time, and mild weight loss. Rarely causes hypoglycemia alone. Black box: lactic acidosis.', short: 'Diarrhea, low B12, lactic acidosis', pic: 'metAE' },
+    { term: 'When to stop or avoid metformin', def: 'eGFR under 30, before iodinated contrast (if eGFR 30–60, liver disease, alcoholism, or HF), metabolic or lactic acidosis, type 1 diabetes, and DKA', short: 'eGFR under 30, contrast', pic: 'metNo' },
+    { term: 'SGLT2 inhibitors (dapagliflozin, empagliflozin, canagliflozin)', def: 'Block glucose reabsorption in the kidney so it leaves in the urine. Lower A1c, BP, and weight, protect the heart and kidneys, and rarely cause hypoglycemia. Second- or third-line.', short: 'Glucose out in urine; heart/kidney benefit', pic: 'sglt2' },
+    { term: 'SGLT2 inhibitor cautions', def: 'Genital yeast infections, UTIs, volume depletion, euglycemic DKA, and Fournier gangrene. Canagliflozin has a black box for leg amputations. Not for ESKD or dialysis.', short: 'Yeast, UTIs, DKA', pic: 'sglt2AE' },
+    { term: 'DPP-4 inhibitors (sitagliptin, linagliptin, saxagliptin, alogliptin)', def: 'Boost incretin hormones (GLP-1, GIP). Weight neutral with little hypoglycemia; good for older adults. Linagliptin needs no kidney dose adjustment.', short: 'Weight neutral; -gliptins', pic: 'dpp4' },
+    { term: 'How sulfonylureas work', def: 'They make beta cells release more insulin (glipizide, glyburide, glimepiride). The main risk is hypoglycemia, plus weight gain. They need working beta cells.', short: 'Make beta cells release insulin', pic: 'su' },
+    { term: 'Glipizide vs. glyburide', def: 'Glipizide is the preferred sulfonylurea in kidney disease. Glyburide causes the most hypoglycemia and should be avoided in older adults.', short: 'Glipizide in CKD; avoid glyburide in elderly', pic: 'gly' },
+    { term: 'Pioglitazone (Actos)', say: 'pie-oh-GLIT-uh-zone', def: 'A TZD that improves insulin sensitivity, with slow onset. Causes edema and weight gain; black box for heart failure (avoid NYHA III–IV); bladder cancer risk.', short: 'Insulin sensitizer; heart failure warning', pic: 'tzd' },
+    { term: 'GLP-1 receptor agonists', def: 'Exenatide, liraglutide, dulaglutide, semaglutide: raise insulin, lower glucagon, slow stomach emptying, and cause weight loss. Preferred injectable before insulin; some cut cardiovascular deaths.', short: 'Weight loss; preferred injectable', pic: 'glp1' },
+    { term: 'GLP-1 receptor agonist cautions', def: 'Nausea and vomiting are most common, plus pancreatitis and gallbladder disease. Contraindicated with a personal or family history of medullary thyroid cancer or MEN2.', short: 'Nausea; thyroid cancer warning', pic: 'glp1AE' },
+    { term: 'Tirzepatide (Mounjaro)', def: 'A once-weekly dual GIP and GLP-1 receptor agonist for type 2 diabetes, with the same thyroid cancer and MEN2 contraindications', short: 'Dual GIP + GLP-1 agonist', pic: 'tirz' },
+    { term: 'Pramlintide (Symlin)', def: 'An amylin mimetic shot given before meals with insulin in type 1 or type 2. Causes nausea; avoid in gastroparesis or hypoglycemia unawareness. Raises severe hypoglycemia risk with insulin.', short: 'Amylin mimetic at meals', pic: 'pram' },
+    { term: 'Insulin types by duration', def: 'Rapid: lispro, aspart, glulisine. Short: regular. Intermediate: NPH. Long: glargine, detemir, degludec.', short: 'Rapid, regular, NPH, glargine', pic: 'insulin' },
+    { term: 'Rapid-acting vs. regular insulin', def: 'Rapid-acting starts in 5–15 minutes, peaks at 30–90 minutes, and lasts 3–4 hours. Regular starts in 30–60 minutes, peaks at 2–4 hours, and lasts 6–8 hours.', short: '5–15 min vs. 30–60 min onset', pic: 'rapid' },
+    { term: 'NPH insulin peak', def: 'NPH is intermediate-acting: onset 2–4 hours, peak 6–10 hours, lasting 10–16 hours', short: 'Peaks 6–10 hours', pic: 'nph' },
+    { term: 'Insulin glargine', def: 'A long-acting basal insulin with no peak, onset about 2 hours, lasting about 24 hours', short: 'No peak; about 24 hours', pic: 'glargine' },
+    { term: 'Insulin side effects', def: 'Hypoglycemia (most common), weight gain, low potassium, and lipohypertrophy at overused sites, so rotate injection sites', short: 'Hypoglycemia, weight gain', pic: 'insAE' },
+    { term: 'Signs of hypoglycemia', def: 'Shakiness, sweating, anxiety, fast heartbeat, hunger, confusion, dizziness, blurred vision, and tingling lips', short: 'Shaky, sweaty, confused', pic: 'hypo' },
+    { term: 'Signs of hyperglycemia', def: 'High blood sugar, sugar in the urine, frequent urination, and increased thirst', short: 'Thirst, frequent urination', pic: 'hyper' },
+    { term: 'Diabetes goals in older adults', def: 'A less strict A1c goal, with frequent A1c and glucose checks, because avoiding hypoglycemia is a priority', short: 'Less strict A1c goal', pic: 'older' },
+    { term: 'Diabetes patient teaching', def: 'Wear medical alert ID, know the signs of low and high blood sugar, call 911 if lows or highs don\'t respond to treatment, and monitor glucose and A1c', short: 'Alert ID; know low/high signs', pic: 'teach' },
+  ],
+};
+</script>
+<script src="art/rx40.js"></script>
+<script src="study.js"></script>
+</body>
+</html>

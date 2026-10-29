@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Adrenal Drugs | Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<link rel="stylesheet" href="study.css">
+<link rel="stylesheet" href="ch9-art.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="ch9-pics.js"></script>
+<script>
+const PICS = {
+  classes: twoPic('Corticosteroids: 2 classes', ['Glucocorticoids', ['Cortisol-like', 'Anti-inflammatory']], ['Mineralocorticoids', ['Aldosterone-like', 'Hold Na, lose K']]),
+  zones: listPic('Adrenal cortex layers (outside → in)', ['Zona glomerulosa: aldosterone', 'Zona fasciculata: cortisol', 'Zona reticularis: androgens'], 'GFR: salt, sugar, sex'),
+  rhythm: factPic('Cortisol peaks 2–8 a.m.', 'Give steroids in the morning', 'Mimics the body\'s natural rhythm'),
+  insuff: listPic('Adrenal insufficiency types', ['Primary: adrenal gland damaged', 'Secondary: low ACTH (pituitary)', 'Tertiary: hypothalamus problem'], 'Primary = cortisol AND aldosterone low'),
+  insuffSx: listPic('Adrenal insufficiency signs', ['Weakness, fatigue', 'Salt craving, weight loss', 'Hypotension', 'Low Na, high K', 'Hypoglycemia', 'Hyperpigmentation']),
+  insuffDx: twoPic('Diagnosing adrenal insufficiency', ['Morning labs', ['Serum cortisol (low)', 'ACTH']], ['ACTH tells type', ['High: primary', 'Low/normal: secondary']]),
+  addison: factPic('Addison disease', 'Lifelong glucocorticoid + mineralocorticoid', 'Usually autoimmune; hydrocortisone + fludrocortisone'),
+  crisis: flowPic('Adrenal crisis', ['Steroids stopped suddenly', 'HPA axis suppressed', 'Shock, collapse'], 'Emergency: IV hydrocortisone + fluids', 2),
+  taper: factPic('Steroids over 3 weeks (or 5+ days)', 'Taper, never stop suddenly', 'HPA axis is suppressed'),
+  cushing: listPic('Cushing syndrome', ['Moon face, buffalo hump', 'Truncal obesity, thin limbs', 'Purple striae, easy bruising', 'High glucose, high BP', 'Most often from steroid drugs']),
+  conn: listPic('Conn syndrome (high aldosterone)', ['Hypertension', 'Often low potassium', 'Adenoma or hyperplasia', 'Treat: spironolactone or surgery']),
+  hydro: listPic('Hydrocortisone', ['Drug of choice for adrenal insufficiency', 'Gluco + mineralocorticoid effects', 'IV for adrenal crisis', 'Split doses: bigger in the morning']),
+  potency: listPic('Glucocorticoid potency', ['Short: cortisone, hydrocortisone', 'Intermediate: prednisone, methylprednisolone', 'Long: dexamethasone, betamethasone'], 'Dexamethasone ~30x cortisol'),
+  noMineral: factPic('Prednisone, dexamethasone, etc.', 'Little or no mineralocorticoid effect', 'For adrenal insufficiency, add fludrocortisone'),
+  fludro: listPic('Fludrocortisone (Florinef)', ['The only mineralocorticoid used', 'Addison disease, CAH', 'Given with hydrocortisone', 'Watch BP, edema, weight']),
+  dexa: listPic('Dexamethasone uses', ['Cerebral edema', 'Airway edema', 'Chemo nausea', 'Dexamethasone suppression test']),
+  beta: factPic('Betamethasone in preterm labor', 'Matures fetal lungs', 'Given 24–34 weeks if delivery expected within 7 days'),
+  ae: listPic('Glucocorticoid side effects', ['High glucose, weight gain', 'Infection risk', 'Osteoporosis, muscle wasting', 'GI ulcers', 'Mood changes, insomnia', 'Cataracts, glaucoma']),
+  diabetes: factPic('Most common cause of drug-induced diabetes', 'Corticosteroids', 'Watch glucose, especially after meals'),
+  no: listPic('Steroid contraindications', ['Live vaccines', 'Systemic fungal infection', 'Uncontrolled diabetes or HTN', 'Active infection not treated']),
+  cyp: twoPic('Drugs that change steroid levels', ['Lower levels (inducers)', ['Phenytoin, rifampin', 'Carbamazepine', 'Barbiturates']], ['Raise levels (inhibitors)', ['Ketoconazole', 'Ritonavir', 'Macrolides']]),
+  beers: factPic('Steroids in older adults (Beers)', 'Delirium, GI bleeding', 'Lowest dose, shortest time'),
+  monitor: listPic('Steroid monitoring', ['Glucose, potassium', 'BP, weight', 'Bone density', 'Eye exams', 'Growth in children']),
+  teach: listPic('Steroid teaching', ['Take in the morning with food', 'Never stop suddenly', 'Report infection signs', 'Watch for Cushing signs']),
+};
+
+window.SET = {
+  title: 'Adrenal Drugs',
+  chapter: 'Pharmacology · Unit 12 · Ch 39 Adrenal Gland',
+  pics: PICS,
+  mystery: true,
+  audio: 'audio/rx39',
+  speak: {},
+  cards: [
+    { term: 'The 2 classes of corticosteroids', def: 'Glucocorticoids (like cortisol: anti-inflammatory and metabolic effects) and mineralocorticoids (like aldosterone: hold sodium and water, lose potassium)', short: 'Glucocorticoids and mineralocorticoids', pic: 'classes' },
+    { term: 'Adrenal cortex layers and what they make', def: 'From outside in: zona glomerulosa makes aldosterone, zona fasciculata makes cortisol, zona reticularis makes androgens ("salt, sugar, sex")', short: 'Aldosterone, cortisol, androgens', pic: 'zones' },
+    { term: 'Best time of day to give glucocorticoids', def: 'In the morning, because natural cortisol peaks between 2 and 8 a.m. Morning dosing mimics the body\'s rhythm.', short: 'Morning', pic: 'rhythm' },
+    { term: 'Primary vs. secondary adrenal insufficiency', def: 'Primary: the adrenal gland is damaged, so both cortisol and aldosterone are low. Secondary: low ACTH from the pituitary (often from steroid use), so mainly cortisol is low.', short: 'Gland damage vs. low ACTH', pic: 'insuff' },
+    { term: 'Signs of adrenal insufficiency', def: 'Weakness, fatigue, salt craving, weight loss, hypotension, low sodium, high potassium, hypoglycemia, nausea, and patchy hyperpigmentation', short: 'Weak, salt craving, low BP, high K', pic: 'insuffSx' },
+    { term: 'Diagnosing adrenal insufficiency', def: 'Morning serum cortisol (low) and ACTH. A high ACTH points to primary; low or normal ACTH points to secondary.', short: 'Morning cortisol and ACTH', pic: 'insuffDx' },
+    { term: 'Addison disease treatment', def: 'Lifelong replacement with a glucocorticoid (hydrocortisone) plus a mineralocorticoid (fludrocortisone). Usually autoimmune.', short: 'Hydrocortisone + fludrocortisone', pic: 'addison' },
+    { term: 'Acute adrenal insufficiency (adrenal crisis)', def: 'An emergency, often from stopping steroids suddenly after the HPA axis is suppressed. It can cause shock and collapse. Treat with IV hydrocortisone and fluids.', short: 'Emergency; IV hydrocortisone + fluids', pic: 'crisis' },
+    { term: 'Why steroids must be tapered', def: 'Taking steroids for more than about 3 weeks (sometimes only 5–10 days) suppresses the HPA axis, so stopping suddenly can cause adrenal crisis', short: 'HPA axis is suppressed', pic: 'taper' },
+    { term: 'Cushing syndrome', def: 'Too much cortisol, most often from steroid drugs: moon face, buffalo hump, truncal obesity, thin limbs, purple striae, easy bruising, high glucose, and high BP', short: 'Moon face, buffalo hump, striae', pic: 'cushing' },
+    { term: 'Conn syndrome', def: 'Primary aldosteronism from an adenoma or hyperplasia: hypertension, often with low potassium. Treat with spironolactone or surgery.', short: 'High aldosterone; treat spironolactone', pic: 'conn' },
+    { term: 'Drug of choice for adrenal insufficiency', def: 'Hydrocortisone (or cortisone), because it has both glucocorticoid and mineralocorticoid activity. IV hydrocortisone is used for adrenal crisis.', short: 'Hydrocortisone', pic: 'hydro' },
+    { term: 'Short vs. intermediate vs. long-acting glucocorticoids', def: 'Short: cortisone, hydrocortisone. Intermediate: prednisone, prednisolone, methylprednisolone, triamcinolone. Long: dexamethasone and betamethasone (about 30 times cortisol).', short: 'Hydrocortisone, prednisone, dexamethasone', pic: 'potency' },
+    { term: 'Using prednisone or dexamethasone for adrenal insufficiency', def: 'They have little or no mineralocorticoid effect, so fludrocortisone must be added', short: 'Add fludrocortisone', pic: 'noMineral' },
+    { term: 'Fludrocortisone (Florinef)', def: 'The only mineralocorticoid in use. Used for Addison disease and CAH with a glucocorticoid. Monitor BP, weight, and edema; lower the dose if hypertension develops.', short: 'The only mineralocorticoid', pic: 'fludro' },
+    { term: 'Dexamethasone uses', def: 'Cerebral edema, airway edema, chemotherapy nausea and vomiting, autoimmune and skin disease, and the dexamethasone suppression test', short: 'Cerebral edema, chemo nausea', pic: 'dexa' },
+    { term: 'Betamethasone in pregnancy', def: 'Given at 24–34 weeks when preterm delivery is expected within 7 days, to mature the baby\'s lungs and prevent respiratory distress', short: 'Matures fetal lungs', pic: 'beta' },
+    { term: 'Glucocorticoid side effects', def: 'High glucose, weight gain, Cushing features, infection risk, osteoporosis, muscle wasting, GI ulcers, mood changes, insomnia, cataracts, glaucoma, fluid retention, and low potassium', short: 'High glucose, infection, bone loss', pic: 'ae' },
+    { term: 'Most common cause of drug-induced diabetes', def: 'Corticosteroids. They raise glucose (especially after meals) and insulin needs, so monitor glucose often.', short: 'Corticosteroids', pic: 'diabetes' },
+    { term: 'Corticosteroid contraindications', def: 'Live vaccines (at immunosuppressive doses), systemic fungal infection, and uncontrolled diabetes, hypertension, or infection', short: 'Live vaccines, fungal infection', pic: 'no' },
+    { term: 'Drugs that change corticosteroid levels', def: 'CYP3A4 inducers (phenytoin, rifampin, carbamazepine, barbiturates) lower steroid levels. Inhibitors (ketoconazole, ritonavir, macrolides) raise them.', short: 'Inducers lower; inhibitors raise', pic: 'cyp' },
+    { term: 'Corticosteroids in older adults (Beers)', def: 'Avoid when possible because of delirium and GI bleeding risk (especially with NSAIDs). Use the lowest dose for the shortest time.', short: 'Delirium, GI bleed', pic: 'beers' },
+    { term: 'Corticosteroid monitoring', def: 'Glucose, potassium, BP, weight, bone density, eye exams, and growth in children', short: 'Glucose, K, BP, bones, eyes', pic: 'monitor' },
+    { term: 'Corticosteroid patient teaching', def: 'Take in the morning with food, never stop suddenly, report signs of infection, and watch for Cushing features', short: 'Morning dose; don\'t stop suddenly', pic: 'teach' },
+  ],
+};
+</script>
+<script src="art/rx39.js"></script>
+<script src="study.js"></script>
+</body>
+</html>
