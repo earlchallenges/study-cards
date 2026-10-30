@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Schizophrenia Drugs | Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<link rel="stylesheet" href="study.css">
+<link rel="stylesheet" href="ch9-art.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="ch9-pics.js"></script>
+<script>
+const PICS = {
+  psychosis: listPic('Psychosis can come from', ['Schizophrenia, bipolar mania', 'Psychotic depression', 'Drugs, alcohol withdrawal', 'Brain injury, Alzheimer, Parkinson']),
+  sz: listPic('Schizophrenia facts', ['About 0.32% of people', 'Top 15 cause of disability', 'Onset late teens to early 20s', 'Slightly earlier in males']),
+  groups: listPic('4 symptom groups', ['Positive: hallucinations, delusions', 'Negative: flat affect, apathy', 'Cognitive: poor judgment', 'Affective: depression, suicidality']),
+  pathways: twoPic('Dopamine in schizophrenia', ['Mesolimbic: too much', ['Positive symptoms']], ['Mesocortical: too little', ['Negative + cognitive symptoms']]),
+  sideways: twoPic('Pathways behind side effects', ['Nigrostriatal blocked', ['Movement problems (EPS)']], ['Tuberoinfundibular blocked', ['High prolactin']]),
+  glut: factPic('Glutamate (NMDA) theory', 'PCP and ketamine mimic schizophrenia', 'Clozapine may boost NMDA function'),
+  classes: listPic('Antipsychotic generations', ['FGA (typical): block D2', 'SGA (atypical): 5-HT2A + D2', 'TGA: D2 partial agonist (aripiprazole)']),
+  noWinner: factPic('FGA or SGA: which is better?', 'Neither proven superior', 'Exception: clozapine'),
+  fga: listPic('First-generation (typical)', ['Block D2 receptors', 'Treat positive symptoms', 'Also block ACh, H1, alpha-1', 'Most movement side effects']),
+  fgaList: twoPic('FGA examples', ['Phenothiazines', ['Chlorpromazine', 'Fluphenazine, perphenazine']], ['Others', ['Haloperidol (Haldol)', 'Thiothixene']]),
+  highLow: twoPic('FGA potency', ['High potency', ['Haloperidol, fluphenazine', 'Very high EPS']], ['Low potency', ['Chlorpromazine', 'Sedation, low BP']]),
+  sga: listPic('Second-generation (atypical)', ['Strong 5-HT2A block', 'Weaker D2 block', 'Fewer movement problems', 'More metabolic problems']),
+  metabolic: listPic('Metabolic side effects (SGAs)', ['Weight gain', 'Type 2 diabetes, insulin resistance', 'High cholesterol, triglycerides', 'Worst: clozapine, olanzapine']),
+  dimd: listPic('Drug-induced movement disorders', ['Acute dystonia (hours to days)', 'Akathisia (weeks)', 'Parkinsonism (5–30 days)', 'Tardive dyskinesia (months–years)']),
+  dystonia: factPic('Acute dystonia', 'Twisted neck, eyes roll up, tongue sticks out', 'First 24–96 hr; laryngeal = emergency'),
+  akathisia: factPic('Akathisia', 'Can\'t sit still, pacing, rocking', 'Often mistaken for anxiety'),
+  parkinson: factPic('Pseudoparkinsonism', 'Tremor, rigidity, shuffling, mask face', 'More with FGAs'),
+  td: factPic('Tardive dyskinesia', 'Lip smacking, tongue, grimacing', 'Late; may be permanent'),
+  aims: factPic('Screening for movement disorders', 'AIMS', 'Abnormal Involuntary Movement Scale'),
+  nms: listPic('Neuroleptic malignant syndrome', ['Very high fever', 'Lead-pipe rigidity', 'Unstable BP, confusion', 'High CK, high WBC'], 'Emergency'),
+  dementia: factPic('Black box: dementia psychosis', 'More stroke, TIA, and death', 'Not approved for older adults with dementia'),
+  haldol: listPic('Haloperidol (Haldol)', ['FGA for schizophrenia', 'Acute agitation (IM)', 'Decanoate shot every 4 weeks', 'Very high EPS']),
+  fluph: listPic('Fluphenazine', ['FGA phenothiazine', 'Decanoate shot every 2 weeks', 'Watch CBC, prolactin', 'Avoid with BPH, glaucoma']),
+  clozapine: listPic('Clozapine (Clozaril)', ['Treatment-resistant schizophrenia', 'Lowers suicide risk', 'Very low EPS', 'REMS: check ANC']),
+  cloBox: listPic('Clozapine dangers', ['Severe neutropenia', 'Myocarditis (first month)', 'Seizures, low BP', 'Drooling, constipation']),
+  risp: listPic('Risperidone (Risperdal)', ['SGA for schizophrenia, bipolar', 'High prolactin', 'More EPS at high doses', 'Long-acting shot available']),
+  olanz: listPic('Olanzapine (Zyprexa)', ['SGA for schizophrenia', 'Highest weight gain', 'Smoking lowers its effect', 'Relprevv shot: watch 3 hr']),
+  quet: listPic('Quetiapine (Seroquel)', ['Very low EPS', 'Sedating', 'Weight gain, QT', 'Report suicidal thoughts']),
+  qt: listPic('QT-prolonging antipsychotics', ['Ziprasidone', 'Quetiapine', 'Haloperidol', 'Paliperidone, iloperidone']),
+  ari: listPic('Aripiprazole (Abilify)', ['3rd generation (TGA)', 'D2 partial agonist', 'Low weight gain, low prolactin', 'Akathisia; impulse control']),
+  food: twoPic('Take with food', ['Lurasidone', ['At least 350 calories']], ['Ziprasidone', ['Improves absorption']]),
+  lai: factPic('Long-acting injectables', 'For poor adherence', 'Haldol decanoate, Invega Sustenna, Abilify Maintena'),
+  vmat2: listPic('Treating tardive dyskinesia', ['VMAT2 inhibitors', 'Valbenazine', 'Deutetrabenazine', 'Lower dopamine release']),
+  stop: factPic('Never stop suddenly', 'Withdrawal dyskinesia, nausea, sweats, relapse', 'Taper slowly'),
+  monitor: listPic('Antipsychotic monitoring', ['Weight, BMI', 'Glucose, A1c, lipids', 'Prolactin, ECG (QT)', 'AIMS for movements']),
+  smoke: factPic('Smoking and antipsychotics', 'Speeds clearance of clozapine and olanzapine', 'May need higher doses'),
+  suicide: factPic('Schizophrenia and suicide', 'Up to 10% die by suicide', 'Screen every visit'),
+};
+
+window.SET = {
+  title: 'Schizophrenia Drugs',
+  chapter: 'Pharmacology · Unit 11 · Ch 37 Antipsychotic Medications',
+  pics: PICS,
+  mystery: true,
+  audio: 'audio/rx37',
+  speak: {},
+  cards: [
+    { term: 'Psychosis', def: 'Not a diagnosis but a set of symptoms with gross loss of reality: hallucinations, delusions, and disorganized thinking. Causes include schizophrenia, bipolar mania, psychotic depression, drugs, alcohol withdrawal, brain injury, Alzheimer disease, and Parkinson disease.', short: 'Loss of reality; many causes', pic: 'psychosis' },
+    { term: 'Schizophrenia basics', def: 'A chronic disorder in about 0.32% of people worldwide and a top-15 cause of disability. Onset is late teens to early 20s, slightly earlier in males.', short: 'Late teens/20s; chronic', pic: 'sz' },
+    { term: 'Four symptom groups of schizophrenia', def: 'Positive (hallucinations, delusions), negative (flat affect, apathy, poverty of speech), cognitive (poor judgment and decision-making), and affective (depression, hopelessness, suicidality)', short: 'Positive, negative, cognitive, affective', pic: 'groups' },
+    { term: 'Dopamine hypothesis', def: 'Too much dopamine in the mesolimbic pathway causes positive symptoms. Too little dopamine in the mesocortical pathway (to the prefrontal cortex) causes negative and cognitive symptoms.', short: 'Mesolimbic high; mesocortical low', pic: 'pathways' },
+    { term: 'Pathways that explain side effects', def: 'Blocking dopamine in the nigrostriatal pathway causes movement disorders. Blocking it in the tuberoinfundibular pathway raises prolactin.', short: 'Nigrostriatal = EPS; tuberoinfundibular = prolactin', pic: 'sideways' },
+    { term: 'Glutamate (NMDA) hypothesis', def: 'NMDA receptor dysfunction may play a role, because NMDA blockers like PCP and ketamine cause both positive and negative symptoms. Clozapine may enhance NMDA function.', short: 'PCP/ketamine mimic it', pic: 'glut' },
+    { term: 'The three antipsychotic groups', def: 'First-generation (typical, block D2), second-generation (atypical, strong 5-HT2A plus weaker D2 block), and third-generation (D2 partial agonists like aripiprazole)', short: 'FGA, SGA, TGA', pic: 'classes' },
+    { term: 'Best drug class for schizophrenia', def: 'Guidelines find no clear evidence that FGAs or SGAs are better than each other, with one exception: clozapine. Choose based on side effects, comorbidities, age, and genetics.', short: 'No winner except clozapine', pic: 'noWinner' },
+    { term: 'Drug of choice for treatment-resistant schizophrenia', def: 'Clozapine, for patients who failed adequate trials of other antipsychotics. It also reduces suicidal behavior in schizophrenia and schizoaffective disorder.', short: 'Clozapine', pic: 'clozapine' },
+    { term: 'First-generation (typical) antipsychotics', def: 'Block D2 receptors and mainly treat positive symptoms. Also block muscarinic, H1, and alpha-1 receptors, so they cause anticholinergic effects, sedation, low BP, and the most movement disorders.', short: 'D2 blockers; most EPS', pic: 'fga' },
+    { term: 'FGA examples', def: 'Phenothiazines: chlorpromazine, fluphenazine, perphenazine, trifluoperazine, thioridazine. Non-phenothiazines: haloperidol (butyrophenone) and thiothixene (thioxanthene).', short: 'Haloperidol, fluphenazine, chlorpromazine', pic: 'fgaList' },
+    { term: 'High- vs. low-potency FGAs', def: 'High potency (haloperidol, fluphenazine) cause very high EPS and more NMS. Low potency (chlorpromazine, thioridazine) cause more sedation, orthostatic hypotension, and anticholinergic effects.', short: 'High = EPS; low = sedation, low BP', pic: 'highLow' },
+    { term: 'Second-generation (atypical) antipsychotics', def: 'Strongly block 5-HT2A serotonin receptors with less D2 affinity. They treat positive and negative symptoms and cause fewer movement disorders, but more metabolic effects.', short: 'Fewer EPS, more metabolic', pic: 'sga' },
+    { term: 'Metabolic syndrome from SGAs', def: 'Weight gain, type 2 diabetes, insulin resistance, and high cholesterol and triglycerides, raising cardiovascular risk. Highest with clozapine and olanzapine; less with quetiapine and risperidone.', short: 'Worst: clozapine, olanzapine', pic: 'metabolic' },
+    { term: 'Drug-induced movement disorders (DIMDs/EPS)', def: 'Acute dystonia, akathisia, and pseudoparkinsonism (early extrapyramidal symptoms), plus tardive dyskinesia with long-term use. More common with FGAs.', short: 'Dystonia, akathisia, parkinsonism, TD', pic: 'dimd' },
+    { term: 'Acute dystonia', def: 'Within 24–96 hours, even after one dose: twisted neck (torticollis), eyes rolling up (oculogyric crisis), tongue protrusion, trouble swallowing. Most likely in young males on high-potency drugs. Laryngeal dystonia is an emergency.', short: 'Early muscle spasms; emergency', pic: 'dystonia' },
+    { term: 'Akathisia', def: 'Intense inner restlessness with pacing, rocking, or inability to sit still, within weeks of starting or raising a dose (18–40% of patients). Easily mistaken for anxiety, mania, ADHD, or agitated depression. Treat by lowering the dose or switching.', short: 'Can\'t sit still', pic: 'akathisia' },
+    { term: 'Pseudoparkinsonism', def: 'Tremor, slow movement, rigidity, mask-like face, shuffling gait, cogwheeling, and stooped posture, within 5–30 days. More common with FGAs; switch to a lower-EPS drug.', short: 'Parkinson-like; 5–30 days', pic: 'parkinson' },
+    { term: 'Tardive dyskinesia (TD)', def: 'Repetitive involuntary movements of the tongue, face, mouth, and jaw (lip smacking, grimacing, chewing) and twisting of the trunk and limbs. Appears after months to years and may persist after the drug is stopped.', short: 'Late, may be permanent', pic: 'td' },
+    { term: 'Screening tool for movement disorders', def: 'AIMS (Abnormal Involuntary Movement Scale) rates facial, oral, limb, and trunk movements from none to severe. Use at baseline and follow-up.', short: 'AIMS', pic: 'aims' },
+    { term: 'Treatment for tardive dyskinesia', def: 'VMAT2 inhibitors, valbenazine and deutetrabenazine, which lower dopamine release. Guidelines recommend them for severe or disabling TD. Valbenazine can prolong QT and cause sleepiness.', short: 'Valbenazine, deutetrabenazine', pic: 'vmat2' },
+    { term: 'Neuroleptic malignant syndrome (NMS)', def: 'A potentially fatal emergency: sudden high fever (up to 41°C), lead-pipe rigidity, unstable BP, altered mental status, high WBC, high CK, rhabdomyolysis, and kidney failure. Most likely with high-potency FGAs in young adults newly started.', short: 'Fever, rigidity, high CK', pic: 'nms' },
+    { term: 'Black box warning: older adults with dementia', def: 'Antipsychotics are not approved for dementia-related psychosis because they increase stroke, TIA, and death', short: 'Stroke and death risk', pic: 'dementia' },
+    { term: 'Haloperidol (Haldol)', def: 'High-potency FGA for schizophrenia and acute agitation (IM). Decanoate depot shot every 4 weeks. Very high EPS; avoid in Parkinson disease and Lewy body dementia. Monitor movements every 3–6 months and eyes for cataracts.', short: 'High-potency FGA; depot monthly', pic: 'haldol' },
+    { term: 'Fluphenazine', def: 'High-potency phenothiazine FGA for positive symptoms; decanoate shot about every 2 weeks. Watch CBC (agranulocytosis), prolactin, and movement disorders. Avoid with BPH, angle-closure glaucoma, and under age 12.', short: 'FGA; depot every 2 weeks', pic: 'fluph' },
+    { term: 'Clozapine (Clozaril)', def: 'The first SGA. Used for treatment-resistant schizophrenia and to lower suicide risk. Very low EPS but high sedation, anticholinergic, and metabolic effects. Only through the REMS program with ANC monitoring.', short: 'Refractory SZ; REMS', pic: 'clozapine' },
+    { term: 'Clozapine serious risks', def: 'Severe neutropenia (ANC under 500, highest risk in the first 18 weeks), myocarditis or cardiomyopathy (first month), QT and cardiac risk, severe constipation (give stool softeners), drooling, and the dementia warning', short: 'Neutropenia, myocarditis', pic: 'cloBox' },
+    { term: 'Clozapine REMS program', def: 'Prescribers and pharmacies must be certified and patients enrolled. The absolute neutrophil count (ANC) is the only lab accepted to monitor neutropenia.', short: 'Monitor ANC', pic: 'clozapine' },
+    { term: 'Risperidone (Risperdal)', def: 'SGA for schizophrenia, bipolar I, and irritability in autism. Causes high prolactin (gynecomastia), weight gain, and more EPS at higher doses. Long-acting shots: Risperdal Consta every 2 weeks, Perseris monthly.', short: 'High prolactin', pic: 'risp' },
+    { term: 'Olanzapine (Zyprexa)', def: 'SGA with the highest weight gain and metabolic risk. Smoking lowers its effect. Zyprexa Relprevv shot must be given in a registered facility with 3 hours of observation afterward.', short: 'Most weight gain', pic: 'olanz' },
+    { term: 'Quetiapine (Seroquel)', def: 'SGA with very low EPS but sedation, orthostatic hypotension, weight gain, and QT prolongation. Report behavior changes or suicidal thoughts.', short: 'Low EPS, sedating', pic: 'quet' },
+    { term: 'Antipsychotics that prolong QT', def: 'Ziprasidone, quetiapine, paliperidone, iloperidone, asenapine, haloperidol, chlorpromazine, thioridazine, and pimozide. Check an ECG and other QT drugs.', short: 'Ziprasidone, quetiapine, haloperidol', pic: 'qt' },
+    { term: 'Aripiprazole (Abilify)', def: 'First third-generation antipsychotic: D2 and 5-HT1A partial agonist (activates when dopamine is low, blocks when high). Low weight gain and prolactin; akathisia possible. FDA warns about impulse-control problems (gambling, binge eating).', short: 'Partial agonist; low metabolic', pic: 'ari' },
+    { term: 'Other third-generation antipsychotics', def: 'Brexpiprazole (Rexulti, also approved for agitation in dementia) and cariprazine (Vraylar, dose changes take weeks to show)', short: 'Brexpiprazole, cariprazine', pic: 'classes' },
+    { term: 'Antipsychotics taken with food', def: 'Lurasidone with at least 350 calories (often at dinner) and ziprasidone with food to improve absorption', short: 'Lurasidone, ziprasidone', pic: 'food' },
+    { term: 'Long-acting injectables', def: 'For patients with poor adherence, after they are stable on an oral form: haloperidol decanoate, fluphenazine decanoate, risperidone (Consta, Perseris), paliperidone (Invega Sustenna/Trinza), aripiprazole (Abilify Maintena)', short: 'For poor adherence', pic: 'lai' },
+    { term: 'Stopping antipsychotics', def: 'Never stop suddenly: it can cause withdrawal dyskinesias, nausea, vomiting, sweating, restlessness, rebound hypertension, NMS risk, and relapse. Taper and watch for returning symptoms.', short: 'Taper slowly', pic: 'stop' },
+    { term: 'Antipsychotic monitoring', def: 'Weight, glucose and A1c, lipids, prolactin, ECG for QT, AIMS for movement disorders, fall risk, and suicide risk', short: 'Metabolic, prolactin, QT, AIMS', pic: 'monitor' },
+    { term: 'Smoking and antipsychotics', def: 'Tobacco speeds the clearance of clozapine and olanzapine, so smokers may respond less and need higher doses. Refer to smoking cessation.', short: 'Lowers clozapine, olanzapine', pic: 'smoke' },
+    { term: 'Schizophrenia and suicide risk', def: 'Up to 10% of people with schizophrenia die by suicide, highest in young males early in the illness. Screen for suicide at primary care visits.', short: 'Up to 10%; screen', pic: 'suicide' },
+  ],
+};
+</script>
+<script src="art/rx37.js"></script>
+<script src="study.js"></script>
+</body>
+</html>
