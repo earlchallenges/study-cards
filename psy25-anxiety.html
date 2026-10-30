@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Anxiety, OCD &amp; Trauma | Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<link rel="stylesheet" href="study.css">
+<link rel="stylesheet" href="ch9-art.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="ch9-pics.js"></script>
+<script>
+const PICS = {
+  screen: listPic('Anxiety screening questions', ['Are you a worrier?', 'Ever had a panic attack?', 'Uneasy in social situations?', 'Any special fears?', 'OCD or PTSD symptoms?'], 'About 3 minutes'),
+  overlap: factPic('Anxiety shows up in many disorders', 'Depression, mania, schizophrenia', 'Anxiety alone does not mean an anxiety disorder'),
+  why: factPic('Why pin down the exact anxiety disorder?', 'Each has its own therapy', 'CBT for panic differs from CBT for social phobia'),
+  seven: listPic('7 disorders to ask about', ['Panic disorder', 'Agoraphobia', 'GAD', 'Social anxiety disorder', 'Specific phobia', 'OCD', 'PTSD'], 'First four are hardest to tell apart'),
+  attackVsDis: twoPic('Panic attack vs. panic disorder', ['Panic attack', ['About 35% have had one', 'Common, not a diagnosis']], ['Panic disorder', ['About 4.7% lifetime', 'Recurrent, unexpected']]),
+  panicCrit: listPic('Panic disorder (DSM-5)', ['Recurrent unexpected attacks', '4+ of 13 symptoms', '1+ month of worry or behavior change'], 'Heart · Breathlessness · Fear'),
+  hbf: twoPic('Panic symptom clusters', ['Heart · Breath', ['Palpitations, chest pain', 'Short of breath, choking', 'Dizzy, tingling']], ['Fear', ['Fear of dying', 'Fear of going crazy', 'Sweating, shaking, unreal']]),
+  after: listPic('After an attack (1+ month)', ['Fear of another attack', 'Worry about what it means', 'Big change in behavior']),
+  define: factPic('Define it in plain words', 'Sudden rush of fear, pounding heart, short of breath', 'Patients may call ordinary worry a "panic attack"'),
+  blue: twoPic('Where did the attack come from?', ['Out of the blue', ['Panic disorder']], ['Has a trigger', ['Social: social phobia', 'Flashback: PTSD', 'Hard to escape: agoraphobia', 'Object: specific phobia']]),
+  night: listPic('Clues of true panic disorder', ['Attacks wake them at night', 'They remember the first attack clearly']),
+  cbt: flowPic('Good CBT candidate', ['Panic sensations', 'Catastrophic thought ("I\'ll die")', 'More panic'], 'CBT often beats meds long-term', 2),
+  agora: listPic('Agoraphobia (DSM-5)', ['Anxiety where escape is hard or embarrassing', 'Places avoided or endured with distress', 'Crowds, stores, buses, driving'], 'Often follows panic disorder'),
+  avoid: flowPic('Phobic avoidance', ['A few panic attacks', 'Link attacks to places', 'Avoid those places'], 'Worst case: can\'t leave home', 2),
+  agoraVs: twoPic('Agoraphobia vs. look-alikes', ['Agoraphobia', ['Fear of many places', 'Escape would be hard']], ['Not agoraphobia', ['Phobia: one object/place', 'PTSD: trauma reminder']]),
+  gad: factPic('GAD in one word', 'The worrier', 'Many worries, months on end, can\'t relax'),
+  worryTopic: listPic('What they worry about points to…', ['Social performance: social phobia', 'Having a panic attack: panic disorder', 'Body sensations: somatic symptom disorder', 'Many everyday things: GAD']),
+  freeFloat: listPic('Free-floating anxiety, no focus', ['Not GAD', 'Think depression', 'Think schizophrenia', 'Think akathisia (antipsychotics)']),
+  gadCrit: listPic('GAD (DSM-5)', ['Excess worry most days, 6+ months', 'Hard to control the worry', '3+ of 6 symptoms'], 'Macbeth Frets Constantly Regarding Illicit Sins'),
+  mfcris: listPic('GAD symptoms: MFCRIS', ['Muscle tension', 'Fatigue', 'Concentration trouble', 'Restlessness / on edge', 'Irritability', 'Sleep disturbance']),
+  social: listPic('Social anxiety disorder', ['Fear of embarrassment or scrutiny', 'Public speaking, meeting people, eating in public', 'Exposure brings anxiety, even panic'], 'Clue: shy, poor eye contact'),
+  socialQ: listPic('Social anxiety follow-up', ['How uncomfortable do you get?', 'Ever to the point of panic?', 'Do you avoid social situations?']),
+  phobia: listPic('Specific phobia (DSM-5)', ['Excessive fear of one object or situation', 'Exposure causes intense anxiety', 'Must interfere with functioning'], 'Insects, flying, heights…'),
+  ocdMiss: factPic('Why OCD gets missed', 'Patients are embarrassed and rarely bring it up', 'Ask about it in every review of symptoms'),
+  ocdScreen: factPic('OCD screening question', 'Washing, checking, or unwanted thoughts that keep coming back?', 'A confident "no" usually rules it out'),
+  wsmch: listPic('OCD types: Washing and Straightening Make Clean Houses', ['Washing', 'Straightening', 'Mental rituals', 'Checking', 'Hoarding']),
+  obsComp: twoPic('Obsessions vs. compulsions', ['Obsessions', ['Intrusive thoughts', 'Impulses or images', 'Cause anxiety']], ['Compulsions', ['Repeated acts or mental acts', 'Driven to do them', 'Reduce distress']]),
+  driven: listPic('Is it really OCD?', ['Feels driven: uncomfortable if not done', 'Takes lots of time', 'Interferes with daily life'], 'Check the lock 10–20 times?'),
+  impair: factPic('Measure OCD impairment', 'How long does it take to get ready in the morning?', 'Rituals can take 2–3+ hours'),
+  ptsdScreen: factPic('PTSD screening', 'Use the term plus examples of trauma', 'Examples help patients remember'),
+  rana: listPic('PTSD: Remembers Atrocious Nuclear Attacks', ['Re-experiencing', 'Avoidance', 'Negative thoughts and mood', 'Arousal'], 'Trauma + lasts 1+ month'),
+  ptsdCrit: listPic('PTSD (DSM-5)', ['Trauma: actual or threatened death or injury', 'Re-experiencing, avoidance', 'Negative cognitions, arousal', 'Lasts at least 1 month']),
+  vague: factPic('"What sort of experience was it?"', 'Let the patient answer vaguely', 'Avoiding the memory is part of PTSD'),
+  reexp: listPic('Re-experiencing', ['Memories that haunt', 'Nightmares', 'Flashbacks: feels back there']),
+  avoidP: listPic('Avoidance', ['Avoids reminders of the trauma', 'Ask about the specific trauma', 'Car crash: avoids driving']),
+  neg: listPic('Negative cognitions and mood', ['Was "numbing" in DSM-IV', 'Lost interest, fewer activities', 'Harder to feel for loved ones', 'No sense of a future']),
+  arousal: listPic('Hyperarousal', ['Insomnia, irritability, poor focus', 'Hypervigilance', 'Exaggerated startle'], 'Last two are most specific to PTSD'),
+};
+
+window.SET = {
+  title: 'Anxiety, OCD & Trauma',
+  chapter: 'Psychiatric Interview · Ch 25 Assessing Anxiety, Obsessive, and Trauma Disorders',
+  pics: PICS,
+  mystery: true,
+  audio: 'audio/psy25',
+  speak: {},
+  cards: [
+    { term: 'Anxiety screening questions', def: 'Are you a worrier? Have you had a panic or anxiety attack? Are you uncomfortable in social situations? Any special fears? Any OCD or PTSD symptoms? Takes about 3 minutes.', short: 'Worrier, panic, social, fears, OCD, PTSD', pic: 'screen' },
+    { term: 'Why anxiety is a tricky symptom', def: 'Many disorders cause anxiety, including major depression, mania, and schizophrenia, even without a separate anxiety disorder', short: 'Many disorders cause it', pic: 'overlap' },
+    { term: 'Why be systematic about which anxiety disorder', def: 'Each disorder has its own specific psychotherapy. For example, CBT for panic disorder is very different from CBT for social phobia.', short: 'Each has its own therapy', pic: 'why' },
+    { term: 'The 7 disorders to ask about', def: 'Panic disorder, agoraphobia, GAD, social anxiety disorder, specific phobia, OCD, and PTSD. The first four are the hardest to tell apart.', short: 'Panic, agoraphobia, GAD, social, phobia, OCD, PTSD', pic: 'seven' },
+    { term: 'Panic attack vs. panic disorder', def: 'A panic attack alone is not a diagnosis: about 35% of healthy people have had one in the past year, but only about 4.7% ever develop panic disorder', short: 'Attacks are common; disorder is not', pic: 'attackVsDis' },
+    { term: 'Panic disorder DSM-5 criteria', def: 'Recurrent unexpected panic attacks with at least 4 of 13 symptoms, plus at least 1 month of fear of more attacks, worry about what they mean, or a big change in behavior', short: 'Unexpected attacks + 1 month of worry', pic: 'panicCrit' },
+    { term: 'Panic symptom clusters (mnemonic)', def: 'Heart, Breathlessness, Fear. Heart: palpitations, chest pain, nausea. Breathlessness: short of breath, choking, dizziness, tingling, hot or cold waves. Fear: of dying or going crazy, sweating, shaking, derealization.', short: 'Heart, Breathlessness, Fear', pic: 'hbf' },
+    { term: 'What must follow a panic attack for panic disorder', def: 'At least 1 month of fear of another attack, worry about its meaning or consequences, or a significant change in behavior', short: '1 month of worry or change', pic: 'after' },
+    { term: 'Why define panic attack in lay terms', def: 'Many patients (especially with GAD) call ordinary worry a "panic attack." Describe it as a sudden rush of fear with a pounding heart, shortness of breath, and fear of losing control or dying.', short: 'Patients misuse the term', pic: 'define' },
+    { term: 'Unexpected vs. triggered panic', def: 'Panic disorder needs attacks out of the blue. A social trigger suggests social phobia; a flashback suggests PTSD; a hard-to-escape place suggests agoraphobia; an object suggests specific phobia.', short: 'Out of the blue = panic disorder', pic: 'blue' },
+    { term: 'Two questions that make panic disorder more likely', def: 'Has an attack ever woken you up at night? Do you remember your first attack? Night attacks and a clearly remembered first attack point to true panic disorder.', short: 'Night attacks, remembers the first', pic: 'night' },
+    { term: 'Who does well with CBT for panic', def: 'Patients who can name "catastrophic cognitions" (like thinking they will pass out or die) that make the panic worse. CBT often works better than medication for panic over the long run.', short: 'Can name catastrophic thoughts', pic: 'cbt' },
+    { term: 'Agoraphobia DSM-5 criteria', def: 'Anxiety about places where escape might be hard or embarrassing (crowds, stores, buses, driving far from home), which are avoided or endured with marked distress', short: 'Fear where escape is hard', pic: 'agora' },
+    { term: 'Phobic avoidance', def: 'After a few panic attacks, the patient starts avoiding places linked to them. Agoraphobia often develops this way, and at worst the person can\'t leave home.', short: 'Avoiding places linked to attacks', pic: 'avoid' },
+    { term: 'Agoraphobia vs. specific phobia vs. PTSD', def: 'Agoraphobia is a general fear of many places where escape is hard. A specific phobia is fear of one thing (like bridges). In PTSD, a reminder of the trauma triggers the fear.', short: 'Many places vs. one thing vs. trauma cue', pic: 'agoraVs' },
+    { term: 'GAD in a nutshell', def: 'The prototypical worrier: worries about several things for months on end and can\'t relax. Screen with "Are you a worrier?"', short: 'The worrier', pic: 'gad' },
+    { term: 'Worry topics that suggest other diagnoses', def: 'Worry about social performance suggests social phobia; worry about having panic attacks suggests panic disorder; worry about body sensations suggests somatization. Don\'t overdiagnose GAD.', short: 'Topic points to the real diagnosis', pic: 'worryTopic' },
+    { term: 'Free-floating anxiety without a focus', def: 'Not GAD. Consider major depression, schizophrenia, or a medication side effect such as akathisia (restlessness from antipsychotics).', short: 'Think depression, schizophrenia, akathisia', pic: 'freeFloat' },
+    { term: 'GAD DSM-5 criteria', def: 'Excessive anxiety and worry more days than not for at least 6 months about many things, hard to control, with at least 3 of 6 symptoms', short: '6 months of worry + 3 of 6 symptoms', pic: 'gadCrit' },
+    { term: 'GAD symptoms (mnemonic)', def: '"Macbeth Frets Constantly Regarding Illicit Sins": Muscle tension, Fatigue, Concentration difficulty, Restlessness, Irritability, Sleep disturbance', short: 'Muscle, Fatigue, Concentration, Restless, Irritable, Sleep', pic: 'mfcris' },
+    { term: 'Social anxiety disorder (social phobia)', def: 'Intense fear of embarrassment or scrutiny in social or performance situations (public speaking, meeting new people, eating in front of others). Exposure almost always causes anxiety, sometimes a panic attack.', short: 'Fear of embarrassment and scrutiny', pic: 'social' },
+    { term: 'Clues to social phobia during the interview', def: 'Shy and awkward behavior, avoiding eye contact, and laughing nervously', short: 'Shy, poor eye contact', pic: 'social' },
+    { term: 'Social anxiety follow-up questions', def: 'How uncomfortable do you get? Do you reach the point of a panic attack? Is it so bad you go out of your way to avoid social situations?', short: 'How bad, panic, avoidance', pic: 'socialQ' },
+    { term: 'Specific phobia DSM-5 criteria', def: 'Excessive, unreasonable fear of a specific object or situation (like insects or flying); exposure causes intense anxiety; it must significantly interfere with functioning', short: 'Fear of one thing that interferes', pic: 'phobia' },
+    { term: 'Why OCD is often overlooked', def: 'Patients are embarrassed and rarely volunteer the symptoms, so OCD questions belong in every routine psychiatric review of systems', short: 'Patients don\'t volunteer it', pic: 'ocdMiss' },
+    { term: 'OCD screening question', def: 'Ask about washing hands because you feel dirty, constantly checking things, or annoying thoughts that pop into your head over and over. A confident "no" makes OCD unlikely.', short: 'Washing, checking, intrusive thoughts', pic: 'ocdScreen' },
+    { term: 'OCD types (mnemonic)', def: '"Washing and Straightening Make Clean Houses": Washing, Straightening, Mental rituals (magic words, counting), Checking, Hoarding', short: 'Washing, Straightening, Mental, Checking, Hoarding', pic: 'wsmch' },
+    { term: 'Obsessions vs. compulsions', def: 'Obsessions are recurrent intrusive thoughts, impulses, or images that cause anxiety and that the person tries to ignore. Compulsions are repeated acts or mental acts the person feels driven to do to reduce distress. OCD needs either one.', short: 'Thoughts vs. driven acts', pic: 'obsComp' },
+    { term: 'Confirming a compulsion is OCD', def: 'The patient must feel driven (uncomfortable if they don\'t do it), and it must take enough time to interfere with daily life, for example checking the lock 10 or 20 times', short: 'Driven + time-consuming', pic: 'driven' },
+    { term: 'Measuring OCD impairment', def: 'Ask how long it takes to get ready in the morning. Patients with cleaning and dressing rituals may need 2 to 3 hours or more.', short: 'Time to get ready in the morning', pic: 'impair' },
+    { term: 'Screening for PTSD', def: 'Use the term with a short definition and examples of trauma (being attacked, surviving a disaster). Listing examples improves recall. A "no" makes PTSD unlikely.', short: 'Name it and give trauma examples', pic: 'ptsdScreen' },
+    { term: 'PTSD symptom groups (mnemonic)', def: '"Remembers Atrocious Nuclear Attacks": Re-experiencing, Avoidance, Negative cognitions and mood, Arousal', short: 'Re-experience, Avoid, Negative, Arousal', pic: 'rana' },
+    { term: 'PTSD DSM-5 criteria', def: 'A trauma involving actual or threatened death or injury to self or others, then re-experiencing, avoidance, negative thoughts and feelings, and increased arousal lasting at least 1 month', short: 'Trauma + RANA for 1 month', pic: 'ptsdCrit' },
+    { term: 'Asking about the trauma itself', def: 'Ask generally ("What sort of experience was it?") so the patient can answer vaguely. Avoiding the memory is a hallmark of PTSD, so allow it.', short: 'Ask generally; allow vagueness', pic: 'vague' },
+    { term: 'PTSD re-experiencing', def: 'The trauma comes back to haunt: memories, nightmares, and flashbacks where the person truly feels back in the event', short: 'Nightmares, flashbacks', pic: 'reexp' },
+    { term: 'PTSD avoidance', def: 'Avoiding things linked to the memory. Ask about the specific trauma, such as avoiding driving after a car accident.', short: 'Avoids reminders', pic: 'avoidP' },
+    { term: 'PTSD negative cognitions and mood', def: 'Called "numbing" in DSM-IV. Lost interest in life, fewer activities, trouble feeling for loved ones, no sense of a future, and a negative view of self or the world.', short: 'Numbing, no future', pic: 'neg' },
+    { term: 'PTSD hyperarousal', def: 'Insomnia, irritability, and poor concentration (also seen in depression), plus hypervigilance and an exaggerated startle response, which are more specific to PTSD', short: 'Hypervigilance, startle', pic: 'arousal' },
+  ],
+};
+</script>
+<script src="art/psy25.js"></script>
+<script src="study.js"></script>
+</body>
+</html>

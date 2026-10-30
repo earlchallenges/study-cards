@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Psychotic Disorders | Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<link rel="stylesheet" href="study.css">
+<link rel="stylesheet" href="ch9-art.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="ch9-pics.js"></script>
+<script>
+const PICS = {
+  screen: listPic('Psychosis screening questions', ['Dreaming while awake?', 'Strange experiences you can\'t explain?', 'Hear or see things others can\'t?', 'People bothering or harming you?', 'Strangers look at or talk about you?']),
+  notSame: twoPic('Psychosis ≠ schizophrenia', ['Psychosis', ['Disordered thinking', 'Poor grasp of reality']], ['Also seen in', ['Depression, mania', 'Delirium, dementia', 'Drugs, stress, PDs']]),
+  hidden: twoPic('Two kinds of psychotic patients', ['Obvious', ['Probe the type of psychosis']], ['Hidden', ['Seem normal', 'Need screening questions']]),
+  everyone: factPic('Who gets psychosis screening?', 'Every patient', 'Hidden psychosis is common in depression, dementia, substance use'),
+  voices: factPic('Hearing voices is not always illness', '3–4% of people report voices', 'Less than half meet criteria for a disorder'),
+  harass: twoPic('Screening for paranoia and reference', ['"Has anyone been harassing you?"', ['Paranoid ideation']], ['"Do strangers look at or talk about you?"', ['Ideas of reference']]),
+  vignette: factPic('Depression with psychotic features', 'Voices + ideas of reference', 'Treat: antidepressant + antipsychotic'),
+  normalize: factPic('Make it less threatening', '"Deep depression can cause strange experiences…"', 'Normalize, then ask'),
+  dhsbn: listPic('Schizophrenia: Delusions Herald Schizophrenic\'s Bad News', ['Delusions', 'Hallucinations', 'Speech disorganization', 'Behavior disorganization', 'Negative symptoms']),
+  szCrit: listPic('Schizophrenia (DSM-5)', ['2+ symptoms for 1 month', 'At least 1 core: D, H, or S', '6 months total with prodrome/residual']),
+  tcTp: twoPic('Thought content vs. process', ['Content (TC)', ['What they think', 'Delusions']], ['Process (TP)', ['How thoughts connect', 'Disorganized speech']]),
+  delusion: twoPic('Two big delusion types', ['Paranoid', ['Most common (60%)', 'Being harassed, spied on']], ['Grandiose', ['Special powers', 'Often in mania']]),
+  reference: factPic('Delusions of reference', 'Ordinary events have special meaning for me', 'TV or radio talking about me; messages in books'),
+  control: factPic('Delusion of control', 'An outside force controls me', 'Rays through the TV'),
+  capgras: factPic('Capgras syndrome', 'Loved ones replaced by impostors', 'Delusion of replacement'),
+  jealousy: factPic('Delusion of jealousy', 'Spouse is unfaithful', 'No evidence'),
+  somatic: factPic('Somatic delusions', 'I have a disease or am being poisoned', 'Common in depression'),
+  religious: factPic('Religious delusions', 'I am God-like or the Messiah', 'Special relationship with God or powers'),
+  tech: factPic('Technological delusions', 'Connected to computers or devices', 'Transmitter in my brain'),
+  ally: factPic('Interviewing a paranoid patient', 'Be nonjudgmental: become an ally', '"Has anyone treated you badly?"'),
+  counter: factPic('Counterprojective statement', 'Name and sympathize with their suspicion of you', '"You probably think I\'m part of it too"'),
+  phases: flowPic('Phases of a delusion', ['Fully convinced', 'Double awareness', 'Nondelusional'], 'Reality testing tracks recovery', 2),
+  frame: listPic('Gentle reality-testing phrases', ['Imagination getting the best of you?', 'Mind playing tricks on you?', 'Fantasizing any of this?']),
+  halluc: listPic('Hallucinations', ['About half of schizophrenia', 'Also depression, bipolar, drugs, dementia', 'Be curious: one voice or many? male or female?']),
+  command: factPic('Always ask about command hallucinations', '"Are the voices telling you to do anything?"', 'Hurt yourself or anyone else?'),
+  senses: listPic('One question, all senses', ['Auditory (heard)', 'Visual (seen)', 'Olfactory (smelled)', 'Tactile (felt)']),
+  formal: twoPic('Disorganized speech clusters', ['LOA cluster', ['Thoughts don\'t connect']], ['Velocity cluster', ['Speed of thoughts', 'Mutism → flight of ideas']]),
+  loaScale: flowPic('Looseness of associations: mild to severe', ['Circumstantial', 'Tangential', 'LOA', 'Word salad'], 'Document LOA: mild, moderate, or severe', 3),
+  circum: factPic('Circumstantiality', 'Long-winded, extra details', 'Eventually gets back to the point'),
+  tangent: factPic('Tangentiality', 'Veers off and never returns', 'Usually psychosis or dementia'),
+  loa: factPic('Looseness of associations', 'Leaps between ideas you can\'t follow', 'Sentences still make sense alone'),
+  loaTerms: listPic('LOA family', ['Derailment = LOA', 'Disjointed speech = LOA', 'Loss of goal: never answers', 'Rambling: tangential, in dementia']),
+  salad: factPic('Word salad', 'Even single sentences make no sense', 'Most extreme LOA'),
+  saladTerms: listPic('Word salad family', ['Incoherence', 'Non sequiturs', 'Neologisms: made-up words', 'Clang: words linked by sound']),
+  mutism: factPic('Mutism', 'Will not speak', 'Negative symptom, catatonia, or delusion'),
+  poverty: twoPic('Poverty of thought vs. content', ['Poverty of thought', ['Very few words', 'Minimum answers']], ['Poverty of content', ['Many words', 'Little meaning']]),
+  open: listPic('Getting a quiet patient talking', ['Ask open-ended questions', 'Ask provocative general topics', 'Opinions, favorite teacher, beliefs']),
+  blocking: factPic('Thought blocking', 'Stops mid-thought', 'Forgets what they were saying'),
+  persev: factPic('Perseveration', 'Keeps returning to one idea', 'OCD, dementia, psychosis'),
+  racing: twoPic('Racing thoughts vs. pressured speech', ['Racing thoughts', ['Felt inside', 'Anxiety, detox']], ['Pressured speech', ['Fast, loud, hard to stop', 'Almost always mania']]),
+  flight: factPic('Flight of ideas', 'LOA at high speed', 'Not the same as pressured speech'),
+  disorgBeh: listPic('Disorganized behavior', ['Seen by observation', 'Poor grooming, odor, odd clothes', 'Can\'t do a simple task']),
+  negSx: twoPic('Positive vs. negative symptoms', ['Positive', ['Delusions', 'Hallucinations']], ['Negative', ['Flat affect, apathy', 'Asocial, poverty of speech']]),
+};
+
+window.SET = {
+  title: 'Psychotic Disorders',
+  chapter: 'Psychiatric Interview · Ch 27 Assessing Psychotic Disorders',
+  pics: PICS,
+  mystery: true,
+  audio: 'audio/psy27',
+  speak: {},
+  cards: [
+    { term: 'Psychosis screening questions', def: 'Any experiences like dreaming while awake? Strange experiences you can\'t explain? Hear or see things others can\'t? Feel people are bothering or trying to harm you? Do strangers look at you or make comments about you? (About 2 minutes.)', short: 'Dreaming awake, voices, harm, strangers', pic: 'screen' },
+    { term: 'Psychosis vs. schizophrenia', def: 'Not the same. Psychosis is disordered thinking and an impaired grasp of reality. It also occurs in depression, mania, brief reactive psychosis, dissociative disorders, dementia and delirium, substance intoxication or withdrawal, and personality disorders.', short: 'Psychosis occurs in many disorders', pic: 'notSame' },
+    { term: 'Obvious vs. hidden psychosis', def: 'Obviously psychotic patients need probing questions to pin down the type. Most outpatients look normal, speak coherently, and hide delusions, so they need screening questions.', short: 'Hidden psychosis needs screening', pic: 'hidden' },
+    { term: 'Who should be screened for psychosis', def: 'Every patient. Hidden psychosis is common, especially in major depression, dementia, and substance abuse, and a past psychosis can change diagnosis and treatment.', short: 'Every patient', pic: 'everyone' },
+    { term: 'Screening for hallucinations', def: '"Do you ever hear or see things that other people can\'t hear or see?" It asks about auditory and visual hallucinations more gracefully than "Do you hear voices?"', short: 'Hear or see things others can\'t?', pic: 'senses' },
+    { term: 'Voice hearers in the general public', def: 'About 3–4% of people report hearing voices, and less than half meet criteria for schizophrenia or a dissociative disorder. Nonpatients often heard them before age 12 and found them mostly positive.', short: '3–4%; not always illness', pic: 'voices' },
+    { term: 'Screening for paranoia and ideas of reference', def: '"Have people been harassing you or trying to harm you?" screens for paranoia without judgment. "Do strangers look at you or comment about you?" screens for ideas of reference.', short: 'Harassment; strangers commenting', pic: 'harass' },
+    { term: 'Psychotic depression lesson (vignette)', def: 'A depressed widow denied voices at first, but gentle follow-up revealed she heard neighbors yelling insults about her. She had major depression with psychotic features and needed an antidepressant plus an antipsychotic.', short: 'Keep probing; antidepressant + antipsychotic', pic: 'vignette' },
+    { term: 'Making psychosis questions less threatening', def: 'Use smooth transitions and normalization, such as "Deep depression sometimes causes strange experiences, like hearing voices. Has that happened to you?" Anxiety, drugs, and dementia can also be springboards.', short: 'Normalize, then ask', pic: 'normalize' },
+    { term: 'Schizophrenia symptoms (mnemonic)', def: '"Delusions Herald Schizophrenic\'s Bad News": Delusions, Hallucinations, Speech/thought disorganization, Behavior disorganization, Negative symptoms', short: 'Delusions, Hallucinations, Speech, Behavior, Negative', pic: 'dhsbn' },
+    { term: 'Schizophrenia DSM-5 criteria', def: 'Two symptoms for 1 month, at least one being a core symptom (delusions, hallucinations, or disorganized speech), plus 5 more months of prodromal or residual symptoms (6 months total)', short: '2 symptoms, 1 month, 6 months total', pic: 'szCrit' },
+    { term: 'Thought content vs. thought process', def: 'Thought content (TC) is what the person thinks; impaired TC means delusions. Thought process (TP) is how thoughts connect; impaired TP means disorganized speech.', short: 'Delusions vs. disorganized speech', pic: 'tcTp' },
+    { term: 'Delusion', def: 'A belief about the world that most people would agree is impossible. Most are paranoid or grandiose.', short: 'An impossible belief', pic: 'delusion' },
+    { term: 'Paranoid delusions', def: 'The most common delusion (about 60% of schizophrenia patients): belief that people are harassing, chasing, spying on, spreading rumors about, or trying to kill them, often involving the FBI, CIA, or Mafia', short: 'Most common; being persecuted', pic: 'delusion' },
+    { term: 'Delusions (ideas) of reference', def: 'Belief that casual events have special, usually dangerous, meaning for the patient: strangers are staring or talking about them, or the TV or radio is sending them messages', short: 'Events are about me', pic: 'reference' },
+    { term: 'Delusions of control', def: 'Belief of being controlled by an outside force, for example rays sent through the television', short: 'Controlled by an outside force', pic: 'control' },
+    { term: 'Capgras syndrome', def: 'A delusion of replacement: the belief that important people in one\'s life have been replaced by impostors', short: 'Loved ones replaced by impostors', pic: 'capgras' },
+    { term: 'Delusion of jealousy', def: 'The belief that one\'s spouse is unfaithful despite no supporting evidence', short: 'Spouse cheating, no evidence', pic: 'jealousy' },
+    { term: 'Somatic delusions', def: 'Belief of having an illness or being poisoned despite no medical evidence. Often seen with depression. (Similar questions screen for somatization, which is not psychotic.)', short: 'Illness or poisoning; with depression', pic: 'somatic' },
+    { term: 'Grandiose delusions', def: 'Belief in having special powers or doing extraordinary things, often during mania. Two common kinds are religious and technological.', short: 'Special powers; mania', pic: 'delusion' },
+    { term: 'Religious delusions', def: 'A common grandiose delusion of being God-like, such as believing one is the Messiah. Ask about a special relationship with God or special religious powers.', short: 'God-like or Messiah', pic: 'religious' },
+    { term: 'Technological delusions', def: 'Belief of being connected to computers or electrical devices that give immense power, such as a transmitter in the brain', short: 'Connected to machines', pic: 'tech' },
+    { term: 'Interviewing a paranoid patient', def: 'Be nonjudgmental so you become an ally, not part of the delusional system. Ask "Has anyone treated you badly or been watching you?"', short: 'Be an ally, not a critic', pic: 'ally' },
+    { term: 'Counterprojective statement', def: 'With a patient who distrusts you, openly acknowledge and sympathize with their suspicion of you ("You probably think I\'m part of it too, which would be understandable"). It often helps them open up.', short: 'Name their suspicion of you', pic: 'counter' },
+    { term: 'Reality testing and the 3 phases of a delusion', def: 'Reality testing checks how strongly the patient believes the delusion, showing severity and response to treatment. Phases: fully convinced, then "double awareness" (starting to question it), then nondelusional.', short: 'Convinced → double awareness → gone', pic: 'phases' },
+    { term: 'Gentle reality-testing questions', def: 'Don\'t call it a delusion. Frame it as imagination ("Has your imagination been getting the best of you?"), the mind ("Has your mind been playing tricks on you?"), or fantasy.', short: 'Imagination, mind, fantasy', pic: 'frame' },
+    { term: 'Hallucinations in schizophrenia', def: 'Occur in about half of patients with schizophrenia, and also in depression, bipolar disorder, substance use, dissociative disorders, and dementia. Ask with curiosity: how many voices, male or female, what do they say?', short: 'About half; ask with curiosity', pic: 'halluc' },
+    { term: 'Command hallucinations', def: 'Always ask: "Are the voices telling you to do anything? Saying bad things about you or telling you to hurt yourself or anyone else?"', short: 'Voices telling them to act', pic: 'command' },
+    { term: 'Asking about all types of hallucinations at once', def: '"Have you heard, seen, smelled, or felt things that other people couldn\'t?" covers auditory, visual, olfactory, and tactile hallucinations', short: 'Heard, seen, smelled, felt', pic: 'senses' },
+    { term: 'Disorganized speech (formal thought disorder)', def: 'A disorder of thought process, the form rather than the content of thought. Fits into two clusters: the looseness of association (LOA) cluster and the velocity cluster.', short: 'LOA cluster and velocity cluster', pic: 'formal' },
+    { term: 'LOA severity range', def: 'From mild to severe: circumstantiality, tangentiality, looseness of associations, word salad. Document LOA as mild, moderate, or severe with a word-for-word example.', short: 'Circumstantial → word salad', pic: 'loaScale' },
+    { term: 'Circumstantiality', def: 'Many related digressions and extra details, but the speaker eventually returns to the point. Not necessarily pathologic ("long-winded"); common in dementia and anxiety.', short: 'Long-winded but returns', pic: 'circum' },
+    { term: 'Tangentiality', def: 'Abrupt digressions that never return to the question. Approaches incoherence and usually means psychosis or dementia. "Rambling" is the same thing in dementia.', short: 'Veers off, never returns', pic: 'tangent' },
+    { term: 'Looseness of associations (LOA)', def: 'A more severe tangentiality: statements lead to others so loosely that the leaps can\'t be followed, though each sentence is grammatical. Same as derailment and disjointed speech.', short: 'Leaps you can\'t follow', pic: 'loa' },
+    { term: 'Loss of goal', def: 'Speech that never reaches a point or answers the question, usually from LOA', short: 'Never answers the question', pic: 'loaTerms' },
+    { term: 'Word salad', def: 'The most extreme LOA: associations break down within sentences, between words, so speech is completely incoherent', short: 'Incoherent even within sentences', pic: 'salad' },
+    { term: 'Neologisms and clang associations', def: 'Neologisms are made-up words that often come with word salad. Clang associations link words by their sound. Non sequiturs are out-of-context words in a sentence.', short: 'Made-up words; sound links', pic: 'saladTerms' },
+    { term: 'Velocity cluster', def: 'Abnormal speed of thought production, ranging from mutism at one end to flight of ideas at the other', short: 'Mutism to flight of ideas', pic: 'formal' },
+    { term: 'Mutism', def: 'The patient will not speak. Can be a negative symptom of schizophrenia, part of catatonia in mood disorders, or a response to a delusion.', short: 'Won\'t speak', pic: 'mutism' },
+    { term: 'Poverty of thought (poverty of speech)', def: 'Very little spontaneous speech; answers use the minimum words. Tell it apart from an angry, resistant patient; look for other negative symptoms. Draw them out with open-ended, provocative questions.', short: 'Minimum words', pic: 'poverty' },
+    { term: 'Poverty of content', def: 'Lots of speech that stays on topic but says almost nothing meaningful, usually because it is overly abstract', short: 'Many words, little meaning', pic: 'poverty' },
+    { term: 'Thought blocking', def: 'The patient starts to say something, stops mid-thought, and forgets what they were going to say', short: 'Stops mid-thought', pic: 'blocking' },
+    { term: 'Perseveration', def: 'Dwelling on one idea or preoccupation over and over. Seen in OCD, dementia, and psychosis.', short: 'Stuck on one idea', pic: 'persev' },
+    { term: 'Racing thoughts vs. pressured speech', def: 'Racing thoughts are the inner sense of thoughts too fast to follow (anxiety, detox). Pressured speech is rapid, loud speech that is hard to interrupt and almost always means mania.', short: 'Inner speed vs. fast speech (mania)', pic: 'racing' },
+    { term: 'Flight of ideas', def: 'LOA happening very rapidly. Not the same as pressured speech or racing thoughts, which can be coherent.', short: 'Fast LOA', pic: 'flight' },
+    { term: 'Disorganized behavior', def: 'Diagnosed mainly by observation: poor grooming, body odor, bizarre clothing, or trouble with a simple task like finding an insurance card', short: 'Grooming, odor, can\'t do simple tasks', pic: 'disorgBeh' },
+    { term: 'Positive vs. negative symptoms', def: 'Positive: delusions, hallucinations. Negative: flat affect, apathy, asociality, poverty of speech, little movement, poor grooming, and lack of motivation.', short: 'Added vs. missing', pic: 'negSx' },
+  ],
+};
+</script>
+<script src="art/psy27.js"></script>
+<script src="study.js"></script>
+</body>
+</html>

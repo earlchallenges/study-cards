@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dementia &amp; Delirium | Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<link rel="stylesheet" href="study.css">
+<link rel="stylesheet" href="ch9-art.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="ch9-pics.js"></script>
+<script>
+const PICS = {
+  screen: listPic('Cognitive screening questions', ['Orientation: name, place, date', 'Short-term memory: 3 words', 'Recent presidents, famous people', 'Address, family birthdays']),
+  threeWords: factPic('Three-word recall', 'Ball · chair · purple', 'Ask again in a couple of minutes'),
+  ncd: twoPic('DSM-5 new names', ['Major neurocognitive disorder', ['= dementia']], ['Mild neurocognitive disorder', ['= milder dementia']]),
+  attn: twoPic('Delirium vs. dementia', ['Delirium', ['Attention impaired', 'So everything is impaired']], ['Dementia', ['Attention intact', 'Memory impaired']]),
+  frat: listPic('Delirium: Medical FRAT', ['Medical cause', 'Fluctuating course', 'Recent onset', 'Attention impaired', 'Thinking impaired']),
+  delCrit: listPic('Delirium (DSM-5)', ['Disturbed awareness and attention', 'Change in cognition or perception', 'Develops over hours to days', 'Fluctuates during the day', 'Has a medical cause']),
+  noSerial: factPic('Testing attention in delirium', 'Skip serial sevens', 'Can they answer routine questions?'),
+  loudQuiet: twoPic('Two kinds of delirious patients', ['Loud', ['Rambling, incoherent', 'Fights restraints, pulls lines']], ['Quiet', ['Easy to miss', 'Needs probing']]),
+  observe: listPic('Spotting quiet delirium', ['Walk in and say nothing', 'Normal: looks at you and greets you', 'Delirious: glances away, mutters', 'Tracks a hallucinated bug']),
+  vignettes: listPic('Incoherent, but is it delirium?', ['Fixed paranoid delusion: psychosis', 'Thinks hospital is home: dementia', 'Can\'t hold attention: delirium']),
+  dts: factPic('Delirium tremens example', 'Stopped alprazolam suddenly', 'Couldn\'t hold attention for one thought'),
+  recall: factPic('Delirium and 3-object recall', 'Almost always fails', 'Too inattentive to register the words'),
+  halluc: factPic('Hallucinations in delirium', 'Visual or auditory', 'Extremely common'),
+  fluct: listPic('Proving onset and fluctuation', ['Onset: days to weeks (ask others)', 'See the patient twice a day', 'Or ask caregivers how they did']),
+  family: factPic('Best way to diagnose dementia', 'MSE + family interview', 'Patients deny or minimize memory loss'),
+  tenYears: factPic('Ask family to compare', 'Now vs. 10 years ago', 'Gradual decline = dementia, not delirium'),
+  iqcode: listPic('Compared with 10 years ago, how is…', ['Remembering recent events', 'Where things are kept', 'Family names, birthdays', 'Decisions, money', 'Finding words, housework', 'Social cues, personality']),
+  lapse: listPic('Dementia: Memory LAPSE', ['Memory', 'Language', 'Attention (complex)', 'Perceptual-motor', 'Social cognition', 'Executive function'], 'Need 1 of 6 domains'),
+  memory: factPic('Memory in DSM-5 dementia', 'No longer required', 'But nearly every patient has it'),
+  delFirst: factPic('Before testing for dementia', 'Screen for delirium first', 'Delirium makes dementia testing invalid'),
+  complex: twoPic('Complex attention', ['Fine in a quiet chat', ['Unlike delirium']], ['Struggles with many inputs', ['Distracted by noise, TV, kids', 'Repeat a phone number']]),
+  exec: listPic('Executive function', ['Planning, abstract thinking', 'Job trouble, simple tasks now hard', 'Test: clock drawing']),
+  clock: factPic('Clock-drawing test', 'Fill in the numbers, set hands to 2:30', 'Only if some high school education'),
+  aphasia: listPic('Language (aphasia)', ['Word-finding trouble most common', 'Tip-of-the-tongue', 'Test: name objects in the room'], 'Only catches severe cases'),
+  apraxia: listPic('Perceptual-motor (apraxia)', ['Trouble with everyday tasks', 'Dressing, buttons, shoelaces', 'Driving, making a sandwich']),
+  threeStep: flowPic('MMSE three-step command', ['Take paper in right hand', 'Fold in half', 'Put on floor'], 'Tests apraxia', 2),
+  social: listPic('Social cognition', ['DSM-5 word for personality change', 'Misreads social cues', 'Withdraws or says awkward things']),
+};
+
+window.SET = {
+  title: 'Dementia & Delirium',
+  chapter: 'Psychiatric Interview · Ch 28 Assessing Neurocognitive Disorders (Dementia and Delirium)',
+  pics: PICS,
+  mystery: true,
+  audio: 'audio/psy28',
+  speak: {},
+  cards: [
+    { term: 'Cognitive screening questions', def: 'Orientation (full name, where are we, today\'s date), short-term memory (repeat three words and recall them later), and general and personal information (recent presidents, famous people, address, family names and birthdays)', short: 'Orientation, memory, general knowledge', pic: 'screen' },
+    { term: 'Three-word recall test', def: 'Ask the patient to repeat three words (such as ball, chair, purple), keep them in mind, and recall them a couple of minutes later. Tests short-term memory.', short: 'Repeat 3 words, recall later', pic: 'threeWords' },
+    { term: 'DSM-5 name for dementia', def: 'Dementia and delirium are now "neurocognitive disorders." Dementia is "major neurocognitive disorder," and a milder form is "mild neurocognitive disorder." Delirium is still called delirium.', short: 'Major neurocognitive disorder', pic: 'ncd' },
+    { term: 'Key difference: delirium vs. dementia', def: 'In delirium, attention is impaired, so all cognitive processes are impaired. In dementia, attention is intact but cognition, especially memory, is impaired.', short: 'Attention impaired vs. intact', pic: 'attn' },
+    { term: 'Delirium criteria (mnemonic)', def: '"Medical FRAT": Medical cause, Fluctuating course, Recent onset, Attentional impairment, Thinking impairment', short: 'Medical cause, Fluctuating, Recent, Attention, Thinking', pic: 'frat' },
+    { term: 'Delirium DSM-5 criteria', def: 'Disturbed awareness with reduced ability to focus, sustain, or shift attention; a change in cognition or perception not explained by dementia; develops over hours to days and fluctuates during the day; caused by a medical condition', short: 'Attention, fast onset, fluctuates, medical cause', pic: 'delCrit' },
+    { term: 'Key to diagnosing delirium', def: 'Show impaired attention: trouble sustaining attention. Rely on how well the patient answers routine questions rather than unproven tests like serial sevens.', short: 'Impaired attention', pic: 'noSerial' },
+    { term: 'Loud vs. quiet delirium', def: 'The loud delirious patient rambles incoherently, fights restraints, and pulls out IV lines. The quiet delirious patient is easy to miss and needs probing.', short: 'Agitated vs. easy to miss', pic: 'loudQuiet' },
+    { term: 'Spotting quiet delirium', def: 'Walk in and say nothing. A normal person looks at you and greets you. A delirious patient may glance briefly then ignore you, talk softly to themselves, or track a hallucinated insect.', short: 'Observe silently first', pic: 'observe' },
+    { term: 'Incoherent patient: psychosis, dementia, or delirium?', def: 'A fixed paranoid delusion with intact attention is psychosis. Thinking the hospital is home, with intact attention, is dementia (memory loss). Being unable to hold attention to a single thought is delirium.', short: 'Only lost attention = delirium', pic: 'vignettes' },
+    { term: 'Delirium tremens example', def: 'A patient who abruptly stopped prescribed alprazolam (Xanax) 3 days earlier understood words but could not hold attention or keep one train of thought', short: 'Benzodiazepine withdrawal', pic: 'dts' },
+    { term: 'Delirium and the three-object recall task', def: 'Almost all delirious patients fail it, because their attention is too impaired to register the words in the first place', short: 'Usually fail; can\'t register', pic: 'recall' },
+    { term: 'Hallucinations in delirium', def: 'Visual or auditory hallucinations are extremely common in delirium', short: 'Very common', pic: 'halluc' },
+    { term: 'Confirming recent onset and fluctuation', def: 'Get history from others to show onset over days to weeks (which rules out dementia). Examine the patient at least twice a day, or ask caregivers whether they could answer simple questions.', short: 'Ask others; see them twice', pic: 'fluct' },
+    { term: 'Best way to diagnose dementia', def: 'Combine the mental status exam with interviews of family or other informants. Patients often deny or minimize memory problems, and informant interviews are more sensitive than the MSE alone.', short: 'MSE + informants', pic: 'family' },
+    { term: 'First question for family about dementia', def: 'Compare the patient now with 10 years ago. This focuses on gradual decline, which separates dementia from delirium.', short: 'Now vs. 10 years ago', pic: 'tenYears' },
+    { term: 'Informant questions (IQCODE style)', def: 'Compared with 10 years ago, how is the person at remembering recent events, where things are kept, family names and birthdays, making decisions, handling money, finding words, housework, and following social cues? Any personality change?', short: 'Memory, decisions, money, words, chores, social', pic: 'iqcode' },
+    { term: 'Dementia domains (mnemonic)', def: '"Memory LAPSE": Memory, Language, Attention (complex), Perceptual-motor, Social cognition, Executive function. DSM-5 needs significant impairment in at least one.', short: 'Memory, Language, Attention, Perceptual-motor, Social, Executive', pic: 'lapse' },
+    { term: 'Is memory loss required for dementia in DSM-5?', def: 'No (it was in DSM-IV), but it is very rare for a person with dementia not to have memory impairment', short: 'No, but almost always present', pic: 'memory' },
+    { term: 'Before testing cognition for dementia', def: 'Do a basic delirium screen first. If the patient is delirious, the exam can\'t tell you anything about dementia.', short: 'Rule out delirium first', pic: 'delFirst' },
+    { term: 'Complex attention in dementia', def: 'Unlike delirium, the patient can hold a simple conversation, but struggles with many inputs at once. Ask family: easily distracted by other noise? Trouble repeating a phone number or writing while on the phone?', short: 'Struggles with multiple inputs', pic: 'complex' },
+    { term: 'Executive function in dementia', def: 'The ability to plan and think abstractly. Shows up as job trouble and difficulty with once-easy tasks. Classic screening test is clock drawing.', short: 'Planning; clock drawing', pic: 'exec' },
+    { term: 'Clock-drawing test', def: 'Give a circle with a center dot; ask the patient to write in the numbers and set the hands to 2:30. Errors include bunched, skipped, or repeated numbers and wrong hands. Use only if the patient has some high school education.', short: 'Numbers + hands at 2:30', pic: 'clock' },
+    { term: 'Language problems in dementia (aphasia)', def: 'Most commonly word-finding difficulty, with the word on the tip of the tongue. Naming common objects in the room picks up only severe aphasia; informants catch early cases.', short: 'Word-finding trouble', pic: 'aphasia' },
+    { term: 'Perceptual-motor problems (apraxia)', def: 'Trouble doing simple everyday activities despite an intact nervous system: dressing, buttoning, tying shoes, driving, making a sandwich. Ask family or watch the patient do a task.', short: 'Can\'t do everyday tasks', pic: 'apraxia' },
+    { term: 'MMSE three-step command', def: 'Take this paper in your right hand, fold it in half with both hands, and put it on the floor. A standard test for apraxia.', short: 'Take, fold, put on floor', pic: 'threeStep' },
+    { term: 'Social cognition in dementia', def: 'DSM-5 term for personality change: trouble reading social cues and behaving appropriately, such as withdrawing or bringing up awkward topics (sex, politics, religion)', short: 'Personality change', pic: 'social' },
+  ],
+};
+</script>
+<script src="art/psy28.js"></script>
+<script src="study.js"></script>
+</body>
+</html>

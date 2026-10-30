@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ADHD | Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<link rel="stylesheet" href="study.css">
+<link rel="stylesheet" href="ch9-art.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="ch9-pics.js"></script>
+<script>
+const PICS = {
+  screen: factPic('ADHD screening question', 'When you were young, trouble with hyperactivity or paying attention in school?', 'If yes: do you still have those problems?'),
+  criteria: listPic('ADHD (DSM-5)', ['6 of 9 inattention OR 6 of 9 hyperactive', 'Age 17+: only 5 of 9 needed', 'Some symptoms before age 12', 'In 2+ settings (school, home)']),
+  moat: listPic('ADHD: MOAT around the classroom', ['Movement excess', 'Organization problems', 'Attention problems', 'Talking impulsively']),
+  inatt: twoPic('Inattention / disorganization', ['Organization', ['Can\'t organize tasks', 'Loses things', 'Doesn\'t finish']], ['Attention', ['Easily distracted', 'Forgetful, careless', 'Avoids focus tasks']]),
+  hyper: twoPic('Hyperactivity / impulsivity', ['Talking', ['Talks too much, blurts', 'Interrupts']], ['Movement', ['Fidgets, leaves seat', 'Restless, can\'t wait turn']]),
+  adultVsKid: twoPic('DSM-5 made adult ADHD easier', ['Onset age', ['Was 7, now 12']], ['Symptom count', ['Adults: 5 of 9', 'Kids: still 6 of 9']]),
+  kids: factPic('ADHD is easier to diagnose in kids', 'A parent can report behavior', 'Adults must prove childhood symptoms'),
+  noTest: factPic('Is there a test for ADHD?', 'No definitive test', 'Diagnosis comes from interviews and observation'),
+  list: listPic('Interviewing for ADHD', ['Go through each DSM-5 criterion', 'Confirm 2 settings', 'Get a specific example', 'Reuse examples to track treatment']),
+  mimic: listPic('Other causes of impulsivity or poor focus', ['Substance abuse', 'Depression', 'Mania', 'Anxiety disorders']),
+  feign: factPic('Adult ADHD caution', 'About 1 in 4 feign or exaggerate', 'To get stimulants, which are abusable'),
+  focus: factPic('Focus clue in adults', 'Can focus on fun things (football)', 'Can\'t focus on dull tasks (reports)'),
+  distract: listPic('Inattention questions', ['Hard time paying attention?', 'Distractible?', 'Hard time finishing things?', 'Forgot the shoes on the way to get them?']),
+  clown: listPic('Hyperactivity questions', ['Were you the class clown?', 'Teacher always telling you to stop?', 'Hard to keep still? Fidgety?', 'Blurt things out?']),
+  motor: factPic('Define hyperactive', 'Like a little motor inside you can\'t turn off', 'Rule out mania or anxiety'),
+  conners: factPic('Most common ADHD rating scale', 'Conners\' Scale', 'Teacher, parent, or employer fills it out'),
+};
+
+window.SET = {
+  title: 'ADHD',
+  chapter: 'Psychiatric Interview · Ch 30 Assessing Attention Deficit Hyperactivity Disorder',
+  pics: PICS,
+  mystery: true,
+  audio: 'audio/psy30',
+  speak: {},
+  cards: [
+    { term: 'ADHD screening question', def: '"When you were young, did you have problems with hyperactivity or paying attention in school?" If yes, ask "Do you still have those sorts of problems?" If no, an old diagnosis probably isn\'t worth probing.', short: 'Childhood hyperactivity or attention?', pic: 'screen' },
+    { term: 'ADHD DSM-5 criteria', def: 'Six of nine inattention/disorganization symptoms OR six of nine hyperactivity/impulsivity symptoms (five of nine at age 17 or older), some symptoms before age 12, and symptoms in two or more settings such as school or work and home', short: '6 of 9, before 12, 2 settings', pic: 'criteria' },
+    { term: 'ADHD symptom clusters (mnemonic)', def: '"You\'ll need a MOAT around the classroom for the hyperactive child": Movement excess, Organization problems, Attention problems, Talking impulsively', short: 'Movement, Organization, Attention, Talking', pic: 'moat' },
+    { term: 'Inattention and disorganization symptoms', def: 'Organization: can\'t organize tasks, loses things, doesn\'t finish tasks. Attention: poor focus, easily distracted, doesn\'t listen, forgetful, careless mistakes, avoids tasks needing concentration.', short: 'Disorganized, distracted, forgetful', pic: 'inatt' },
+    { term: 'Hyperactivity and impulsivity symptoms', def: 'Talking: talks too much, blurts out answers, interrupts, can\'t play quietly. Movement: fidgets and squirms, leaves seat, restless, always on the go, can\'t wait for a turn.', short: 'Talks, blurts, fidgets, restless', pic: 'hyper' },
+    { term: 'Age of onset for ADHD', def: 'Some symptoms must have been present before age 12 (DSM-5 raised this from age 7)', short: 'Before age 12', pic: 'adultVsKid' },
+    { term: 'Two ways DSM-5 made adult ADHD easier to diagnose', def: 'Onset age was raised from 7 to 12, and the symptom threshold was lowered from 6 to 5 for adults (not for children)', short: 'Onset 12; adults need 5', pic: 'adultVsKid' },
+    { term: 'Why ADHD is easier to diagnose in children', def: 'A parent comes along and can report behavior, and you don\'t have to prove symptoms existed in childhood, which is the hard part with adults', short: 'Parent reports; no need to prove childhood', pic: 'kids' },
+    { term: 'Is there a test for ADHD?', def: 'No definitive test. The diagnosis comes from combining reports and observations from different people, gathered through good interviewing.', short: 'No; it\'s an interview diagnosis', pic: 'noTest' },
+    { term: 'How to interview for ADHD', def: 'Go through each DSM-5 criterion with the parents and patient. For each, confirm it happens in two settings and get a specific example. Write examples down to compare after treatment.', short: 'Each criterion, 2 settings, example', pic: 'list' },
+    { term: 'Other causes of poor focus or impulsivity', def: 'Substance abuse, depression, mania, and anxiety disorders. If a child meets only a few ADHD criteria, move to these diagnoses.', short: 'Substances, depression, mania, anxiety', pic: 'mimic' },
+    { term: 'Caution with adult ADHD', def: 'Symptoms are easy to feign; one study found about a quarter of adults feigned or exaggerated them, likely to get stimulants, which are highly abusable', short: 'Watch for faking to get stimulants', pic: 'feign' },
+    { term: 'Concentration clue in adult ADHD', def: 'Many can focus on engaging things like a football game but not on less fun tasks like writing a report or studying', short: 'Fun yes, dull no', pic: 'focus' },
+    { term: 'Questions about inattention', def: 'Hard time paying attention or concentrating? Distractible (can\'t listen when someone nearby is talking)? Hard time finishing things? Ask a parent: sent for shoes, did he get sidetracked and forget?', short: 'Attention, distractible, finishing', pic: 'distract' },
+    { term: 'Questions about hyperactivity and impulsive talking', def: 'Were you the class clown? Was the teacher always telling you to stop? Hard to keep still? Fidgety? Easy to sit quietly at meetings, or do you blurt things out?', short: 'Class clown, fidgety, blurting', pic: 'clown' },
+    { term: 'Clarifying "hyperactive"', def: 'Ask what they mean, since some mean overly energetic (mania) or anxious. Define it as feeling like a little motor running inside you all the time that you can\'t turn off.', short: 'A motor you can\'t turn off', pic: 'motor' },
+    { term: 'Hyperactivity in adults vs. children', def: 'Children may show obvious hyperactivity in the office. In teens and adults it is subtler: foot tapping, quick hand gestures, and an outgoing, chatty style.', short: 'Subtler in adults', pic: 'motor' },
+    { term: 'Family interviews and rating scales', def: 'Talking with parents always helps, even for adults. The most common scale is the Conners\' Scale; send a copy home for a teacher or employer to confirm symptoms in two settings.', short: 'Conners\' Scale', pic: 'conners' },
+  ],
+};
+</script>
+<script src="art/psy30.js"></script>
+<script src="study.js"></script>
+</body>
+</html>
