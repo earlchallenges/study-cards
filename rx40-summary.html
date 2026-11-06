@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Diabetes Meds Summary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<style>
+:root{
+  --bg:#fff8ee;--ink:#27304a;--soft:#5d6780;--card:#ffffff;--line:#eadfce;
+  --coral:#e85d4c;--gold:#e8a020;--teal:#12908a;--blue:#3a6fd8;--violet:#7a55c7;--green:#3b9a57;
+  --coral-bg:#fde8e4;--gold-bg:#fdf1d8;--teal-bg:#dcf3f1;--blue-bg:#e3ebfb;--violet-bg:#eee7fa;--green-bg:#e2f4e6;
+  --shadow:0 6px 22px rgba(60,40,10,.10);
+}
+:root:not([data-theme="light"]){color-scheme:light dark}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#171b2a;--ink:#f1eee6;--soft:#b3b8c9;--card:#232940;--line:#39415c;
+  --coral-bg:#44282a;--gold-bg:#42361f;--teal-bg:#1d3d40;--blue-bg:#25345a;--violet-bg:#352b53;--green-bg:#233f30;
+  --coral:#ff8676;--gold:#f4bb4f;--teal:#4cc9c2;--blue:#86a9f5;--violet:#b499ec;--green:#70cb8b;
+  --shadow:0 6px 22px rgba(0,0,0,.35);
+}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.55 "Atkinson Hyperlegible",system-ui,sans-serif;overflow-x:hidden}
+h1,h2,h3{font-family:Literata,Georgia,serif;line-height:1.15;margin:0}
+h2{font-size:clamp(1.6rem,4.5vw,2.3rem);margin-bottom:.35em}
+h3{font-size:1.2rem}
+p{margin:.45em 0}
+a{color:var(--blue)}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+#bar{position:fixed;inset:0 auto auto 0;height:6px;width:0;background:linear-gradient(90deg,var(--coral),var(--gold),var(--teal));z-index:20}
+.wrap{max-width:900px;margin:auto;padding:0 16px}
+section{padding:46px 0;opacity:0;transform:translateY(24px);transition:opacity .6s,transform .6s}
+section.seen{opacity:1;transform:none}
+.kicker{font-weight:700;font-size:.82rem;letter-spacing:.09em;text-transform:uppercase;color:var(--coral);margin-bottom:.35em}
+.lead{color:var(--soft);max-width:44em}
+.page{font-size:.8rem;color:var(--soft)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow)}
+.top{display:flex;justify-content:space-between;gap:12px;padding:14px 0;font-size:.92rem}
+
+/* hero */
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#27304a,#3b3f7a 60%,#7a55c7);color:#fff;padding:54px 0 62px}
+.hero h1{font-size:clamp(2.2rem,8vw,4rem);max-width:12em}
+.hero p{font-size:1.15rem;max-width:32em;color:#e8e6f5}
+.hero .wrap{position:relative;z-index:2}
+.cube{position:absolute;bottom:-40px;width:26px;height:26px;border-radius:6px;background:#fff;opacity:.22;animation:float linear infinite}
+@keyframes float{to{transform:translateY(-620px) rotate(320deg);opacity:0}}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.toc a{background:rgba(255,255,255,.15);color:#fff;text-decoration:none;padding:7px 13px;border-radius:99px;font-size:.92rem}
+.toc a:hover{background:rgba(255,255,255,.3)}
+
+/* key and door */
+.door-stage{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.door{position:relative;height:210px;border-radius:14px;background:var(--blue-bg);overflow:hidden}
+.door h3{position:absolute;top:10px;left:14px;font-size:1rem}
+.cellwall{position:absolute;right:30%;top:42px;bottom:0;width:12px;background:var(--blue);border-radius:6px 6px 0 0}
+.gate{position:absolute;right:calc(30% - 2px);top:112px;width:16px;height:46px;background:var(--coral);border-radius:4px;transition:transform .5s;transform-origin:top}
+.door.open .gate{transform:scaleY(.08)}
+.celltxt{position:absolute;right:7%;top:58px;font-weight:700;color:var(--blue);font-size:.95rem}
+.sug{position:absolute;left:12%;top:124px;width:18px;height:18px;border-radius:5px;background:var(--gold)}
+.door.open .sug{animation:into 2.2s infinite}
+.sug.b{animation-delay:.7s!important;top:100px}.sug.c{animation-delay:1.4s!important;top:146px}
+@keyframes into{0%{left:10%;top:134px;opacity:1}70%{left:82%;top:134px;opacity:1}100%{left:92%;top:134px;opacity:0}}
+.door.shut .sug{animation:pile 1.6s ease-in-out infinite alternate}
+@keyframes pile{to{transform:translate(32px,-8px)}}
+.keyicon{position:absolute;left:10px;bottom:10px;font-size:.84rem;font-weight:700;background:var(--card);padding:3px 9px;border-radius:99px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.chip{border:2px solid var(--line);background:var(--card);padding:8px 14px;border-radius:99px;font-weight:700;font-size:.95rem;transition:transform .15s,background .2s}
+.chip:hover{transform:translateY(-2px)}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* a1c */
+.gauge{margin:18px 0 8px}
+input[type=range]{width:100%;accent-color:var(--coral);height:34px}
+.scale{display:grid;grid-template-columns:7fr 7fr 26fr;height:16px;border-radius:99px;overflow:hidden}
+.scale i:nth-child(1){background:var(--green)}.scale i:nth-child(2){background:var(--gold)}.scale i:nth-child(3){background:var(--coral)}
+.a1cnum{font:700 clamp(2.4rem,9vw,3.6rem)/1 Literata,serif}
+.status{display:inline-block;padding:4px 13px;border-radius:99px;font-weight:700;margin-left:8px;vertical-align:middle}
+.tbl{width:100%;border-collapse:collapse;margin-top:14px;font-size:.92rem}
+.tbl th,.tbl td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left;vertical-align:top}
+.tblwrap{overflow-x:auto}
+.mine{background:var(--gold-bg);padding:12px 14px;border-radius:12px;margin-top:12px}
+
+/* picker */
+.result{margin-top:12px;animation:pop .35s}
+@keyframes pop{from{transform:scale(.97);opacity:0}}
+.rx{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.rx>div{border-radius:14px;padding:13px}
+.rx b{display:block;font-size:.78rem;letter-spacing:.07em;text-transform:uppercase;margin-bottom:3px}
+.best{background:var(--green-bg)}.back{background:var(--blue-bg)}.avoid{background:var(--coral-bg)}
+.why{margin-top:10px;color:var(--soft)}
+
+/* flip cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:14px}
+.flip{perspective:1100px;background:none;border:0;padding:0;text-align:left;height:410px;width:100%}
+.inner{position:relative;width:100%;height:100%;transition:transform .55s;transform-style:preserve-3d}
+.flip.on .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:18px;padding:16px;border:1px solid var(--line);box-shadow:var(--shadow);background:var(--card);display:flex;flex-direction:column;overflow:auto}
+.back-face{transform:rotateY(180deg);font-size:.93rem}
+.face svg{width:100%;height:150px;flex:none;margin:6px 0}
+.tag{font-size:.8rem;font-weight:700;color:var(--soft)}
+.hint{margin-top:auto;font-size:.8rem;color:var(--soft);font-weight:700}
+.back-face ul{padding-left:18px;margin:.3em 0}
+.back-face li{margin:.15em 0}
+.warn{color:var(--coral);font-weight:700}
+
+/* insulin race */
+.chart{width:100%;height:auto;display:block}
+.curve{fill:none;stroke-width:4;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+.play .curve{animation:draw 3.2s ease-out forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.bigbtn{background:var(--coral);color:#fff;border:0;border-radius:99px;font-weight:700;padding:10px 18px;transition:transform .15s}
+.bigbtn:hover{transform:translateY(-2px)}
+
+/* danger */
+.dangers{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.danger{border:2px solid var(--coral);background:var(--card);border-radius:14px;padding:14px;text-align:left;min-height:96px}
+.danger .ans{display:none;margin-top:6px}
+.danger.on{background:var(--coral-bg)}
+.danger.on .ans{display:block;animation:pop .3s}
+.danger .q::before{content:"⚠ ";color:var(--coral)}
+
+/* rescue */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;counter-reset:s}
+.step{background:var(--teal-bg);border-radius:14px;padding:13px;font-size:.93rem;counter-increment:s}
+.step::before{content:counter(s);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--teal);color:#fff;font-weight:700;margin-bottom:6px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.two ul{padding-left:20px;margin:.4em 0}
+.lo{background:var(--blue-bg)}.hi{background:var(--coral-bg)}
+.two>div{border-radius:14px;padding:14px}
+.shake{display:inline-block;animation:shk .4s infinite}
+@keyframes shk{25%{transform:translateX(-2px) rotate(-3deg)}75%{transform:translateX(2px) rotate(3deg)}}
+
+/* quiz */
+.opts{display:grid;gap:9px;margin-top:12px}
+.opt{border:2px solid var(--line);background:var(--card);border-radius:12px;padding:11px 14px;text-align:left}
+.opt:hover:not(:disabled){border-color:var(--blue)}
+.opt.right{background:var(--green-bg);border-color:var(--green)}
+.opt.wrong{background:var(--coral-bg);border-color:var(--coral)}
+.qcount{font-weight:700;color:var(--soft);font-size:.9rem}
+.explain{margin-top:10px;padding:11px 13px;border-radius:12px;background:var(--gold-bg)}
+.bit{position:fixed;top:-20px;width:10px;height:14px;border-radius:2px;z-index:30;pointer-events:none;animation:fall 2.3s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+footer{padding:18px 0 44px;color:var(--soft);font-size:.86rem;text-align:center}
+
+@media (max-width:640px){
+  body{font-size:17px}
+  .door-stage,.two{grid-template-columns:1fr}
+  .rx{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr 1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  section{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+
+<header class="hero" id="hero">
+  <div class="wrap">
+    <h1>Diabetes meds, without reading the whole chapter</h1>
+    <p>The most important points from Chapter 40 of <em>Pharmacology for the Primary Care Provider</em>. It should take about 10 minutes, and most of it is tappable.</p>
+    <nav class="toc" aria-label="Sections">
+      <a href="#big">Big picture</a><a href="#numbers">Numbers</a><a href="#pick">Pick the drug</a><a href="#classes">Drug classes</a><a href="#race">Insulin</a><a href="#danger">Warnings</a><a href="#rescue">Low sugar</a><a href="#quiz">Quiz</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="top"><a href="index.html">← All study cards</a><a href="rx40-diabetes.html">Chapter 40 flashcards →</a></div>
+
+  <section id="big">
+    <div class="kicker">1 · Big picture</div>
+    <h2>Insulin is the key that lets sugar into the cell</h2>
+    <p class="lead">Tap each type to watch what goes wrong. Almost every drug in this chapter makes more insulin, helps it work better, or gets rid of extra sugar another way.</p>
+    <div class="chips" role="group" aria-label="Choose a diabetes type">
+      <button class="chip" data-door="healthy" aria-pressed="true">Healthy</button>
+      <button class="chip" data-door="t1" aria-pressed="false">Type 1</button>
+      <button class="chip" data-door="t2" aria-pressed="false">Type 2</button>
+    </div>
+    <div class="door-stage">
+      <div class="door open" id="door" aria-hidden="true">
+        <h3 id="doorTitle">Sugar gets in</h3>
+        <span class="sug"></span><span class="sug b"></span><span class="sug c"></span>
+        <div class="cellwall"></div><div class="gate"></div>
+        <div class="celltxt">Cell</div>
+        <div class="keyicon" id="doorKey">Plenty of insulin</div>
+      </div>
+      <div class="card" id="doorText" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section id="numbers">
+    <div class="kicker">2 · Numbers to memorize</div>
+    <h2>Slide the A1c</h2>
+    <div class="card">
+      <span class="a1cnum" id="a1c">5.4%</span><span class="status" id="a1cStat">Normal</span>
+      <div class="gauge">
+        <input id="a1cSlide" type="range" min="4" max="12" step="0.1" value="5.4" aria-label="A1c percent">
+        <div class="scale" aria-hidden="true"><i></i><i></i><i></i></div>
+      </div>
+      <div class="tblwrap">
+      <table class="tbl">
+        <thead><tr><th></th><th>A1c</th><th>Fasting glucose</th><th>2-hr OGTT</th><th>Random</th></tr></thead>
+        <tbody>
+          <tr><th>Normal</th><td>Under 5.7%</td><td>Under 100</td><td>Under 140</td><td>—</td></tr>
+          <tr><th>Prediabetes</th><td>5.7–6.4%</td><td>100–125</td><td>140–199</td><td>—</td></tr>
+          <tr><th>Diabetes</th><td><b>6.5% or more</b></td><td><b>126 or more</b></td><td><b>200 or more</b></td><td><b>200 or more</b> with symptoms</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="mine"><b>Quick trick:</b> the diabetes numbers are 6.5, 126, and 200. Glucose values are in mg/dL.</div>
+      <p class="page">Book p. 582</p>
+    </div>
+  </section>
+
+  <section id="pick">
+    <div class="kicker">3 · The part you asked for</div>
+    <h2>Who is your patient? Pick the drug.</h2>
+    <p class="lead">Condition first, then the best choice, the backups, and what to stay away from.</p>
+    <div class="chips" id="pickChips" role="group" aria-label="Choose a patient"></div>
+    <div class="card result" id="pickOut" aria-live="polite"></div>
+    <p class="page">"Best" here is a study shortcut. Real choices also depend on A1c, other conditions, cost, and how the patient wants to take the medicine (p. 584, 593).</p>
+  </section>
+
+  <section id="classes">
+    <div class="kicker">4 · Drug classes</div>
+    <h2>Meet the classes</h2>
+    <p class="lead">Tap a card to flip it. Learn the name endings, because they tell you the class on a test.</p>
+    <div class="grid" id="grid"></div>
+    <p class="page">Book p. 585–592. Exact doses are in Tables 40.5 and 40.7 if you need them.</p>
+  </section>
+
+  <section id="race">
+    <div class="kicker">5 · Insulin</div>
+    <h2>The insulin race</h2>
+    <p class="lead">Watch when each one starts, peaks, and quits. These shapes are simplified to show timing, not exact strength.</p>
+    <div class="card">
+      <svg class="chart" id="chart" viewBox="0 0 720 300" role="img" aria-label="Chart comparing how fast four insulins start, peak, and end over 24 hours. Rapid-acting peaks first, then regular, then NPH, and glargine stays flat for about a day.">
+        <g id="axes"></g><g id="curves"></g>
+      </svg>
+      <button class="bigbtn" id="replay">▶ Run the race again</button>
+      <div class="tblwrap">
+      <table class="tbl">
+        <thead><tr><th>Type</th><th>Examples</th><th>Starts</th><th>Peaks</th><th>Lasts</th></tr></thead>
+        <tbody>
+          <tr><th style="color:var(--coral)">Rapid</th><td>Lispro, aspart, glulisine</td><td>5–15 min</td><td>30–90 min (glulisine 1–3 hr)</td><td>3–5 hr</td></tr>
+          <tr><th style="color:var(--gold)">Short</th><td>Regular</td><td>30–60 min</td><td>2–4 hr</td><td>6–8 hr</td></tr>
+          <tr><th style="color:var(--teal)">Intermediate</th><td>NPH</td><td>2–4 hr</td><td>6–10 hr</td><td>10–16 hr</td></tr>
+          <tr><th style="color:var(--violet)">Long</th><td>Glargine</td><td>2 hr</td><td><b>No peak</b></td><td>20–24 hr</td></tr>
+          <tr><th style="color:var(--violet)">Long</th><td>Detemir</td><td>1 hr</td><td><b>No peak</b></td><td>6–24 hr</td></tr>
+          <tr><th style="color:var(--violet)">Long</th><td>Degludec</td><td>1 hr</td><td>About 12 hr</td><td>24–36 hr</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="mine"><b>Glargine pearls:</b> don't give it during a low. Most common problem is hypoglycemia. Split the dose if it's over 100 units a day. Rotate sites to prevent lipodystrophy, and watch for low potassium.</div>
+      <p class="page">Book p. 584–585, Table 40.4</p>
+    </div>
+  </section>
+
+  <section id="danger">
+    <div class="kicker">6 · Likely test questions</div>
+    <h2>The warning wall</h2>
+    <p class="lead">Tap each one and try to answer before it opens.</p>
+    <div class="dangers" id="dangers"></div>
+  </section>
+
+  <section id="rescue">
+    <div class="kicker">7 · Patient teaching</div>
+    <h2>Low blood sugar rescue <span class="shake" aria-hidden="true">🍬</span></h2>
+    <div class="steps">
+      <div class="step"><b>Spot it.</b> Shaky, sweaty, confused, or irritable.</div>
+      <div class="step"><b>Take 15 g of carbs.</b> Glucose tablets or gel, hard candy, or 4 oz of juice or regular soda.</div>
+      <div class="step"><b>Keep a record.</b> Write down each low and tell the provider.</div>
+      <div class="step"><b>Get help.</b> Call the provider or 911 if it doesn't respond to treatment.</div>
+    </div>
+    <div class="two">
+      <div class="lo"><h3>Low sugar</h3><ul><li>Shaky, nervous, sweaty, clammy</li><li>Irritable, confused</li><li>Blurry vision</li><li>Tingling lips, tongue, or cheeks</li><li>Headache, clumsiness</li><li>Nightmares, seizures</li></ul></div>
+      <div class="hi"><h3>High sugar</h3><ul><li>High blood sugar</li><li>Sugar in the urine</li><li>Frequent urination</li><li>Increased thirst</li></ul></div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <h3>Also teach them to</h3>
+      <p>Wear medical ID. Check and record blood sugar. Be careful driving until they know how a medicine affects them. Check their feet every day. Never skip a dose because of cost: tell the provider instead.</p>
+      <p class="page">Book p. 594–595. <b>Newer guideline focus:</b> continuous glucose monitors, personalized weight care, heart failure screening, bone health, and diabetes distress (p. 593).</p>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <div class="kicker">8 · See what stuck</div>
+    <h2>Quick quiz</h2>
+    <div class="card" id="quizBox" aria-live="polite"></div>
+  </section>
+</main>
+<footer>A study summary in plain words, based on Chapter 40. Check your textbook and class notes for exact doses and anything your instructor stresses.</footer>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const calm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+/* progress + reveal */
+addEventListener('scroll',()=>{const d=document.documentElement;$('#bar').style.width=(100*d.scrollTop/(d.scrollHeight-d.clientHeight||1))+'%'},{passive:true});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('seen');io.unobserve(e.target);if(e.target.id==='race')run()}}),{threshold:.08});
+$$('section').forEach(s=>io.observe(s));
+
+/* floating sugar */
+if(!calm)for(let i=0;i<16;i++){const c=document.createElement('span');c.className='cube';c.style.left=Math.random()*100+'%';c.style.animationDuration=7+Math.random()*9+'s';c.style.animationDelay=-Math.random()*12+'s';$('#hero').append(c)}
+
+/* door */
+const D={
+ healthy:{cls:'open',t:'Sugar gets in',k:'Plenty of insulin',h:'Healthy',p:'Beta cells in the pancreas make insulin, which lowers glucose. Alpha cells make glucagon, which raises it.'},
+ t1:{cls:'shut',t:'No key',k:'Almost no insulin',h:'Type 1',p:'The immune system destroys the beta cells, so there is little or no insulin. It usually starts in childhood or young adulthood. <b>Treatment: insulin for life.</b> Classic signs: polyuria, polydipsia, polyphagia, and weight loss.'},
+ t2:{cls:'shut',t:'Key sticks',k:'Insulin, but it works poorly',h:'Type 2',p:'<b>90–95% of cases.</b> Cells resist insulin, and insulin output falls over time as beta cells decline. It isn\'t caused by immune destruction. <b>Treatment: lifestyle plus metformin first,</b> then other drugs as needed. Risks: excess weight, belly fat, inactivity, age, and past gestational diabetes.'}
+};
+function setDoor(n){const d=D[n];const el=$('#door');el.className='door '+d.cls;$('#doorTitle').textContent=d.t;$('#doorKey').textContent=d.k;$('#doorText').innerHTML='<h3>'+d.h+'</h3><p>'+d.p+'</p><p class="page">Book p. 582–583</p>';$$('[data-door]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.door===n))}
+$$('[data-door]').forEach(b=>b.onclick=()=>setDoor(b.dataset.door));setDoor('healthy');
+
+/* a1c */
+function a1c(){const v=+$('#a1cSlide').value;$('#a1c').textContent=v.toFixed(1)+'%';const s=$('#a1cStat');const [t,bg,c]=v<5.7?['Normal','var(--green-bg)','var(--green)']:v<6.5?['Prediabetes','var(--gold-bg)','var(--gold)']:['Diabetes','var(--coral-bg)','var(--coral)'];s.textContent=t;s.style.background=bg;s.style.color=c}
+$('#a1cSlide').oninput=a1c;a1c();
+
+/* picker */
+const P=[
+ {n:'Any new type 2',best:'Metformin, plus diet and exercise',back:'Add a class that fits the patient, like an SGLT2 inhibitor, GLP-1 agonist, or DPP-4 inhibitor',avoid:'Metformin if eGFR is under 30',why:'Metformin is the first choice because it works well, is safe, and costs little.'},
+ {n:'Type 1',best:'Insulin: long-acting plus mealtime rapid-acting',back:'Pramlintide can be added at meals',avoid:'Metformin, SGLT2 inhibitors, DPP-4 inhibitors, and GLP-1 agonists are not for type 1',why:'With no insulin being made, insulin has to be replaced.'},
+ {n:'Heart failure',best:'SGLT2 inhibitor, such as dapagliflozin',back:'Metformin if stable, with caution',avoid:'Pioglitazone (boxed warning). Don\'t start it in NYHA class III–IV.',why:'Dapagliflozin lowers heart failure hospital stays in type 2 with heart disease or risk factors.'},
+ {n:'Heart disease',best:'GLP-1 agonist: semaglutide, dulaglutide, or liraglutide',back:'SGLT2 inhibitor, such as empagliflozin',avoid:'Pioglitazone if heart failure is also present',why:'These GLP-1 agonists lower major heart events in the right patients.'},
+ {n:'Kidney disease',best:'SGLT2 inhibitor for kidney protection, if eGFR allows',back:'Linagliptin (no kidney dose change). Glipizide if a sulfonylurea is needed.',avoid:'Metformin if eGFR is under 30. SGLT2 inhibitors in ESKD or dialysis. Glyburide.',why:'Check eGFR before starting and as you go, because several drugs need dose changes.'},
+ {n:'Needs weight loss',best:'GLP-1 agonist or tirzepatide',back:'SGLT2 inhibitor or metformin (mild weight loss)',avoid:'Sulfonylureas, pioglitazone, and insulin cause weight gain',why:'Tirzepatide acts on both GIP and GLP-1 receptors and is also approved for weight loss.'},
+ {n:'Older adult',best:'DPP-4 inhibitor or another low-risk option',back:'Glipizide at a low, slow dose if a sulfonylurea is needed',avoid:'Glyburide. Use SGLT2 inhibitors with caution (Beers).',why:'Avoiding lows is the priority, and A1c goals can be less strict.'},
+ {n:'Tight budget',best:'Metformin',back:'Sulfonylurea, like glipizide',avoid:'Skipping doses: patients should tell you if they can\'t afford a medicine',why:'Cost is one of the reasons metformin is first-line.'},
+ {n:'Fear of lows',best:'Metformin, then a DPP-4 or SGLT2 inhibitor or GLP-1 agonist',back:'Pioglitazone if there is no heart failure',avoid:'Glyburide, other sulfonylureas, and insulin carry the most risk',why:'These classes rarely cause lows alone, but the risk rises when added to insulin or a sulfonylurea.'}
+];
+const pc=$('#pickChips');
+P.forEach((p,i)=>{const b=document.createElement('button');b.className='chip';b.textContent=p.n;b.setAttribute('aria-pressed',i===0);b.onclick=()=>pick(i);pc.append(b)});
+function pick(i){const p=P[i];$$('.chip',pc).forEach((b,j)=>b.setAttribute('aria-pressed',j===i));const o=$('#pickOut');o.classList.remove('result');void o.offsetWidth;o.classList.add('result');
+ o.innerHTML=`<div class="rx"><div class="best"><b>Best</b>${p.best}</div><div class="back"><b>Backup</b>${p.back}</div><div class="avoid"><b>Avoid</b>${p.avoid}</div></div><p class="why">${p.why}</p>`}
+pick(0);
+
+/* mini animations for the class cards */
+const A={
+ met:`<svg viewBox="0 0 240 150" aria-hidden="true"><rect x="28" y="66" width="104" height="66" rx="10" fill="var(--teal-bg)" stroke="var(--teal)" stroke-width="3"/><text x="80" y="104" text-anchor="middle" font-size="16" font-weight="700" fill="var(--teal)">Liver</text>${[0,1,2].map(i=>`<rect x="120" y="82" width="15" height="15" rx="4" fill="var(--gold)"><animate attributeName="x" values="120;225" dur="4s" begin="${i*1.3}s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="4s" begin="${i*1.3}s" repeatCount="indefinite"/></rect>`).join('')}<text x="165" y="58" font-size="14" fill="var(--soft)">less sugar out</text></svg>`,
+ sglt:`<svg viewBox="0 0 240 150" aria-hidden="true"><ellipse cx="82" cy="58" rx="42" ry="46" fill="var(--coral-bg)" stroke="var(--coral)" stroke-width="3"/><text x="82" y="63" text-anchor="middle" font-size="15" font-weight="700" fill="var(--coral)">Kidney</text><path d="M82 104V140" stroke="var(--coral)" stroke-width="7" stroke-linecap="round"/>${[0,1,2].map(i=>`<rect x="75" y="100" width="14" height="14" rx="4" fill="var(--gold)"><animate attributeName="y" values="96;150" dur="1.8s" begin="${i*.6}s" repeatCount="indefinite"/></rect>`).join('')}<text x="136" y="112" font-size="14" fill="var(--soft)">sugar leaves</text><text x="136" y="130" font-size="14" fill="var(--soft)">in the urine</text></svg>`,
+ su:`<svg viewBox="0 0 240 150" aria-hidden="true"><circle cx="80" cy="74" r="44" fill="var(--blue-bg)" stroke="var(--blue)" stroke-width="3"><animate attributeName="r" values="44;36;44" dur="1.5s" repeatCount="indefinite"/></circle><text x="80" y="80" text-anchor="middle" font-size="15" font-weight="700" fill="var(--blue)">Beta cell</text>${[0,1,2].map(i=>`<circle cx="125" cy="74" r="7" fill="var(--violet)"><animate attributeName="cx" values="118;230" dur="1.5s" begin="${i*.5}s" repeatCount="indefinite"/></circle>`).join('')}<text x="136" y="48" font-size="14" fill="var(--soft)">squeezes out</text><text x="136" y="30" font-size="14" fill="var(--soft)">insulin</text></svg>`,
+ dpp:`<svg viewBox="0 0 240 150" aria-hidden="true"><text x="12" y="30" font-size="14" fill="var(--soft)">protects incretins</text><circle cx="62" cy="86" r="24" fill="var(--green-bg)" stroke="var(--green)" stroke-width="3"><animate attributeName="r" values="24;28;24" dur="2s" repeatCount="indefinite"/></circle><text x="62" y="91" text-anchor="middle" font-size="13" font-weight="700" fill="var(--green)">GLP-1</text><rect x="118" y="50" width="12" height="76" rx="6" fill="var(--violet)"/><circle cx="185" cy="86" r="30" fill="var(--coral-bg)" stroke="var(--coral)" stroke-width="3"><animate attributeName="cx" values="185;150;185" dur="2s" repeatCount="indefinite"/></circle><text x="185" y="91" text-anchor="middle" font-size="12" font-weight="700" fill="var(--coral)">DPP-4<animate attributeName="x" values="185;150;185" dur="2s" repeatCount="indefinite"/></text></svg>`,
+ tzd:`<svg viewBox="0 0 240 150" aria-hidden="true"><rect x="150" y="30" width="72" height="100" rx="12" fill="var(--violet-bg)" stroke="var(--violet)" stroke-width="3"/><text x="186" y="86" text-anchor="middle" font-size="14" font-weight="700" fill="var(--violet)">Cell</text><rect x="144" y="58" width="12" height="42" rx="3" fill="var(--bg)" stroke="var(--violet)"><animate attributeName="height" values="42;42;8;8;42" dur="3.6s" repeatCount="indefinite"/></rect>${[0,1].map(i=>`<rect x="10" y="72" width="15" height="15" rx="4" fill="var(--gold)"><animate attributeName="x" values="10;205" dur="3.6s" begin="${i*1.8}s" repeatCount="indefinite"/></rect>`).join('')}<text x="10" y="34" font-size="14" fill="var(--soft)">key turns</text><text x="10" y="52" font-size="14" fill="var(--soft)">more easily</text></svg>`,
+ glp:`<svg viewBox="0 0 240 150" aria-hidden="true"><path d="M24 110C24 54 92 40 118 66C146 94 196 62 216 96C226 124 182 138 140 128C96 118 80 134 54 134C36 134 24 124 24 110Z" fill="var(--gold-bg)" stroke="var(--gold)" stroke-width="3"/><text x="118" y="104" text-anchor="middle" font-size="15" font-weight="700" fill="var(--gold)">Stomach empties slowly</text><text x="24" y="28" font-size="14" fill="var(--soft)">more insulin, less glucagon,</text><text x="24" y="46" font-size="14" fill="var(--soft)">feels full longer</text><circle cx="60" cy="116" r="6" fill="var(--coral)"><animate attributeName="cx" values="60;190" dur="6s" repeatCount="indefinite"/></circle></svg>`,
+ amy:`<svg viewBox="0 0 240 150" aria-hidden="true"><text x="22" y="44" font-size="15" font-weight="700" fill="var(--coral)">Mealtime only</text><rect x="22" y="70" width="196" height="20" rx="10" fill="var(--blue-bg)"/><rect x="22" y="70" width="40" height="20" rx="10" fill="var(--blue)"><animate attributeName="width" values="20;196" dur="3s" repeatCount="indefinite"/></rect><text x="22" y="122" font-size="14" fill="var(--soft)">a shot added to insulin</text></svg>`,
+ ins:`<svg viewBox="0 0 240 150" aria-hidden="true"><path d="M20 120C60 120 62 40 84 40C106 40 118 120 150 120" fill="none" stroke="var(--coral)" stroke-width="4"/><path d="M20 88H220" fill="none" stroke="var(--violet)" stroke-width="4" stroke-dasharray="1 0"/><text x="110" y="28" font-size="14" fill="var(--coral)">mealtime spike</text><text x="150" y="80" font-size="14" fill="var(--violet)">basal, steady</text></svg>`
+};
+const C=[
+ {a:'met',n:'Metformin',t:'Biguanide · first-line',s:'Tells the liver to make less sugar.',b:['Lowers liver glucose output and improves sensitivity a little','Doesn\'t directly make the pancreas release insulin','Diarrhea is most common, and far less with extended-release','Low B12 over time, mild weight loss','Rarely causes lows on its own'],w:'Boxed warning: lactic acidosis. Avoid if eGFR is under 30.'},
+ {a:'sglt',n:'SGLT2 inhibitors',t:'-gliflozin · dapagliflozin, empagliflozin, canagliflozin',s:'Sugar leaves in the urine.',b:['Lowers A1c, blood pressure, and weight','Protects the heart and kidneys','Genital yeast infections and UTIs','Volume loss: low BP, dizziness','Check kidney function first'],w:'Euglycemic DKA, Fournier gangrene. Canagliflozin: amputation warning. Not in ESKD or dialysis.'},
+ {a:'su',n:'Sulfonylureas',t:'glipizide, glimepiride, glyburide',s:'Squeezes more insulin from beta cells.',b:['Cheap and lowers A1c by 1–2%','Needs working beta cells, so it fades over time','Causes lows and some weight gain','Glipizide is preferred with kidney problems'],w:'Glyburide has the most lows. Avoid in older adults.'},
+ {a:'dpp',n:'DPP-4 inhibitors',t:'-gliptin · sitagliptin, linagliptin, saxagliptin, alogliptin',s:'Keeps your own GLP-1 working longer.',b:['Weight neutral, few lows, easy pill','Good for older adults','Linagliptin is the only one needing no kidney dose change','Monitor glucose, A1c, and kidney labs'],w:'Sitagliptin: watch for severe allergic reactions in the first 3 months. Not for type 1 or DKA.'},
+ {a:'tzd',n:'Pioglitazone',t:'TZD · thiazolidinedione',s:'Makes fat, muscle, and liver more sensitive to insulin.',b:['The sensitizer: helps insulin work better','Slow to start working','Causes swelling and weight gain','Watch for heart failure signs after starting or raising the dose'],w:'Boxed warning: heart failure. Don\'t start in NYHA III–IV. Bladder cancer risk.'},
+ {a:'glp',n:'GLP-1 agonists',t:'-tide · semaglutide, dulaglutide, liraglutide, exenatide',s:'More insulin, less glucagon, slower stomach.',b:['Usually the preferred injectable before insulin','Weight loss is a big plus','Nausea and vomiting, which ease over time','Semaglutide also comes as a daily pill','Tirzepatide: weekly, works on GIP and GLP-1'],w:'No personal or family history of medullary thyroid cancer or MEN2. Watch for pancreatitis and gallbladder disease.'},
+ {a:'amy',n:'Pramlintide',t:'Amylin mimetic',s:'Shot at meals, used with insulin.',b:['For type 1 or type 2 on insulin','Nausea is common','Don\'t use with gastroparesis or hypoglycemia unawareness'],w:'Severe lows when combined with insulin.'},
+ {a:'ins',n:'Insulin',t:'Rapid, short, intermediate, long',s:'Replaces what the body can\'t make.',b:['Required in type 1','Moves sugar into muscle and fat, and stops liver sugar output','Lows are the most common problem','Weight gain and low potassium','Rotate injection sites'],w:'Don\'t give glargine during a low. Check A1c and glucose routinely.'}
+];
+const g=$('#grid');
+C.forEach(c=>{const b=document.createElement('button');b.className='flip';b.setAttribute('aria-expanded','false');b.setAttribute('aria-label',c.n+'. Tap to flip.');
+ b.innerHTML=`<div class="inner"><div class="face"><h3>${c.n}</h3><div class="tag">${c.t}</div>${A[c.a]}<p>${c.s}</p><div class="hint">Tap to flip ↻</div></div><div class="face back-face"><h3>${c.n}</h3><ul>${c.b.map(x=>'<li>'+x+'</li>').join('')}</ul><p class="warn">⚠ ${c.w}</p></div></div>`;
+ b.onclick=()=>{const on=b.classList.toggle('on');b.setAttribute('aria-expanded',on)};g.append(b)});
+
+/* insulin chart */
+const X=h=>60+h*(640/24), Y=v=>250-v*200;
+$('#axes').innerHTML=[0,4,8,12,16,20,24].map(h=>`<line x1="${X(h)}" x2="${X(h)}" y1="30" y2="250" stroke="var(--line)"/><text x="${X(h)}" y="274" text-anchor="middle" font-size="14" fill="var(--soft)">${h} hr</text>`).join('')+`<line x1="60" x2="700" y1="250" y2="250" stroke="var(--soft)" stroke-width="2"/><text x="20" y="150" font-size="14" fill="var(--soft)" transform="rotate(-90 20 150)" text-anchor="middle">Effect</text>`;
+const curves=[
+ {c:'var(--coral)',n:'Rapid',d:`M${X(.15)} ${Y(0)}C${X(.5)} ${Y(.6)},${X(.7)} ${Y(1)},${X(1)} ${Y(1)}S${X(2.5)} ${Y(.2)},${X(4)} ${Y(0)}`,lx:X(1.25),ly:Y(1)-8},
+ {c:'var(--gold)',n:'Regular',d:`M${X(.6)} ${Y(0)}C${X(1.5)} ${Y(.2)},${X(2)} ${Y(.72)},${X(3)} ${Y(.72)}S${X(5.5)} ${Y(.15)},${X(8)} ${Y(0)}`,lx:X(3.4),ly:Y(.72)-8},
+ {c:'var(--teal)',n:'NPH',d:`M${X(2)} ${Y(0)}C${X(4)} ${Y(.15)},${X(6)} ${Y(.5)},${X(8)} ${Y(.5)}S${X(12)} ${Y(.15)},${X(16)} ${Y(0)}`,lx:X(8),ly:Y(.5)-10},
+ {c:'var(--violet)',n:'Glargine: no peak',d:`M${X(1)} ${Y(0)}C${X(2)} ${Y(.26)},${X(3)} ${Y(.28)},${X(4)} ${Y(.28)}L${X(21)} ${Y(.28)}C${X(22.5)} ${Y(.26)},${X(23.4)} ${Y(.08)},${X(24)} ${Y(0)}`,lx:X(16),ly:Y(.28)-10}
+];
+$('#curves').innerHTML=curves.map((c,i)=>`<path class="curve" pathLength="1" d="${c.d}" stroke="${c.c}" style="animation-delay:${i*.35}s"/><text x="${c.lx}" y="${c.ly}" font-size="15" font-weight="700" fill="${c.c}">${c.n}</text>`).join('');
+function run(){const s=$('#chart');s.classList.remove('play');void s.getBoundingClientRect();s.classList.add('play')}
+$('#replay').onclick=run;
+
+/* warning wall */
+const W=[
+ ['Which diabetes drug has a boxed warning for lactic acidosis?','<b>Metformin.</b> Stop or avoid it if eGFR is under 30.'],
+ ['Poor choice for a 54-year-old with diabetes and heart failure?','<b>Pioglitazone.</b> Boxed warning for heart failure.'],
+ ['Which class needs a thyroid cancer history check?','<b>GLP-1 agonists and tirzepatide.</b> Ask about medullary thyroid cancer and MEN2.'],
+ ['Normal sugar, but the patient is in DKA?','<b>SGLT2 inhibitors</b> can cause euglycemic DKA.'],
+ ['Which sulfonylurea should older adults avoid?','<b>Glyburide,</b> because it causes more lows and lasts longer.'],
+ ['Which sulfonylurea is preferred with kidney problems?','<b>Glipizide.</b>'],
+ ['Which DPP-4 inhibitor needs no kidney dose change?','<b>Linagliptin.</b>'],
+ ['Which insulins have no peak?','<b>Glargine and detemir.</b>'],
+ ['What should you keep an eye on with long-term metformin?','<b>Vitamin B12,</b> which can run low.'],
+ ['Which SGLT2 inhibitor has an amputation warning?','<b>Canagliflozin.</b>']
+];
+const dw=$('#dangers');
+W.forEach(([q,a])=>{const b=document.createElement('button');b.className='danger';b.setAttribute('aria-expanded','false');b.innerHTML=`<div class="q">${q}</div><div class="ans">${a}</div>`;b.onclick=()=>{const on=b.classList.toggle('on');b.setAttribute('aria-expanded',on)};dw.append(b)});
+
+/* quiz */
+const Q=[
+ ['Which A1c means diabetes?',['5.7%','6.0%','6.5%','6.2%'],2,'6.5% or higher is diabetes. 5.7–6.4% is prediabetes.'],
+ ['What is first-line for type 2 diabetes?',['Glyburide','Metformin','Insulin','Pioglitazone'],1,'Metformin works well, is safe, and costs little.'],
+ ['How does an SGLT2 inhibitor lower glucose?',['Squeezes beta cells','Slows the stomach','Sends sugar out in urine','Stops DPP-4'],2,'It blocks glucose reabsorption in the kidney.'],
+ ['Your patient has heart failure. Which do you avoid?',['Pioglitazone','Dapagliflozin','Linagliptin','Empagliflozin'],0,'Pioglitazone has a boxed warning for heart failure.'],
+ ['Which improves insulin sensitivity in fat, muscle, and liver?',['Sitagliptin','Glipizide','Pioglitazone','Exenatide'],2,'TZDs are the insulin sensitizers.'],
+ ['What is the most common adverse effect of insulin glargine?',['Hypoglycemia','Pancreatitis','Lactic acidosis','Bladder cancer'],0,'Hypoglycemia is the main risk with any insulin.'],
+ ['Which insulin starts fastest?',['NPH','Glargine','Regular','Lispro'],3,'Lispro starts in 5–15 minutes.'],
+ ['A patient is shaky and sweaty. How many grams of carbs?',['5 g','15 g','30 g','50 g'],1,'15 g, like glucose tablets or 4 oz of juice.']
+];
+let qi=0,score=0;
+function showQ(){const box=$('#quizBox');
+ if(qi>=Q.length){box.innerHTML=`<h3>You got ${score} of ${Q.length}!</h3><p>${score===Q.length?'Perfect score. You\'re ready.':score>=6?'Nice work. Review the warning wall for the ones you missed.':'Give the drug classes another look, then try again.'}</p><button class="bigbtn" id="again">Try again</button>`;$('#again').onclick=()=>{qi=0;score=0;showQ()};if(score>=6&&!calm)party();return}
+ const [q,o,a,e]=Q[qi];box.innerHTML=`<div class="qcount">Question ${qi+1} of ${Q.length}</div><h3 style="margin-top:4px">${q}</h3><div class="opts">${o.map((x,i)=>`<button class="opt" data-i="${i}">${x}</button>`).join('')}</div><div id="exp"></div>`;
+ $$('.opt',box).forEach(b=>b.onclick=()=>{const i=+b.dataset.i;$$('.opt',box).forEach(x=>{x.disabled=true;if(+x.dataset.i===a)x.classList.add('right')});if(i===a)score++;else b.classList.add('wrong');$('#exp').innerHTML=`<div class="explain">${i===a?'<b>Yes!</b> ':'<b>Not quite.</b> '}${e}</div><button class="bigbtn" id="next" style="margin-top:10px">${qi===Q.length-1?'See my score':'Next →'}</button>`;$('#next').onclick=()=>{qi++;showQ()}})}
+function party(){const cs=['#e85d4c','#e8a020','#12908a','#3a6fd8','#7a55c7'];for(let i=0;i<70;i++){const b=document.createElement('span');b.className='bit';b.style.left=Math.random()*100+'vw';b.style.background=cs[i%5];b.style.animationDelay=Math.random()*.7+'s';document.body.append(b);setTimeout(()=>b.remove(),3200)}}
+showQ();
+</script>
+</body>
+</html>
