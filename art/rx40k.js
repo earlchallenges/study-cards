@@ -359,7 +359,7 @@
       ${cls('a-pop', at(108, 76, nope(19)))}
       ${flow('M28 104 L226 104 Q246 104 246 124 L246 146', 5, 3)}
       ${at(246, 154, toilet(), .55)}
-      ${qtag(170, 76, 'Sugar leaves in urine', 9.5)}
+      ${qtag(204, 76, 'Sugar leaves in urine', 9.5)}
       ${ans(170, 136, 'A1c, BP, weight drop')}`),
 
     /* Infections: sugar in urine feeds germs. */
