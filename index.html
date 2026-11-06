@@ -36,6 +36,12 @@ a.ch:hover, a.ch:focus-visible { border-color: var(--accent); outline: none; }
 .ch-title { font-family: var(--display); font-weight: 500; font-size: 22px; line-height: 1.25; }
 .ch-meta { font-size: 15px; color: var(--muted); }
 .arrow { font-size: 24px; color: var(--accent); flex: none; }
+.today { background: #c81e1e; border-radius: 20px; padding: 16px; box-shadow: 0 8px 24px rgba(200,30,30,.3); }
+.today h2 { font-family: var(--display); font-size: 22px; line-height: 1.2; color: #fff; margin: 2px 4px 14px; }
+a.ch.hot { background: #fff; color: #282e3e; border: 0; }
+a.ch.hot .ch-num, a.ch.hot .arrow { color: #b91c1c; }
+a.ch.hot .ch-meta { color: #586380; }
+a.ch.hot:hover, a.ch.hot:focus-visible { outline: 3px solid #ffd60a; outline-offset: 2px; }
 </style>
 </head>
 <body>
@@ -45,6 +51,27 @@ a.ch:hover, a.ch:focus-visible { border-color: var(--accent); outline: none; }
     <h1>Mendy's Study Cards</h1>
   </header>
   <p class="intro">Pick a section. Each one has flashcards, a learn mode, a practice test, and a matching game.</p>
+  <section class="today" aria-labelledby="today-h">
+    <h2 id="today-h">Studying today: Chapter 40, Diabetes Meds</h2>
+    <div class="list">
+      <a class="ch hot" href="rx40-key.html">
+        <div>
+          <div class="ch-num">Start here · Pharmacology · Chapter 40</div>
+          <div class="ch-title">Diabetes Meds: Must Know</div>
+          <div class="ch-meta">30 terms · most important points · flashcards, learn, test, match</div>
+        </div>
+        <span class="arrow" aria-hidden="true">&rarr;</span>
+      </a>
+      <a class="ch hot" href="rx40-diabetes.html">
+        <div>
+          <div class="ch-num">Pharmacology · Chapter 40</div>
+          <div class="ch-title">Diabetes Drugs</div>
+          <div class="ch-meta">28 terms · flashcards, learn, test, match</div>
+        </div>
+        <span class="arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+  </section>
   <nav class="list">
     <a class="ch" href="ch8-breasts.html">
       <div>
@@ -163,22 +190,6 @@ a.ch:hover, a.ch:focus-visible { border-color: var(--accent); outline: none; }
         <div class="ch-num">Pharmacology · Chapter 39</div>
         <div class="ch-title">Adrenal Drugs</div>
         <div class="ch-meta">24 terms · flashcards, learn, test, match</div>
-      </div>
-      <span class="arrow" aria-hidden="true">&rarr;</span>
-    </a>
-    <a class="ch" href="rx40-key.html">
-      <div>
-        <div class="ch-num">Pharmacology · Chapter 40</div>
-        <div class="ch-title">Diabetes Meds: Must Know</div>
-        <div class="ch-meta">30 terms · most important points · flashcards, learn, test, match</div>
-      </div>
-      <span class="arrow" aria-hidden="true">&rarr;</span>
-    </a>
-    <a class="ch" href="rx40-diabetes.html">
-      <div>
-        <div class="ch-num">Pharmacology · Chapter 40</div>
-        <div class="ch-title">Diabetes Drugs</div>
-        <div class="ch-meta">28 terms · flashcards, learn, test, match</div>
       </div>
       <span class="arrow" aria-hidden="true">&rarr;</span>
     </a>
