@@ -131,242 +131,368 @@
   const key = (c = 'f-good') => `<circle class="${c}" cx="-8" cy="0" r="6"/><circle cx="-8" cy="0" r="2" fill="var(--surface)"/><rect class="${c}" x="-2" y="-2" width="14" height="4"/><rect class="${c}" x="7" y="2" width="3" height="4"/><rect class="${c}" x="2" y="2" width="3" height="3"/>`;
 
   const S = (title, body) => ART(tag(150, 11, title, '', 10) + body);
-  const cube = (c = 'f-white') => `<rect class="${c}" x="-5" y="-5" width="10" height="10" rx="2"/>`;
-  const sugarRain = (x, y1, y2, n = 3, dur = 1.8) => [...Array(n)].map((_, i) => fade(cube('f-pancreas'), `M${x} ${y1} L${x} ${y2}`, dur, i * dur / n)).join('');
-  const money = () => `<rect class="f-good" x="-16" y="-9" width="32" height="18" rx="3"/><circle class="f-white" r="5"/><path class="s-line" d="M0 -3 V3" stroke-width="1.6"/>`;
-  const cell = (x, y, r = 28, c = 'f-skin') => `<circle class="${c}" cx="${x}" cy="${y}" r="${r}"/>`;
-  const big = (x, y, t, s = 24, c = 'ink') => T(x, y, t, { s, c });
-  const insPlot = (lines) => { const x0 = 34, y0 = 142, w = 244; return plot(x0, y0, w, 104, 24, [0, 6, 12, 18, 24]) + lines.join(''); };
-  const C = (o, p, e, top, c, d = 0, p2) => drawC(curve(34, 142, 244, 24, o, p, e, top, p2 ?? p), c, d);
+  const cube = (c = 'f-pancreas', s = 1) => `<g transform="scale(${s})"><rect class="${c}" x="-5" y="-5" width="10" height="10" rx="2"/></g>`;
+  const flow = (path, n, dur, inner = cube()) => [...Array(n)].map((_, i) => fade(inner, path, dur, i * dur / n)).join('');
+  const label = (x, y, t, s = 9.5) => T(x, y, t, { s });
+  const ans = (x, y, t, s = 9.5) => T(x, y, t, { s, c: 'ans ink' });
+  const vessel = (d, w = 12) => thick(d, 'blood', w);
+  const fatCell = (x, y, r = 14) => `<g transform="translate(${x} ${y})"><circle class="f-fat a-pulse" r="${r}"/></g>`;
+  const dot = (c, r = 4) => `<circle class="${c}" r="${r}"/>`;
+    const shield = () => `<path class="f-immune" d="M0 -17 L14 -11 V2 C14 11 7 16 0 19 C-7 16 -14 11 -14 2 V-11 Z" opacity=".55"/>`;
+  const bolt = () => `<path class="f-warn" d="M3 -10 L-5 2 H0 L-3 10 L5 -2 H0 Z"/>`;
+  const riseBar = (x, base, w, h, c, dur = 2.4) => `<g class="ansmotion"><rect x="${x}" y="${base - h}" width="${w}" height="${h}" rx="3" fill="var(--c-${c})" stroke="var(--art-line)" stroke-width="1.3"><animate attributeName="height" values="0;${h};${h}" keyTimes="0;.6;1" dur="${dur}s" repeatCount="indefinite"/><animate attributeName="y" values="${base};${base - h};${base - h}" keyTimes="0;.6;1" dur="${dur}s" repeatCount="indefinite"/></rect></g>`;
+  const insPlot = lines => plot(34, 142, 244, 104, 24, [0, 6, 12, 18, 24]) + lines.join('');
+  const crv = (o, p, e, top, c, d = 0, p2) => drawC(curve(34, 142, 244, 24, o, p, e, top, p2 ?? p), c, d);
+  const faint = (o, p, e, top, p2) => `<path d="${curve(34, 142, 244, 24, o, p, e, top, p2 ?? p)}" fill="none" stroke="var(--pic-ink)" stroke-width="1.4" opacity=".28"/>`;
 
   Object.assign(PICS, {
-    first: S('New type 2: start here', `
-      ${tile(14, 28, 272, 138, 'water')}
-      ${at(62, 92, `<g class="a-bob">${liver()}</g>`, .72).replace('translate(62 92)', 'translate(20 66)')}
-      ${sugarRain(120, 100, 150)}
-      ${cls('a-pop', at(200, 66, pill(-25, 'f-good'), 2))}
-      ${qtag(200, 106, 'Metformin', 14)}
-      ${T(200, 136, 'works, safe, cheap', { s: 10, c: 'ans ink' })}`),
+    /* Metformin: liver pours out less sugar. Top lane untreated, bottom lane on the drug. */
+    first: S('New type 2: what do you start?', `
+      ${tile(10, 24, 280, 150, 'water')}
+      ${at(16, 46, liver(), .62)}
+      ${vessel('M112 44 H282')}${vessel('M112 98 H282')}
+      ${label(190, 34, 'no drug: lots of sugar pours out')}
+      ${flow('M116 44 L280 44', 7, 2.6)}
+      ${flow('M116 98 L280 98', 2, 2.6)}
+      ${cls('a-pop', at(38, 128, pill(-25, 'f-good'), 1))}
+      ${T(190, 88, 'on the drug: much less', { s: 9.5, c: 'ans ink' })}
+      ${qtag(190, 128, 'Metformin', 14)}
+      ${ans(190, 158, 'plus diet and exercise')}`),
 
-    type1: S('Type 1: the only answer', `
-      ${tile(14, 28, 272, 138, 'vein')}
-      ${at(86, 72, panc('f-pancreas'), .8)}
-      ${cls('a-blink', at(86, 76, nope(16)))}
-      ${T(86, 112, 'no insulin made', { s: 10 })}
-      ${cls('a-sway', at(214, 66, syringe(-35), 1.5))}
-      ${qtag(214, 112, 'Insulin for life', 12)}
-      ${T(150, 150, 'long-acting + mealtime rapid', { s: 10, c: 'ans ink' })}`),
+    /* Type 1: immune cells destroy beta cells, so insulin must come from a shot. */
+    type1: S('Type 1: why, and what fixes it', `
+      ${tile(10, 24, 134, 150, 'pancreas')}${tile(156, 24, 134, 150, 'good')}
+      ${label(77, 40, 'immune attack')}
+      ${[[58, 88], [84, 76], [96, 102], [66, 112]].map(([x, y], i) => at(x, y, `<circle class="f-pancreas a-blink" style="animation-delay:${i * .3}s" r="10"/>`)).join('')}
+      ${flow('M22 56 L60 88', 2, 1.8, dot('f-germ', 6))}${flow('M132 56 L92 94', 2, 1.8, dot('f-germ', 6))}
+      ${label(77, 152, 'beta cells gone')}
+      ${label(223, 40, 'replace it')}
+      ${cls('a-bob', at(190, 76, syringe(35), 1.2))}
+      ${flow('M204 92 L262 118', 3, 1.8, key('f-good'))}
+      ${qtag(223, 142, 'Insulin for life', 10.5)}
+      ${ans(223, 162, 'long-acting + mealtime')}`),
 
-    hfbest: S('Diabetes + heart failure', `
-      ${tile(14, 28, 130, 138, 'blood')}${tile(156, 28, 130, 138, 'good')}
-      ${cls('a-beat', at(79, 80, heart(), 1.5))}
-      ${T(79, 135, 'weak pump', { s: 10 })}
-      ${at(221, 72, kidney(), 1)}
-      ${sugarRain(221, 94, 124, 3, 1.5)}
-      ${qtag(221, 140, 'SGLT2 inhibitor', 11)}`),
+    /* SGLT2 in HF: extra sugar, salt and water leave through the kidney; fewer HF hospital stays. */
+    hfbest: S('Heart failure: which class helps?', `
+      ${tile(10, 24, 280, 150, 'good')}
+      ${cls('a-beat', at(52, 78, heart(), 1.3))}
+      ${label(52, 118, 'fluid-loaded heart')}
+      ${at(160, 72, kidney(), 1)}
+      ${flow('M78 76 L136 74', 3, 1.8, drop('f-water', .7))}
+      ${flow('M160 96 L160 150', 3, 1.8)}
+      ${at(160, 150, toilet(), .7)}
+      ${ans(160, 34, 'sugar, salt, water leave')}
+      ${qtag(236, 74, 'SGLT2 inhibitor', 9.5)}
+      ${ans(236, 96, 'dapagliflozin')}
+      ${ans(236, 126, 'fewer HF')}${ans(236, 138, 'hospital stays')}`),
 
-    hfavoid: S('Diabetes + heart failure: do NOT give', `
-      ${tile(14, 28, 272, 138, 'bad')}
-      ${cls('a-beat', at(70, 84, heart(), 1.4))}
-      ${fade(drop('f-water', .9), 'M70 118 L70 150', 1.6, 0)}${fade(drop('f-water', .9), 'M46 118 L46 150', 1.6, .6)}${fade(drop('f-water', .9), 'M94 118 L94 150', 1.6, 1.1)}
-      ${cls('a-pop', at(205, 62, bbox(), 1.4))}
-      ${qtag(205, 104, 'Pioglitazone', 13)}
-      ${T(205, 132, 'fluid buildup', { s: 10, c: 'ans ink' })}
-      ${T(205, 148, 'no NYHA 3 or 4', { s: 10, c: 'ans ink' })}`),
+    /* Pioglitazone: kidney holds on to salt and water, fluid backs up, legs swell, heart strains. */
+    hfavoid: S('Heart failure: which drug backfires?', `
+      ${tile(10, 24, 280, 150, 'bad')}
+      ${at(52, 72, kidney(), 1)}
+      ${label(52, 112, 'kidney keeps fluid')}
+      ${flow('M78 72 L128 72', 3, 1.7, drop('f-water', .7))}
+      ${cls('a-pulse', at(156, 72, heart(), 1.25))}
+      ${label(156, 110, 'heart strains')}
+      ${flow('M156 116 L156 138', 2, 1.7, drop('f-water', .6))}
+      ${cls('a-pulse', at(156, 150, foot(), .55))}
+      ${cls('a-pop', at(244, 50, bbox(), 1.1))}
+      ${qtag(236, 88, 'Pioglitazone', 10.5)}
+      ${ans(236, 114, 'boxed warning')}
+      ${ans(236, 130, 'no NYHA 3 or 4')}
+      ${ans(236, 152, 'swelling, weight up')}`),
 
-    cvd: S('Diabetes + heart disease', `
-      ${tile(14, 28, 130, 138, 'blood')}${tile(156, 28, 130, 138, 'immune')}
-      ${cls('a-beat', at(79, 88, heart('f-muscle'), 1.5))}
-      ${cls('a-pop', at(116, 54, chk(10)))}
-      ${cls('a-sway', at(221, 72, pen('f-immune', -25), 1.15))}
-      ${qtag(221, 120, 'GLP-1 agonist', 11)}
-      ${T(221, 144, 'sema, dula, lira', { s: 10, c: 'ans ink' })}`),
+    /* GLP-1 in heart disease: a shield around the heart; events bounce off. */
+    cvd: S('Heart disease: which class protects?', `
+      ${tile(10, 24, 280, 150, 'immune')}
+      ${cls('a-beat', at(84, 92, heart(), 1.5))}
+      <g class="ans"><circle cx="84" cy="94" r="46" fill="var(--c-immune)" opacity=".18" stroke="var(--c-immune)" stroke-width="3"/></g>
+      ${fade(bolt(), 'M24 40 L52 66 L24 40', 1.8, 0)}${fade(bolt(), 'M146 40 L118 66 L146 40', 1.8, .6)}${fade(bolt(), 'M150 150 L120 126 L150 150', 1.8, 1.2)}
+      ${label(84, 166, 'fewer heart attacks, strokes')}
+      ${cls('a-bob', at(218, 54, pen('f-immune', -25), 1.05))}
+      ${qtag(218, 94, 'GLP-1 agonist', 11)}
+      ${ans(218, 116, 'semaglutide')}${ans(218, 130, 'dulaglutide')}${ans(218, 144, 'liraglutide')}`),
 
-    ckd: S('Diabetes + kidney disease', `
-      ${tile(14, 28, 272, 138, 'good')}
-      ${cls('a-pulse', at(64, 88, kidney(), 1.4))}
-      ${qtag(190, 62, 'SGLT2 if eGFR allows', 10.5)}
-      ${qtag(190, 100, 'Linagliptin', 12)}
-      ${T(190, 122, 'no kidney dose change', { s: 10, c: 'ans ink' })}
-      ${T(190, 148, 'check eGFR first', { s: 10, c: 'ans ink' })}`),
+    /* CKD: shield on the kidney; linagliptin leaves through the gut, not the urine. */
+    ckd: S('Kidney disease: two good picks', `
+      ${tile(10, 24, 134, 150, 'good')}${tile(156, 24, 134, 150, 'water')}
+      ${at(77, 76, kidney(), 1.05)}
+      <g class="ans a-pulse"><circle cx="77" cy="76" r="33" fill="var(--c-immune)" opacity=".2" stroke="var(--c-immune)" stroke-width="3"/></g>
+      ${qtag(77, 130, 'SGLT2 inhibitor', 9.5)}
+      ${ans(77, 152, 'protects, if eGFR allows')}
+      ${at(198, 48, liver(), .3)}
+      ${thick('M204 62 C204 92 262 84 262 112 S214 128 214 146', 'small', 7)}
+      ${flow('M204 62 C204 92 262 84 262 112 S214 128 214 146', 3, 2.4, tab('f-good'))}
+      ${at(256, 52, kidney(), .5)}${cls('a-pop', at(256, 52, nope(15)))}
+      ${qtag(223, 162, 'Linagliptin', 10)}`),
 
+    /* Glipizide: liver breaks it into inactive pieces, so the kidney has nothing active to pile up. */
     glip: S('Sulfonylurea + kidney trouble', `
-      ${tile(14, 28, 272, 138, 'pancreas')}
-      ${at(70, 92, kidney(), 1.3)}
-      ${cls('a-pop', at(112, 62, band(), .8))}
-      ${cls('a-bob', at(205, 66, pill(-25, 'f-good'), 1.8))}
-      ${qtag(205, 112, 'Glipizide', 15)}`),
+      ${tile(10, 24, 280, 150, 'pancreas')}
+      ${cls('a-bob', at(36, 72, pill(-25, 'f-good'), 1))}
+      ${flow('M52 72 L86 72', 2, 1.4, dot('f-good'))}
+      ${at(84, 50, liver(), .42)}
+      ${label(112, 96, 'liver breaks it down')}
+      ${flow('M138 72 L202 72', 3, 2, dot('f-scar'))}
+      ${label(172, 60, 'inactive')}
+      ${at(226, 72, kidney(), .95)}
+      ${cls('a-pop', at(262, 46, chk(9)))}
+      ${qtag(150, 132, 'Glipizide', 16)}
+      ${ans(150, 158, 'preferred when kidneys are weak')}`),
 
+    /* Glyburide: long-lasting, so glucose keeps sliding, including overnight. */
     glyb: S('Older adult: skip this sulfonylurea', `
-      ${tile(14, 28, 272, 138, 'bad')}
-      ${cls('a-sway', at(72, 96, elder(), 1.6))}
-      ${cls('a-pop', at(205, 64, pill(-25, 'f-bad'), 1.7))}
-      ${cls('a-blink', at(205, 64, nope(26)))}
-      ${qtag(205, 112, 'Glyburide', 15)}
-      ${T(205, 138, 'more lows, lasts longer', { s: 10, c: 'ans ink' })}`),
+      ${tile(10, 24, 280, 150, 'bad')}
+      ${cls('a-sway', at(46, 110, elder(), 1.25))}
+      ${gluGauge(150, 104, 50, 10, -78, 3.2)}
+      ${at(150, 122, moon(), .6)}
+      ${label(150, 146, 'sugar keeps falling at night')}
+      ${qtag(240, 74, 'Glyburide', 11.5)}
+      ${ans(240, 98, 'lasts longer')}
+      ${ans(240, 112, 'more lows')}`),
 
-    older: S('Older adult: gentle choice', `
-      ${tile(14, 28, 272, 138, 'good')}
-      ${cls('a-sway', at(66, 98, elder(), 1.6))}
-      ${gluGauge(205, 92, 44, -40, 10, 3)}
-      ${qtag(205, 116, 'DPP-4 inhibitor', 11)}
-      ${T(205, 140, 'few lows; A1c goal looser', { s: 9.5, c: 'ans ink' })}`),
+    /* DPP-4 in older adults: glucose wave stays above the danger floor. */
+    older: S('Older adult: a gentle choice', `
+      ${tile(10, 24, 280, 150, 'good')}
+      ${cls('a-sway', at(44, 104, elder(), 1.2))}
+      <rect x="84" y="124" width="196" height="26" rx="4" fill="var(--c-bad)" opacity=".25"/>
+      ${T(182, 142, 'danger zone: lows', { s: 9.5 })}
+      ${drawC('M88 88 C110 58 128 58 150 86 S190 112 210 84 S252 60 276 86', 'good')}
+      ${label(182, 46, 'blood sugar over the day')}
+      ${qtag(182, 162, 'DPP-4 inhibitor', 10)}`),
 
+    /* GLP-1 weight loss: brain signals full, stomach empties slowly, scale drops. */
     wtloss: S('Weight loss is the goal', `
-      ${tile(14, 28, 272, 138, 'good')}
-      ${cls('a-squeeze', at(70, 84, belly(), 1.5))}
-      ${at(170, 66, scaleIc(), 1.2)}
-      ${cls('a-sway', at(244, 66, pen('f-immune', -25), .85))}
-      ${qtag(200, 110, 'GLP-1 agonist', 11.5)}
-      ${qtag(200, 138, 'Tirzepatide', 11.5)}`),
+      ${tile(10, 24, 280, 150, 'good')}
+      ${at(54, 58, brain(), .85)}
+      ${flow('M54 78 L54 108', 2, 1.4, dot('f-immune'))}
+      ${at(54, 134, stomach(), .62)}
+      ${label(54, 170, 'I feel full')}
+      ${at(146, 78, scaleIc(), 1.5)}
+      ${cls('a-drop', at(146, 124, `<path class="s-good" d="M0 -12 V10 M-8 3 L0 12 L8 3" stroke-width="3.6"/>`))}
+      ${qtag(232, 74, 'GLP-1 agonist', 10)}
+      ${qtag(232, 112, 'Tirzepatide', 10)}
+      ${ans(232, 148, 'biggest weight loss')}`),
 
+    /* Weight gain: insulin action stores sugar in fat; pioglitazone adds fat and fluid. */
     wtgain: S('These three add pounds', `
-      ${tile(14, 28, 84, 138, 'pancreas')}${tile(108, 28, 84, 138, 'spleen')}${tile(202, 28, 84, 138, 'immune')}
-      ${cls('a-pulse', at(56, 78, panc('f-pancreas'), .55))}
-      ${qtag(56, 134, 'Sulfonylureas', 8.5)}
-      ${cls('a-bob', at(150, 78, pill(-25, 'f-spleen'), 1.6))}
-      ${qtag(150, 134, 'Pioglitazone', 8.5)}
-      ${cls('a-sway', at(244, 78, syringe(-35), 1.3))}
-      ${qtag(244, 134, 'Insulin', 11)}`),
+      ${tile(10, 24, 86, 150, 'pancreas')}${tile(107, 24, 86, 150, 'spleen')}${tile(204, 24, 86, 150, 'immune')}
+      ${flow('M26 54 L52 92', 3, 1.8)}${fatCell(53, 98, 18)}
+      ${qtag(53, 148, 'Sulfonylureas', 9)}
+      ${flow('M124 54 L150 92', 2, 1.8)}${flow('M176 54 L150 92', 2, 1.8, drop('f-water', .7))}${fatCell(150, 98, 18)}
+      ${qtag(150, 148, 'Pioglitazone', 9)}
+      ${flow('M220 54 L247 92', 3, 1.8)}${fatCell(247, 98, 18)}
+      ${qtag(247, 148, 'Insulin', 10)}`),
 
-    lowrisk: S('Most likely to drop blood sugar', `
-      ${tile(14, 28, 272, 138, 'bad')}
-      ${gluGauge(74, 110, 52, 30, -75, 2.6)}
-      ${cls('a-shake', at(74, 136, hand(), .55))}
-      ${qtag(205, 66, 'Insulin', 14)}
-      ${qtag(205, 100, 'Sulfonylureas', 12)}
-      ${T(205, 124, 'especially glyburide', { s: 10, c: 'ans ink' })}`),
+    /* Hypoglycemia: too much insulin clears sugar from blood. */
+    lowrisk: S('Which drugs drop blood sugar most?', `
+      ${tile(10, 24, 280, 150, 'bad')}
+      ${vessel('M22 56 H158')}
+      ${flow('M36 56 L36 116', 3, 1.6)}${flow('M86 56 L86 116', 3, 1.6)}${flow('M136 56 L136 116', 3, 1.6)}
+      ${label(86, 42, 'blood sugar pulled out')}
+      ${gluGauge(86, 160, 42, 15, -76, 2.8)}
+      ${qtag(224, 74, 'Insulin', 13)}
+      ${qtag(224, 108, 'Sulfonylureas', 10.5)}
+      ${ans(224, 134, 'most of all: glyburide')}`),
 
-    budget: S('Tight budget', `
-      ${tile(14, 28, 272, 138, 'good')}
-      ${cls('a-bob', at(68, 70, money(), 1.4))}
-      ${cls('a-bob', at(68, 112, money(), 1), '--d:.3s')}
-      ${qtag(195, 66, '1st: Metformin', 12.5)}
-      ${qtag(195, 104, '2nd: Glipizide', 12.5)}
-      ${T(195, 142, 'never skip doses, speak up', { s: 10, c: 'ans ink' })}`),
+    /* Cost: a simple price chart. */
+    budget: S('Tight budget: lowest cost', `
+      ${tile(10, 24, 280, 150, 'good')}
+      ${label(68, 40, 'monthly price')}
+      <path class="s-ink" d="M24 146 H128" stroke-width="1.8"/>
+      ${riseBar(34, 146, 24, 18, 'good')}${riseBar(66, 146, 24, 24, 'good')}${riseBar(98, 146, 24, 88, 'bad')}
+      ${ans(46, 160, 'Met')}${ans(78, 160, 'SU')}${ans(110, 160, 'GLP-1')}
+      ${qtag(210, 62, '1st: Metformin', 11)}
+      ${qtag(210, 98, '2nd: Glipizide', 11)}
+      ${ans(210, 134, 'tell us if you can\'t afford it')}
+      ${ans(210, 148, 'don\'t skip doses')}`),
 
+    /* Lactic acidosis: weak kidneys can't clear metformin, lactate builds up. */
     metbox: S('Metformin: the boxed warning', `
-      ${tile(14, 28, 272, 138, 'bad')}
-      ${cls('a-blink', at(64, 80, bbox(), 1.8))}
-      ${at(64, 134, pill(-20, 'f-good'), .9)}
-      ${qtag(190, 74, 'Lactic acidosis', 14)}
-      ${cls('a-pulse', at(150, 122, kidney(), .7))}
-      ${T(214, 128, 'eGFR under 30: no', { s: 11, c: 'ans ink' })}`),
+      ${tile(10, 24, 280, 150, 'bad')}
+      ${at(50, 76, kidney(), 1.05)}${cls('a-blink', at(50, 76, nope(26)))}
+      ${label(50, 120, 'eGFR under 30')}
+      ${flow('M84 76 L134 76', 3, 1.7, pill(-20, 'f-good'))}
+      ${label(109, 60, 'drug backs up')}
+      ${at(166, 96, vial(.1, 'f-bad'), 2)}
+      ${riseBar(153, 126, 26, 42, 'bad', 3)}
+      ${label(166, 148, 'lactate rises')}
+      ${qtag(240, 70, 'Lactic', 12)}
+      ${qtag(240, 96, 'acidosis', 12)}
+      ${cls('a-pop', at(240, 134, bbox(), .9))}`),
 
+    /* GI upset: most common; ER version gentler. */
     metgi: S('Metformin: most common complaint', `
-      ${tile(14, 28, 272, 138, 'warn')}
-      ${cls('a-squeeze', at(80, 92, stomach(), 1.25))}
-      ${at(205, 66, toilet(), 1.25)}
-      ${qtag(205, 112, 'Diarrhea', 15)}
-      ${T(205, 140, 'less with extended-release', { s: 9.5, c: 'ans ink' })}`),
+      ${tile(10, 24, 280, 150, 'warn')}
+      ${cls('a-squeeze', at(60, 84, stomach(), 1))}
+      ${thick('M78 120 C110 136 140 112 168 128', 'small', 8)}
+      ${flow('M78 120 C110 136 140 112 168 128', 5, 1.2, drop('f-water', .55))}
+      ${label(60, 132, 'upset gut')}
+      ${at(196, 112, toilet(), 1.2)}
+      ${qtag(200, 60, 'Diarrhea', 15)}
+      ${ans(200, 158, 'less with extended-release')}`),
 
-    b12: S('Years on metformin: this runs low', `
-      ${tile(14, 28, 272, 138, 'vein')}
-      ${at(72, 88, vial(.18, 'f-bad'), 2)}
-      ${cls('a-blink', T(72, 148, 'level dropping', { s: 10 }))}
-      ${cls('a-pulse', at(200, 66, rbc(), 1.5))}
-      ${qtag(200, 118, 'Vitamin B12', 15)}`),
+    /* B12: taken up in the last part of the small intestine; metformin blocks some of it. */
+    b12: S('Years on metformin: what runs low?', `
+      ${tile(10, 24, 280, 150, 'vein')}
+      ${thick('M20 112 H190', 'small', 22)}
+      ${label(105, 138, 'end of the small intestine')}
+      ${vessel('M20 64 H190', 9)}
+      ${label(105, 50, 'bloodstream')}
+      ${flow('M36 112 L176 112', 4, 3, dot('f-immune', 5))}
+      ${flow('M108 110 L108 68', 1, 2.4, dot('f-immune', 5))}
+      ${at(70, 88, pill(-20, 'f-good'), .75)}${at(150, 88, pill(-20, 'f-good'), .75)}
+      ${ans(110, 92, 'metformin blocks some')}
+      ${qtag(240, 70, 'Vitamin B12', 11)}
+      ${cls('a-blink', at(240, 118, hand(), .7))}
+      ${ans(240, 150, 'can cause numbness')}`),
 
-    sgltmoa: S('Where this drug works', `
-      ${tile(14, 28, 272, 138, 'water')}
-      ${at(76, 78, kidney(), 1.7)}
-      ${sugarRain(76, 112, 158, 4, 2)}
-      ${at(190, 122, toilet(), 1.1)}
-      ${fade(cube('f-pancreas'), 'M112 92 L176 112', 2, 0)}${fade(cube('f-pancreas'), 'M112 92 L176 112', 2, 1)}
-      ${qtag(200, 62, 'Sugar leaves in urine', 10.5)}`),
+    /* SGLT2 mechanism: gate in the kidney tubule is blocked; sugar goes on to the urine. */
+    sgltmoa: S('Where and how it works', `
+      ${tile(10, 24, 280, 150, 'water')}
+      ${vessel('M20 50 H280', 9)}
+      ${label(150, 40, 'blood')}
+      ${thick('M20 104 H226 Q246 104 246 124 V146', 'mucus', 15)}
+      ${label(70, 128, 'kidney tubule')}
+      <rect x="96" y="58" width="24" height="36" rx="5" fill="#fff" stroke="var(--art-line)" stroke-width="1.5"/>
+      ${T(108, 79, 'gate', { s: 8.5 })}
+      ${cls('a-pop', at(108, 76, nope(19)))}
+      ${flow('M28 104 L226 104 Q246 104 246 124 L246 146', 5, 3)}
+      ${at(246, 154, toilet(), .55)}
+      ${qtag(170, 76, 'Sugar leaves in urine', 9.5)}
+      ${ans(170, 136, 'A1c, BP, weight drop')}`),
 
-    sgltinf: S('Sweet urine feeds these', `
-      ${tile(14, 28, 272, 138, 'germ')}
-      ${at(70, 90, bladder(), 2)}
-      ${cls('a-sway', at(50, 72, germ(25), 1))}${cls('a-bob', at(92, 108, yeast(), 1))}
-      ${qtag(200, 72, 'Yeast infections', 12)}
-      ${qtag(200, 110, 'UTIs', 15)}`),
+    /* Infections: sugar in urine feeds germs. */
+    sgltinf: S('Sweet urine feeds what?', `
+      ${tile(10, 24, 280, 150, 'germ')}
+      ${flow('M78 34 L78 74', 3, 1.5)}
+      ${at(78, 110, bladder(), 2.4)}
+      ${cls('a-grow', at(62, 106, germ(25), 1))}${cls('a-grow', at(92, 118, yeast(), .8), 'animation-delay:.5s')}
+      ${label(78, 162, 'sugar + warmth = germs grow')}
+      ${qtag(210, 80, 'Genital yeast', 11)}
+      ${qtag(210, 116, 'UTIs', 14)}`),
 
-    eudka: S('DKA with normal sugar', `
-      ${tile(14, 28, 272, 138, 'bad')}
-      ${gluGauge(80, 112, 54, -10, 0, 2)}
-      ${T(80, 134, 'sugar looks fine', { s: 10 })}
-      ${cls('a-blink', at(205, 60, warn(), 1.6))}
-      ${qtag(205, 104, 'Euglycemic DKA', 12)}
-      ${T(205, 130, 'from SGLT2 inhibitors', { s: 10, c: 'ans ink' })}`),
+    /* Euglycemic DKA: gauge stays normal, fat burns, ketones flood blood. */
+    eudka: S('DKA, but sugar is normal', `
+      ${tile(10, 24, 280, 150, 'bad')}
+      ${gluGauge(66, 96, 48, -12, 4, 2)}
+      ${label(66, 118, 'glucose looks normal')}
+      ${fatCell(140, 134, 20)}
+      ${label(140, 166, 'burning fat')}
+      ${[0,1,2,3].map(i => bubble('f-warn', 'K', 'M140 110 L140 48', 2.2, i * .55, 8)).join('')}
+      ${label(140, 36, 'ketones')}
+      ${qtag(228, 76, 'Euglycemic DKA', 9.5)}
+      ${ans(228, 100, 'from SGLT2 inhibitors')}
+      ${cls('a-blink', at(228, 132, warn(), 1.4))}`),
 
+    /* Amputation warning: foot risk. */
     cana: S('One SGLT2 inhibitor: limb warning', `
-      ${tile(14, 28, 272, 138, 'bad')}
-      ${cls('a-shake', at(72, 92, foot(), 1.8))}
-      ${cls('a-blink', at(126, 62, warn(), 1))}
-      ${qtag(205, 92, 'Canagliflozin', 14)}`),
+      ${tile(10, 24, 280, 150, 'bad')}
+      ${cls('a-pulse', at(76, 100, foot(), 2.1))}
+      <path class="s-bad a-blink" d="M92 88 V146" stroke-width="3" stroke-dasharray="6 5"/>
+      ${label(76, 164, 'risk of leg or foot loss')}
+      ${qtag(210, 84, 'Canagliflozin', 13)}
+      ${ans(210, 112, 'check feet every day')}`),
 
+    /* GLP-1 mechanism: three separate actions. */
     glpmoa: S('Three things this class does', `
-      ${tile(14, 28, 272, 138, 'immune')}
-      ${cls('a-squeeze', at(60, 92, stomach(), 1))}
-      ${T(60, 152, 'slow stomach', { s: 10 })}
-      ${at(150, 74, panc('f-pancreas'), .7)}
-      ${[0, 1, 2].map(i => fade(key('f-good'), 'M150 92 L150 128', 1.8, i * .6)).join('')}
-      ${qtag(150, 150, 'More insulin', 10)}
-      ${cls('a-rise', at(240, 110, `<path class="s-bad" d="M0 -22 V14 M-9 6 L0 16 L9 6" stroke-width="3.4"/>`))}
-      ${qtag(240, 150, 'Less glucagon', 9.5)}`),
+      ${tile(10, 24, 88, 150, 'good')}${tile(106, 24, 88, 150, 'bad')}${tile(202, 24, 88, 150, 'warn')}
+      ${at(54, 50, panc('f-pancreas'), .55)}
+      ${flow('M54 66 L54 116', 3, 1.8, key('f-good'))}
+      ${qtag(54, 136, 'More insulin', 9)}
+      ${ans(54, 156, 'pancreas')}
+      ${at(150, 50, panc('f-pancreas'), .55)}
+      ${cls('a-drop', at(150, 92, `<path class="s-bad" d="M0 -16 V12 M-8 5 L0 14 L8 5" stroke-width="3.4"/>`))}
+      ${qtag(150, 136, 'Less glucagon', 9)}
+      ${ans(150, 156, 'liver makes less')}
+      ${at(246, 76, stomach(), .72)}
+      ${flow('M226 66 L266 90', 2, 5, dot('f-food', 4))}
+      ${qtag(246, 136, 'Slow stomach', 9)}
+      ${ans(246, 156, 'full longer')}`),
 
+    /* Thyroid warning: a growing C-cell tumor, plus family history. */
     glpthy: S('Ask this before a GLP-1 agonist', `
-      ${tile(14, 28, 272, 138, 'mouth')}
-      ${cls('a-pulse', at(74, 74, thyroid(), 2.2))}
-      ${at(74, 134, tree(), 1)}
-      ${qtag(200, 72, 'Medullary thyroid CA', 10.5)}
-      ${qtag(200, 110, 'MEN2', 15)}
-      ${T(200, 138, 'patient or family', { s: 10, c: 'ans ink' })}`),
+      ${tile(10, 24, 280, 150, 'mouth')}
+      ${at(72, 76, thyroid(), 2.5)}
+      <g class="ans"><g transform="translate(92 78)"><circle class="f-tumor a-grow" r="9"/></g></g>
+      ${at(72, 136, tree(), 1)}
+      ${cls('a-blink', '<circle cx="83" cy="147" r="8" fill="none" stroke="var(--c-bad)" stroke-width="2.5"/>')}
+      ${qtag(198, 66, 'Medullary thyroid cancer', 8.8)}
+      ${qtag(198, 102, 'MEN2', 15)}
+      ${ans(198, 132, 'patient or family')}
+      ${ans(198, 146, 'either one: don\'t use')}`),
 
-    glpae: grid4('GLP-1 agonists: side effects', [
-      ['warn', `${cls('a-sway', at(0, 0, stomach(), .55))}`, 'Nausea', 11, 'Most common'],
-      ['good', `${cls('a-squeeze', at(0, 0, stomach(), .55))}`, 'Vomiting', 11, 'Most common'],
-      ['pancreas', `${cls('a-blink', at(0, 0, panc('f-pancreas'), .42))}`, 'Pancreatitis', 10, 'Watch for'],
-      ['gall', `${cls('a-pulse', at(0, 0, gallb(), 1))}`, 'Gallbladder', 10, 'Watch for'],
-    ]),
+    /* Side effects: each tile shows what actually happens. */
+    glpae: S('GLP-1 agonists: side effects', `
+      ${tile(10, 24, 136, 72, 'warn')}${tile(154, 24, 136, 72, 'good')}${tile(10, 102, 136, 72, 'pancreas')}${tile(154, 102, 136, 72, 'gall')}
+      ${cls('a-sway', at(36, 60, stomach(), .55))}
+      ${qtag(100, 60, 'Nausea', 11)}
+      ${at(180, 76, stomach(), .5)}
+      ${flow('M180 56 L180 32', 3, 1.2, drop('f-bile', .6))}
+      ${qtag(244, 60, 'Vomiting', 10.5)}
+      ${at(40, 140, panc('f-pancreas'), .38)}${cls('a-blink', '<circle cx="40" cy="140" r="18" fill="var(--c-bad)" opacity=".3"/>')}
+      ${qtag(104, 140, 'Pancreatitis', 9.5)}
+      ${cls('a-pulse', at(184, 138, gallb(), 1.05))}
+      ${qtag(248, 138, 'Gallbladder', 9.5)}`),
 
-    names: grid4('Name ending = drug class', [
-      ['water', `${at(0, 0, kidney(), .8)}`, 'SGLT2', 12, '-gliflozin'],
-      ['good', `${cls('a-bob', at(0, 0, pill(-25, 'f-good'), 1))}`, 'DPP-4', 12, '-gliptin'],
-      ['immune', `${cls('a-sway', at(0, 0, pen('f-immune', -25), .7))}`, 'GLP-1', 12, '-tide'],
-      ['spleen', `${cls('a-pulse', at(0, 0, pill(-25, 'f-spleen'), 1))}`, 'TZD', 12, '-glitazone'],
-    ]),
+    /* Name endings: each icon shows the class action. */
+    names: S('Name ending = drug class', `
+      ${[[10, 24, 'water', '-gliflozin', 'SGLT2'], [154, 24, 'good', '-gliptin', 'DPP-4'], [10, 102, 'immune', '-tide', 'GLP-1'], [154, 102, 'spleen', '-glitazone', 'TZD']].map(([x, y, c, a, b]) => tile(x, y, 136, 72, c) + tag(x + 86, y + 22, a, '', 10) + qtag(x + 86, y + 50, b, 12)).join('')}
+      ${at(36, 58, kidney(), .62)}${flow('M36 72 L36 92', 2, 1.1, cube('f-pancreas', .6))}
+      ${at(184, 60, shield(), 1.05)}${cls('a-pulse', at(184, 60, dot('f-good', 6)))}
+      ${cls('a-bob', at(38, 138, pen('f-immune', -25), .68))}
+      ${at(184, 138, '<circle class="f-skin" r="16"/>')}${flow('M160 138 L184 138', 2, 1.3, key('f-good'))}`),
 
-    labs: grid4('Diabetes if any one is at least', [
-      ['blood', `${cls('a-pulse', at(0, 0, rbc(), 1.1))}`, '6.5%', 13, 'A1c'],
-      ['vein', `${cls('a-bob', at(0, 0, moon(), 1.1))}`, '126', 13, 'Fasting'],
-      ['warn', `${cls('a-sway', at(0, 0, glass(), .9))}`, '200', 13, '2-hour test'],
-      ['good', `${cls('a-blink', at(0, 0, meter(), .9))}`, '200 + symptoms', 9, 'Random'],
-    ]),
+    /* Diagnosis: each bar climbs to the cutoff. */
+    labs: S('Diabetes if any one reaches', `
+      ${[[14, 'blood', 'A1c', '6.5%'], [84, 'vein', 'Fasting', '126'], [154, 'warn', '2-hour', '200'], [224, 'good', 'Random', '200']].map(([x, c, a, b], i) => tile(x, 24, 62, 150, c) + label(x + 31, 40, a, 9.5) + `<rect x="${x + 21}" y="58" width="20" height="82" rx="4" fill="#fff" stroke="var(--art-line)" stroke-width="1.3"/>` + riseBar(x + 22, 139, 18, 70, c, 2.6 + i * .15) + `<path d="M${x + 16} 69 H${x + 46}" stroke="var(--art-line)" stroke-width="2"/>` + qtag(x + 31, 154, b, 11)).join('')}
+      ${ans(255, 171, '+ symptoms', 9)}`),
 
-    fast: S('Which insulin wins the race?', `
-      ${insPlot([C(.15, 1, 4, 96, 'bad'), fillC(curve(34, 142, 244, 24, .15, 1, 4, 96), 'bad')])}
-      ${cls('a-bob', at(120, 54, clock(), 1))}
-      ${qtag(190, 66, 'Lispro, aspart, glulisine', 10)}
-      ${T(190, 92, 'start in 5 to 15 min', { s: 11, c: 'ans ink' })}`),
+    /* Rapid insulin: starts with the meal, first hill on the chart. */
+    fast: S('Which insulins start first?', `
+      ${insPlot([faint(.6, 3, 8, 70), faint(2, 8, 16, 52), faint(1, 4, 24, 26, 21), crv(.15, 1, 4, 96, 'bad'), fillC(curve(34, 142, 244, 24, .15, 1, 4, 96), 'bad')])}
+      ${at(72, 34, plate(), .5)}
+      ${qtag(190, 58, 'Lispro, aspart, glulisine', 9.5)}
+      ${ans(190, 82, 'start in 5 to 15 minutes')}
+      ${ans(190, 96, 'timed with meals')}`),
 
-    nopeak: S('Steady, with no hill', `
-      ${insPlot([drawC(curve(34, 142, 244, 24, 1, 4, 24, 42, 21), 'spleen')])}
-      ${cls('a-pop', at(70, 60, sun(), 1))}${cls('a-pop', at(240, 60, moon(), 1), '--d:.3s')}
-      ${qtag(155, 58, 'Glargine, detemir', 12)}`),
+    /* No-peak insulin: flat line with the sun and moon passing over 24 hours. */
+    nopeak: S('Steady all day and night', `
+      ${insPlot([faint(.15, 1, 4, 96), faint(2, 8, 16, 62), crv(1, 4, 24, 42, 'spleen', 0, 21), fillC(curve(34, 142, 244, 24, 1, 4, 24, 42, 21), 'spleen')])}
+      ${mover(sun(), 'M60 66 Q155 30 278 66', 6)}
+      ${qtag(170, 76, 'Glargine, detemir', 11)}
+      ${ans(170, 92, 'no peak, background insulin')}`),
 
-    nphk: S('The 6 to 10 hour hill', `
-      ${insPlot([C(2, 8, 16, 78, 'good'), fillC(curve(34, 142, 244, 24, 2, 8, 16, 78), 'good')])}
-      ${cls('a-bob', at(115, 44, `<path class="s-ink" d="M0 -6 V8 M-5 3 L0 9 L5 3" stroke-width="2.4"/>`))}
-      ${qtag(214, 60, 'NPH', 16)}`),
+    /* NPH: hill peaking between 6 and 10 hours, shaded. */
+    nphk: S('Peak at 6 to 10 hours', `
+      ${insPlot([`<rect x="${34 + 244 * 6 / 24}" y="38" width="${244 * 4 / 24}" height="104" fill="var(--c-warn)" opacity=".22"/>`, faint(.15, 1, 4, 90), faint(1, 4, 24, 26, 21), crv(2, 8, 16, 80, 'good'), fillC(curve(34, 142, 244, 24, 2, 8, 16, 80), 'good')])}
+      ${label(125, 34, '6 to 10 h')}
+      ${qtag(220, 66, 'NPH', 17)}
+      ${ans(220, 90, 'intermediate-acting')}`),
 
+    /* Insulin side effect: keys move too much sugar into cells; gauge falls. */
     insae: S('Insulin: number one problem', `
-      ${tile(14, 28, 272, 138, 'vein')}
-      ${gluGauge(78, 112, 54, 0, -75, 2.4)}
-      ${cls('a-sway', at(205, 58, syringe(-35), 1.2))}
-      ${qtag(205, 100, 'Low blood sugar', 12)}
-      ${T(205, 124, 'also weight gain, low K', { s: 10, c: 'ans ink' })}
-      ${T(205, 142, 'rotate injection sites', { s: 10, c: 'ans ink' })}`),
+      ${tile(10, 24, 280, 150, 'vein')}
+      ${vessel('M20 56 H140', 11)}
+      <circle class="f-skin" cx="80" cy="130" r="24"/>
+      ${T(80, 134, 'cell', { s: 10 })}
+      ${flow('M58 58 L72 110', 3, 1.5)}${flow('M100 58 L88 110', 3, 1.5)}
+      ${flow('M28 80 L58 118', 2, 1.8, key('f-good'))}
+      ${gluGauge(208, 92, 44, 8, -76, 2.6)}
+      ${qtag(208, 114, 'Low blood sugar', 10)}
+      ${ans(208, 138, 'also weight gain, low K')}
+      ${ans(208, 152, 'rotate injection sites')}`),
 
+    /* Rescue: 15 g raises the gauge back to green. */
     rescue: S('Shaky and sweaty: how many grams?', `
-      ${tile(14, 28, 272, 138, 'good')}
-      ${cls('a-shake', at(60, 96, person('f-water'), 1.5))}
-      ${fade(drop('f-water', .6), 'M36 70 L30 100', 1.3, 0)}${fade(drop('f-water', .6), 'M84 70 L90 100', 1.3, .6)}
-      ${qtag(195, 62, '15 grams', 17)}
-      ${cls('a-bob', at(160, 112, glass(), 1))}
-      ${cls('a-bob', at(205, 112, tab('f-white'), 1.2), '--d:.2s')}
-      ${cls('a-bob', at(248, 112, `<circle class="f-bad" r="10"/>`), '--d:.4s')}
-      ${T(205, 152, 'juice, tablets, candy', { s: 10, c: 'ans ink' })}`),
+      ${tile(10, 24, 280, 150, 'good')}
+      ${cls('a-shake', at(46, 92, person('f-water'), 1.15))}
+      ${fade(drop('f-water', .55), 'M26 66 L18 96', 1.3, 0)}${fade(drop('f-water', .55), 'M66 66 L74 96', 1.3, .6)}
+      ${at(116, 86, glass(), 1)}
+      ${flow('M116 106 L150 118', 2, 1.4, cube('f-pancreas', .7))}
+      ${gluGauge(208, 118, 46, -76, 2, 3.2)}
+      ${qtag(208, 60, '15 grams', 16)}
+      ${ans(208, 142, 'then recheck in 15 minutes')}
+      ${ans(110, 162, 'juice, tablets, candy')}`),
   });
 })();
