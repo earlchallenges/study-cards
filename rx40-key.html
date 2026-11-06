@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Diabetes Meds: Must Know | Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<link rel="stylesheet" href="study.css">
+<link rel="stylesheet" href="ch9-art.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="ch9-pics.js"></script>
+<script>
+const PICS = {};
+window.SET = {
+  title: 'Diabetes Meds: Must Know',
+  chapter: 'Pharmacology · Unit 12 · Ch 40 Most Important Points',
+  pics: PICS,
+  mystery: true,
+  audio: 'audio/rx40k',
+  speak: {},
+  cards: [
+    { term: 'Best first drug for new type 2 diabetes', def: 'Metformin, along with diet and exercise. It is chosen because it works well, is safe, and costs little.', short: 'Metformin', pic: 'first' },
+    { term: 'How is type 1 diabetes treated?', def: 'With insulin for life, usually a long-acting insulin plus rapid-acting insulin at meals. The immune system has destroyed the cells that make it.', short: 'Insulin for life', pic: 'type1' },
+    { term: 'Best drug class for diabetes with heart failure', def: 'An SGLT2 inhibitor, such as dapagliflozin. It lowers heart failure hospital stays in the right patients with type 2 diabetes.', short: 'SGLT2 inhibitor', pic: 'hfbest' },
+    { term: 'Which diabetes drug should you avoid in heart failure?', def: 'Pioglitazone. It has a boxed warning for heart failure, and it should not be started in NYHA class 3 or 4.', short: 'Pioglitazone', pic: 'hfavoid' },
+    { term: 'Best drug class for diabetes with heart disease', def: 'A GLP-1 agonist such as semaglutide, dulaglutide, or liraglutide. These can lower major heart events. An SGLT2 inhibitor is another option.', short: 'GLP-1 agonist', pic: 'cvd' },
+    { term: 'Best choices with kidney disease', def: 'An SGLT2 inhibitor for kidney protection if eGFR allows. Linagliptin is the DPP-4 inhibitor that needs no kidney dose change.', short: 'SGLT2; linagliptin', pic: 'ckd' },
+    { term: 'Which sulfonylurea is preferred with kidney problems?', def: 'Glipizide.', short: 'Glipizide', pic: 'glip' },
+    { term: 'Which sulfonylurea should older adults avoid?', def: 'Glyburide. It lasts longer and causes more low blood sugar.', short: 'Glyburide', pic: 'glyb' },
+    { term: 'Good low-risk choice for older adults', def: 'A DPP-4 inhibitor. It causes few lows and is weight neutral. The A1c goal can also be less strict, because avoiding lows comes first.', short: 'DPP-4 inhibitor', pic: 'older' },
+    { term: 'Best choices when weight loss is a goal', def: 'A GLP-1 agonist or tirzepatide. SGLT2 inhibitors and metformin can also help a little.', short: 'GLP-1 or tirzepatide', pic: 'wtloss' },
+    { term: 'Which diabetes drugs cause weight gain?', def: 'Sulfonylureas, pioglitazone, and insulin.', short: 'SU, pioglitazone, insulin', pic: 'wtgain' },
+    { term: 'Which drugs carry the most risk of low blood sugar?', def: 'Insulin and sulfonylureas, especially glyburide. Metformin, DPP-4 inhibitors, SGLT2 inhibitors, and GLP-1 agonists rarely cause lows on their own.', short: 'Insulin, sulfonylureas', pic: 'lowrisk' },
+    { term: 'Low-cost choices for a tight budget', def: 'Metformin first, then a sulfonylurea such as glipizide. Patients should tell you if they cannot afford a medicine, not skip doses.', short: 'Metformin, glipizide', pic: 'budget' },
+    { term: 'Metformin boxed warning', def: 'Lactic acidosis. Avoid metformin when eGFR is under 30.', short: 'Lactic acidosis', pic: 'metbox' },
+    { term: 'Most common metformin side effect', def: 'Diarrhea and other stomach upset. It is much less common with the extended-release form.', short: 'Diarrhea', pic: 'metgi' },
+    { term: 'What can run low with long-term metformin?', def: 'Vitamin B12.', short: 'Vitamin B12', pic: 'b12' },
+    { term: 'How do SGLT2 inhibitors work?', def: 'They block sugar from being reabsorbed in the kidney, so it leaves in the urine. A1c, blood pressure, and weight all go down.', short: 'Sugar leaves in urine', pic: 'sgltmoa' },
+    { term: 'Common infections with SGLT2 inhibitors', def: 'Genital yeast infections and urinary tract infections, because of the extra sugar in the urine.', short: 'Yeast, UTIs', pic: 'sgltinf' },
+    { term: 'A patient on an SGLT2 inhibitor has DKA, but normal blood sugar. What is it?', def: 'Euglycemic DKA, a dangerous side effect of this class.', short: 'Euglycemic DKA', pic: 'eudka' },
+    { term: 'Which SGLT2 inhibitor has an amputation warning?', def: 'Canagliflozin.', short: 'Canagliflozin', pic: 'cana' },
+    { term: 'How do GLP-1 agonists work?', def: 'They raise insulin, lower glucagon, and slow the stomach, so patients feel full longer and lose weight.', short: 'More insulin, slower stomach', pic: 'glpmoa' },
+    { term: 'GLP-1 agonists: what history must you ask about?', def: 'Medullary thyroid cancer and MEN2, in the patient or family. Either one rules these drugs out.', short: 'Thyroid cancer, MEN2', pic: 'glpthy' },
+    { term: 'Most common GLP-1 side effects, and what to watch for', def: 'Nausea and vomiting are most common. Also watch for pancreatitis and gallbladder disease.', short: 'Nausea; pancreatitis', pic: 'glpae' },
+    { term: 'Name endings that give away the class', def: 'Gliflozin means SGLT2 inhibitor. Gliptin means DPP-4 inhibitor. Tide usually means GLP-1 agonist. Glitazone means TZD.', short: '-gliflozin, -gliptin, -tide, -glitazone', pic: 'names' },
+    { term: 'Lab numbers that diagnose diabetes', def: 'A1c 6.5 percent or more, fasting glucose 126 or more, 2-hour glucose test 200 or more, or random glucose 200 or more with symptoms.', short: 'A1c 6.5; fasting 126; 200', pic: 'labs' },
+    { term: 'Fastest-starting insulins', def: 'Rapid-acting lispro, aspart, and glulisine. They start in 5 to 15 minutes, so they are timed with meals.', short: 'Lispro, aspart, glulisine', pic: 'fast' },
+    { term: 'Which insulins have no peak?', def: 'Glargine and detemir, the long-acting insulins that work steadily in the background.', short: 'Glargine, detemir', pic: 'nopeak' },
+    { term: 'Which insulin peaks at 6 to 10 hours?', def: 'NPH, an intermediate-acting insulin.', short: 'NPH', pic: 'nphk' },
+    { term: 'Most common insulin side effect', def: 'Low blood sugar. Insulin can also cause weight gain and low potassium, and sites should be rotated to protect the skin.', short: 'Low blood sugar', pic: 'insae' },
+    { term: 'Treating a low: how many grams of carbs?', def: '15 grams, such as glucose tablets or gel, hard candy, or 4 ounces of juice or regular soda. Call for help if it does not respond.', short: '15 grams', pic: 'rescue' },
+  ],
+};
+</script>
+<script src="art/rx40k.js"></script>
+<script src="study.js"></script>
+</body>
+</html>

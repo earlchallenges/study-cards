@@ -26,6 +26,9 @@ def speakable(text):
     t = text.replace("\\'", "'")
     t = re.sub(r"(\d+)–(\d+)%", r"\1 to \2 percent", t)
     t = re.sub(r"less than (\d+)%", r"less than \1 percent", t)
+    for short, said in (("eGFR", "e G F R"), ("MEN2", "men two"), ("NYHA", "N Y H A"), ("A1c", "A one C"), ("SGLT2", "S G L T two"),
+                        ("DPP-4", "D P P four"), ("GLP-1", "G L P one"), ("TZD", "T Z D"), ("DKA", "D K A"), ("UTIs", "U T eyes"), ("NPH", "N P H")):
+        t = t.replace(short, said)
     t = t.replace("2×", "two times").replace(" vs. ", " versus ").replace("(SERM)", "")
     for word, ipa in IPA.items():
         t = re.sub(rf"\b{word}\b", lambda m: f"[{m.group(0)}]({ipa})", t, flags=re.I)
