@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fractures and Injuries | Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<link rel="stylesheet" href="study.css">
+<link rel="stylesheet" href="ch9-art.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="ch9-pics.js"></script>
+<script>
+const PICS = {
+  frac: factPic('Fracture', 'Stress beats bone strength', 'The most common musculoskeletal injury. Falls, car crashes, sports, or weak bone.'),
+  kidFrac: listPic('Fractures in children', ['Growth plate: Salter-Harris', 'Avulsion: tendon pulls bone off', 'Greenstick: bent, half broken']),
+  fracTypes: listPic('Fracture line types', ['Transverse: straight across', 'Oblique: at an angle', 'Spiral: twists around', 'Comminuted: many pieces']),
+  green: factPic('Greenstick fracture', 'Bent, outer side breaks', 'An incomplete break in children, whose bones are softer. Heals fast.'),
+  openClosed: twoPic('Open vs. closed fracture', ['Open (compound)', ['Skin is broken', 'High infection risk']], ['Closed', ['Skin intact']]),
+  moreFrac: listPic('More fracture terms', ['Compression: bone crushed', 'Impacted: end driven into bone', 'Pathologic: weak bone breaks', 'Stress: repeated strain']),
+  stress: factPic('Stress (fatigue) fracture', 'Repeated strain, e.g. running', 'Common in the tibia, femur, and metatarsals.'),
+  heal: flowPic('Fracture healing', ['Inflammatory: hematoma', 'Reparative: callus (2-6 wk)', 'Remodeling: callus to bone'], 'Full remodel can take up to a year'),
+  union: listPic('Healing problems', ['Delayed union: not healed by 20 weeks', 'Malunion: heals crooked', 'Nonunion: never heals'], 'Smoking, diabetes, poor blood flow slow healing'),
+  comp: flowPic('Compartment syndrome', ['Pressure builds in fascia', 'Squeezes nerves + vessels', 'Tissue dies'], 'Emergency: fasciotomy', 2),
+  compPain: factPic('Hallmark of compartment syndrome', 'Pain out of proportion', 'Much worse than the injury should cause. Take off the cast, do a fasciotomy.'),
+  fat: listPic('Fat embolism triad', ['Hypoxemia', 'Confusion', 'Petechial rash on chest/head'], 'After long bone or pelvic fracture', -1),
+  fatPrev: factPic('Prevent fat embolism', 'Immobilize early', 'Care is supportive. Many recover fully.'),
+  osteo: twoPic('Osteomyelitis', ['How it starts', ['Kids: blood to metaphysis', 'Adults: open fracture,', 'surgery, diabetic ulcer']], ['Germs', ['Staph aureus #1', 'Kids: group A strep', 'Adults: Pseudomonas']]),
+  osteoDx: twoPic('Osteomyelitis workup and care', ['Tests', ['High WBC, ESR, CRP', 'MRI or CT', '(better than X-ray)']], ['Care', ['Long IV antibiotics', 'Debridement']]),
+  avn: listPic('Osteonecrosis (AVN)', ['Bone dies from lost blood flow', 'Displaced fracture or dislocation', 'Steroids, alcohol', 'Hip, knee, wrist bones']),
+  jaw: factPic('Bisphosphonate risk', 'Osteonecrosis of the jaw', 'Jaw remodels fast; the drug slows that. Worse after dental work.'),
+  fracSx: listPic('Fracture signs', ['Deformity', 'Swelling', 'Pain', 'Crepitus', "Can't move the limb", 'Numbness']),
+  fracDx: listPic('Fracture workup', ['Check nerves + pulses', 'X-ray: front + side views', 'Include joint above + below', 'NPO in case of surgery']),
+  fracTx: flowPic('Fracture care', ['Immobilize', 'Reduce (closed or open)', 'Hold: cast, pins, plates'], 'Exercise later to prevent stiffness'),
+  disloc: factPic('Most dislocated joint', 'Shoulder, usually anterior', 'Dislocation = bones pushed out of place at a joint.'),
+  dislocSx: listPic('Dislocation signs', ['Joint looks out of place', 'Intense pain', 'Limited movement', 'Swelling, bruising', 'Tingling below']),
+  dislocTx: flowPic('Dislocation care', ['Immobilize', 'Reduce (sedation if needed)', 'Sling or splint', 'Rehab'], 'Watch vitals, O2, CO2 during sedation'),
+  sprainStrain: twoPic('Sprain vs. strain', ['Sprain', ['Ligament injury', 'Twisted ankle']], ['Strain', ['Muscle or tendon', '"Pulled muscle"']]),
+  sprainGr: listPic('Sprain grades', ['I: tiny tear, stable, no bruise', 'II: partial tear, swollen, bruised', 'III: complete tear, unstable'], 'Grade III may need surgery'),
+  kidSprain: factPic('Sprains in children', 'Fracture is more likely', 'Ligaments are stronger than open growth plates.'),
+  lachman: flowPic('Lachman test', ['Knee bent 30°', 'Pull tibia forward', 'Moves freely = ACL tear'], '', 2),
+  price: listPic('PRICE', ['Protect', 'Rest', 'Ice 10-15 min, 4x a day, 48 h', 'Compress', 'Elevate above heart']),
+  tendon: twoPic('Tendinitis vs. tendinopathy', ['Tendinitis', ['Acute', 'Inflamed tendon']], ['Tendinopathy', ['Chronic overuse', 'Thick, scarred', 'Little inflammation']]),
+  strainSite: listPic('Strain hot spots', ['Low back (most common)', 'Hamstring, quadriceps', 'Rotator cuff', 'Elbow, Achilles']),
+  strainTx: listPic('Strain care', ['Ice first 3 days, then heat or ice', 'Rest, elevate', 'NSAIDs', 'Muscle relaxants', 'Physical therapy']),
+  abuse: listPic('Fractures that suggest abuse', ['Ribs, sternum', 'Spinous process', 'Many fractures, different ages', 'Femur in a baby']),
+  abuseHx: listPic('Red flags in the history', ['Story does not fit injury', 'Delay in care', 'Story keeps changing', 'Blamed on a sibling or pet']),
+  burs: listPic('Bursitis', ['Inflamed cushion sac', 'Overuse, pressure, trauma', 'Elbow, hip, knee', 'Gout or RA too']),
+  septicBurs: factPic('Septic bursitis', 'Red, warm, painful', 'More common with alcoholism, diabetes, or weak immunity. Aspirate the fluid.'),
+  bursTx: listPic('Bursitis care', ['NSAIDs', 'Ice or heat', 'Steroid + anesthetic shot', 'Knee pads, avoid the cause']),
+  frozen: twoPic('Frozen shoulder', ['Who', ['Diabetes (type 1)', 'Women']], ['What', ['Painful, stiff', 'Worse at night', 'Up to 2 years']]),
+  impinge: factPic('Shoulder impingement', 'Pain with overhead reaching', 'Rotator cuff squeezed when the arm is raised. Worse at night or lying on it.'),
+  epicond: twoPic('Elbow tendinopathy', ['Tennis elbow', ['Lateral', 'Gripping, wrist extension']], ["Golfer's elbow", ['Medial', 'Wrist flexion']]),
+  carpal: flowPic('Carpal tunnel syndrome', ['Pressure in carpal tunnel', 'Median nerve squeezed', 'Thumb + 2.5 fingers tingle'], 'Worse at night', 2),
+  carpalRisk: listPic('Carpal tunnel risks', ['Pregnancy', 'Diabetes', 'Hypothyroid', 'RA', 'Obesity', 'Women']),
+  carpalTx: listPic('Carpal tunnel care', ['Neutral wrist splint', 'Steroid shot or pills', 'Surgery to release nerve'], 'Nerve conduction study supports diagnosis'),
+  dequer: factPic('de Quervain tendinopathy', 'Finkelstein test hurts', 'Pain on the thumb side of the wrist. Common in women and pregnancy. Thumb spica splint.'),
+  dupuy: twoPic('Hand problems', ['Dupuytren', ['Palm fascia thickens', 'Ring finger', "Can't straighten"]], ['Trigger finger', ['Flexor tendon thick', 'Finger catches, locks', 'Ring + middle']]),
+  scfe: flowPic('Slipped capital femoral epiphysis', ['Obese teen, age 12-13', 'Femoral head slips', 'Hip or knee pain, limp'], 'Ice cream sliding off the cone', 1),
+  scfeTx: factPic('SCFE care', 'No weight-bearing, then pins', 'Can be both hips in up to 40%. Pain may show up only in the knee.'),
+  lcp: flowPic('Legg-Calvé-Perthes', ['Blood flow to femoral head drops', 'Bone dies', 'Head flattens', 'Slowly reforms']),
+  lcpWho: listPic('Legg-Calvé-Perthes facts', ['Ages 3-12', 'Boys 4 to 1', 'Limp, hip pain', 'Better outlook before age 8']),
+  meralgia: factPic('Meralgia paresthetica', 'Burning outer thigh', 'Nerve pinched under the inguinal ligament. Only sensory. Tight belts, obesity, pregnancy.'),
+  osgood: flowPic('Osgood-Schlatter disease', ['Teen growth spurt + sports', 'Patellar tendon pulls', 'Tibial tubercle hurts'], 'Ice, NSAIDs, keep playing if pain clears in a day', 2),
+};
+
+window.SET = {
+  title: 'Fractures and Injuries',
+  chapter: 'Chapter 12 · Musculoskeletal Function · Part 2',
+  pics: PICS,
+  mystery: true,
+  audio: 'audio/ch12-2',
+  speak: {},
+  cards: [
+    { term: 'Fracture', def: 'A break in bone when the force on it is greater than its strength. The most common musculoskeletal injury, from falls, crashes, sports, or weakened bone.', short: 'Force beats bone strength', pic: 'frac' },
+    { term: 'Fractures more common in children', say: 'SAL-ter HAIR-is', def: 'Growth plate (Salter-Harris) fractures, avulsion fractures where a tendon or ligament pulls off a piece of bone, and greenstick fractures', short: 'Growth plate, avulsion, greenstick', pic: 'kidFrac' },
+    { term: 'Transverse vs. oblique vs. spiral vs. comminuted fracture', say: 'KOM-ih-noo-ted', def: 'Transverse: straight across. Oblique: at an angle. Spiral: twists around the shaft. Comminuted: shattered into many pieces.', short: 'Across, angled, twisted, shattered', pic: 'fracTypes' },
+    { term: 'Greenstick fracture', def: 'An incomplete break where the bone bends and only the outer curve cracks. Seen in children because their bones are softer; it heals quickly.', short: 'Bent, half broken', pic: 'green' },
+    { term: 'Open vs. closed fracture', def: 'Open (compound): the skin is broken and bone may poke through, with high infection risk. Closed: the skin is intact.', short: 'Skin broken vs. intact', pic: 'openClosed' },
+    { term: 'Compression vs. impacted vs. pathologic fracture', def: 'Compression: bone is crushed. Impacted: one end is driven into the other. Pathologic: weak bone breaks, as from a tumor or osteoporosis.', short: 'Crushed, jammed, weak bone', pic: 'moreFrac' },
+    { term: 'Stress fracture', def: 'A fatigue fracture from repeated strain, like running. Common in the tibia, femur, and metatarsals.', short: 'Repeated strain', pic: 'stress' },
+    { term: 'The 3 phases of fracture healing', def: 'Inflammatory: a hematoma forms. Reparative: a callus bridges the ends over 2 to 6 weeks. Remodeling: the callus turns to bone over weeks to a year.', short: 'Hematoma, callus, remodel', pic: 'heal' },
+    { term: 'Delayed union vs. malunion vs. nonunion', def: 'Delayed union: not healed by 20 weeks. Malunion: heals in the wrong position. Nonunion: never heals. Smoking, diabetes, and poor blood flow slow healing.', short: 'Slow, crooked, never', pic: 'union' },
+    { term: 'Compartment syndrome', def: 'Pressure builds inside the muscle fascia, squeezing nerves and vessels until tissue dies from lack of oxygen', short: 'Pressure inside fascia', pic: 'comp' },
+    { term: 'Hallmark sign and treatment of compartment syndrome', say: 'fash-ee-OT-uh-mee', def: 'Severe pain far worse than the injury should cause. Remove any cast and do an emergency fasciotomy.', short: 'Pain out of proportion; fasciotomy', pic: 'compPain' },
+    { term: 'Fat embolism triad', say: 'peh-TEE-kee-ul', def: 'Low oxygen (hypoxemia), mental status changes, and a petechial rash on the chest or head, usually after a long bone or pelvic fracture', short: 'Hypoxemia, confusion, petechiae', pic: 'fat' },
+    { term: 'Preventing fat embolism', def: 'Immobilize the fracture early. Treatment is supportive and many patients recover fully.', short: 'Early immobilization', pic: 'fatPrev' },
+    { term: 'Osteomyelitis', say: 'oss-tee-oh-my-uh-LY-tis', def: 'Bone infection. Children usually get it through the blood to the metaphysis; adults through open fractures, surgery, or diabetic ulcers. Staph aureus is the top cause.', short: 'Bone infection; Staph aureus', pic: 'osteo' },
+    { term: 'Osteomyelitis workup and treatment', def: 'High WBC (acute), high ESR and CRP, and MRI or CT (better than X-ray). Treated with long courses of strong antibiotics and debridement.', short: 'MRI; long antibiotics', pic: 'osteoDx' },
+    { term: 'Osteonecrosis (avascular necrosis)', say: 'oss-tee-oh-neh-KROH-sis', def: 'Bone dies from loss of blood supply, after a displaced fracture or dislocation, or from steroids or alcohol. Common in the femoral head, knee, and wrist.', short: 'Bone death from lost blood flow', pic: 'avn' },
+    { term: 'Bisphosphonates and the jaw', def: 'They can cause osteonecrosis of the jaw, because the jaw remodels quickly and the drug slows remodeling, especially after dental work', short: 'Osteonecrosis of the jaw', pic: 'jaw' },
+    { term: 'Signs of a fracture', say: 'KREP-ih-tus', def: 'Deformity, swelling, pain, crepitus (grating), inability to move the limb, numbness or tingling, and muscle spasms', short: 'Deformity, swelling, crepitus', pic: 'fracSx' },
+    { term: 'Fracture workup', def: 'Check nerves and pulses, then X-rays in front and side views, usually including the joint above and below. Keep the patient NPO in case of surgery.', short: 'Neurovascular check, X-rays', pic: 'fracDx' },
+    { term: 'Fracture treatment', def: 'Immobilize right away, reduce the bone (closed manipulation or open surgery), and hold it with a cast, splint, traction, or pins, plates, and screws', short: 'Immobilize, reduce, hold', pic: 'fracTx' },
+    { term: 'Most commonly dislocated joint', def: 'The shoulder, usually dislocating anteriorly', short: 'Shoulder, anterior', pic: 'disloc' },
+    { term: 'Signs of a dislocation', def: 'A joint that looks out of place, intense pain with movement, limited motion, swelling or bruising, and tingling below the injury', short: 'Out of place, intense pain', pic: 'dislocSx' },
+    { term: 'Dislocation treatment', def: 'Immobilize, then reduce the joint (with procedural sedation if needed), followed by a sling or splint for weeks and rehab. During sedation, watch vitals, oxygen, and CO2.', short: 'Reduce, sling, rehab', pic: 'dislocTx' },
+    { term: 'Sprain vs. strain', def: 'A sprain injures a ligament, as in a twisted ankle. A strain injures a muscle or tendon, as in a pulled muscle.', short: 'Ligament vs. muscle/tendon', pic: 'sprainStrain' },
+    { term: 'Sprain grades', def: 'Grade I: a tiny tear, stable, no bruising. Grade II: a partial tear with swelling, bruising, and some looseness. Grade III: a complete tear with an unstable joint that may need surgery.', short: 'Tiny, partial, complete', pic: 'sprainGr' },
+    { term: 'Why sprains are uncommon in young children', def: 'Their ligaments are stronger than their open growth plates, so a fracture happens first', short: 'Growth plate breaks first', pic: 'kidSprain' },
+    { term: 'Lachman test', say: 'LOCK-mun', def: 'With the knee bent 30 degrees, the tibia is pulled forward. If it slides freely, the ACL is likely torn.', short: 'Tests the ACL', pic: 'lachman' },
+    { term: 'PRICE', def: 'Protect, Rest, Ice (10 to 15 minutes, 4 times a day for 48 hours), Compress, and Elevate above the heart, for sprains and strains', short: 'Protect, Rest, Ice, Compress, Elevate', pic: 'price' },
+    { term: 'Tendinitis vs. tendinopathy', def: 'Tendinitis: an acutely inflamed tendon. Tendinopathy: chronic overuse where the tendon gets thick and scarred with little inflammation.', short: 'Acute inflamed vs. chronic scarred', pic: 'tendon' },
+    { term: 'Most common site for strains', def: 'The low back. Also the hamstring, quadriceps, rotator cuff, elbow, and Achilles tendon.', short: 'Low back', pic: 'strainSite' },
+    { term: 'Strain treatment', def: 'Ice for the first 3 days (then heat or ice), rest and elevation, NSAIDs, muscle relaxants, and physical therapy', short: 'Ice, rest, NSAIDs', pic: 'strainTx' },
+    { term: 'Fractures that suggest child abuse', def: 'Rib, sternum, and spinous process fractures, a femur fracture in a baby, and multiple fractures at different stages of healing', short: 'Ribs, many ages of healing', pic: 'abuse' },
+    { term: 'History red flags for child abuse', def: 'A story that does not fit the injury, a delay in care, a changing story, or blaming a sibling, pet, or CPR. Health workers must report suspected abuse.', short: 'Story does not fit', pic: 'abuseHx' },
+    { term: 'Bursitis', say: 'bur-SY-tis', def: 'Inflammation of a bursa, the fluid sac that cushions near a joint. From overuse, pressure, or trauma, or with gout or RA. Common at the elbow, hip, and knee.', short: 'Inflamed cushion sac', pic: 'burs' },
+    { term: 'Septic bursitis', def: 'An infected bursa that is red, warm, and painful. More common with alcoholism, diabetes, and weak immunity. Fluid is aspirated to check it.', short: 'Infected bursa', pic: 'septicBurs' },
+    { term: 'Bursitis treatment', def: 'NSAIDs, ice or heat, a steroid and anesthetic injection, and avoiding the cause (such as knee pads for kneeling jobs)', short: 'NSAIDs, injection, protect', pic: 'bursTx' },
+    { term: 'Adhesive capsulitis (frozen shoulder)', def: 'A painful, stiff shoulder that loses motion, worse at night. More common in diabetes (especially type 1) and women. Recovery can take up to 2 years.', short: 'Stiff painful shoulder; diabetes', pic: 'frozen' },
+    { term: 'Shoulder impingement syndrome', def: 'Rotator cuff structures get squeezed when the arm is raised, causing pain with overhead activity, at night, or when lying on that side', short: 'Pain reaching overhead', pic: 'impinge' },
+    { term: 'Tennis elbow vs. golfer\'s elbow', say: 'ep-ih-kon-dih-LY-tis', def: 'Tennis elbow (lateral epicondylitis): outer elbow pain with gripping and wrist extension; more common. Golfer\'s elbow (medial): inner elbow pain with wrist flexion.', short: 'Lateral vs. medial', pic: 'epicond' },
+    { term: 'Carpal tunnel syndrome', def: 'The median nerve is squeezed in the wrist, causing pain and tingling in the thumb, index, middle, and half the ring finger, often waking the patient at night', short: 'Median nerve squeezed', pic: 'carpal' },
+    { term: 'Risk factors for carpal tunnel syndrome', def: 'Pregnancy, diabetes, hypothyroidism, rheumatoid arthritis, obesity, female sex, and repetitive work', short: 'Pregnancy, diabetes, hypothyroid', pic: 'carpalRisk' },
+    { term: 'Carpal tunnel treatment', def: 'A neutral wrist splint, steroid injections or pills, and surgery to release the nerve. Nerve conduction studies support the diagnosis.', short: 'Splint, steroids, surgery', pic: 'carpalTx' },
+    { term: 'de Quervain tendinopathy', say: 'duh kair-VAN', def: 'Painful thumb-side wrist tendons; the Finkelstein maneuver (fist over the thumb) hurts. More common in women and pregnancy. Treated with NSAIDs and a thumb spica splint.', short: 'Thumb-side wrist; Finkelstein', pic: 'dequer' },
+    { term: 'Dupuytren contracture vs. trigger finger', say: 'doo-pwee-TRAN', def: 'Dupuytren: palm fascia thickens and pulls a finger (often the ring) so it cannot straighten. Trigger finger: a thickened flexor tendon makes a finger catch or lock when bent.', short: 'Can\'t straighten vs. catches', pic: 'dupuy' },
+    { term: 'Slipped capital femoral epiphysis (SCFE)', say: 'SKIFF-ee', def: 'In an obese teen around 12 to 13, the femoral head slips off the neck, like ice cream sliding off a cone, causing hip, thigh, or knee pain and a limp', short: 'Obese teen, femoral head slips', pic: 'scfe' },
+    { term: 'SCFE treatment', def: 'No weight-bearing until surgery to pin the hip. Both hips are involved in up to 40%, and the pain may show up only in the knee.', short: 'No weight-bearing, then pins', pic: 'scfeTx' },
+    { term: 'Legg-Calvé-Perthes disease', say: 'leg kal-VAY PER-theez', def: 'Blood flow to the femoral head drops, the bone dies and flattens, then slowly reforms. Ages 3 to 12, boys 4 to 1, with a limp and hip pain. Better outlook if diagnosed before 8.', short: 'Femoral head loses blood; kids 3-12', pic: 'lcp' },
+    { term: 'Meralgia paresthetica', say: 'meh-RAL-juh pair-es-THET-ih-kuh', def: 'Burning, numbness, and tingling of the outer thigh from a pinched sensory nerve under the inguinal ligament. Linked to tight belts, obesity, and pregnancy. No weakness.', short: 'Burning outer thigh', pic: 'meralgia' },
+    { term: 'Osgood-Schlatter disease', say: 'OZ-good SHLOT-er', def: 'In active teens during a growth spurt, the patellar tendon pulls on the tibial tubercle, causing front-of-knee pain. Treated with ice, NSAIDs, and stretching.', short: 'Tibial tubercle pain in teens', pic: 'osgood' },
+  ],
+};
+</script>
+<script src="art/ch12-engine.js"></script>
+<script src="art/ch12-2.js"></script>
+<script src="study.js"></script>
+</body>
+</html>

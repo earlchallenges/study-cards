@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bones, Joints, Muscles | Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<link rel="stylesheet" href="study.css">
+<link rel="stylesheet" href="ch9-art.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="ch9-pics.js"></script>
+<script>
+const PICS = {
+  ligTen: twoPic('What connects to what', ['Ligament', ['Bone to bone', 'Keeps a joint stable']], ['Tendon', ['Muscle to bone', 'Lets bones move']]),
+  skel: twoPic('Two parts of the skeleton', ['Axial', ['Skull', 'Spine', 'Rib cage']], ['Appendicular', ['Arms, shoulders', 'Pelvis, legs']], '206 bones in all'),
+  boneTypes: listPic('5 bone shapes', ['Long: femur, humerus', 'Short: carpals, tarsals', 'Flat: skull, ribs, sternum', 'Irregular: vertebrae', 'Sesamoid: patella']),
+  longBone: flowPic('Parts of a long bone', ['Epiphysis (end)', 'Growth plate', 'Diaphysis (shaft)'], 'Ends are capped with hyaline cartilage'),
+  flatRbc: factPic('Where most adult red cells are made', 'Flat bones', 'Plus the vertebrae and pelvis. Red marrow turns into fatty yellow marrow with age.'),
+  periost: listPic('Periosteum', ['Covers the outside of bone', 'Tendons attach here', 'Has osteoblasts for repair', 'Rich in vessels and nerves']),
+  boneCells: listPic('3 bone cells', ['Osteoblast: builds bone', 'Osteoclast: breaks down bone', 'Osteocyte: mature cell that keeps it up'], 'Blasts build, clasts clear', 0),
+  remodel: flowPic('Bone remodeling', ['Osteoclasts resorb old bone', 'Osteoblasts lay down osteoid', 'Minerals harden it'], 'A constant, balanced cycle'),
+  matrix: twoPic('Bone needs both', ['Minerals', ['Calcium phosphate', 'Too little = brittle']], ['Collagen', ['Flexible strength', 'Too little = bendy']]),
+  rankl: twoPic('The bone switch', ['RANKL', ['Turns ON osteoclasts', 'More resorption']], ['OPG', ['Decoy that blocks RANKL', 'Protects bone']], 'Denosumab (Prolia) blocks RANKL'),
+  estro: flowPic('Menopause and bone', ['Estrogen drops', 'RANKL is unblocked', 'More resorption', 'Osteoporosis risk'], '', 3),
+  steroid: flowPic('Steroids and bone', ['More RANKL, less OPG', 'Fewer osteoblasts', 'Bone loss'], 'Glucocorticoids are a top drug cause'),
+  calcHorm: twoPic('Hormones and blood calcium', ['PTH', ['Wakes up osteoclasts', 'Raises blood calcium', 'The stronger one']], ['Calcitonin', ['Calms osteoclasts', 'Lowers blood calcium', 'Calcium into bone']]),
+  vitD: listPic('Vitamin D jobs', ['Absorb calcium from gut', 'Kidneys keep calcium + phosphate', 'Works with PTH']),
+  growth: twoPic('How bones grow', ['Appositional', ['New bone on the', 'outside surface', '(gets wider)']], ['Endochondral', ['Cartilage at growth', 'plate turns to bone', '(gets longer)']], 'Growth hormone + thyroid drive growth'),
+  cart: listPic('3 kinds of cartilage', ['Hyaline: most common, weakest; joint ends', 'Elastic: bends; outer ear', 'Fibrocartilage: strongest; disks, pubic symphysis']),
+  noVessel: factPic('Cartilage blood supply', 'None', 'No vessels or nerves. Gets food by diffusion, which is why it heals so poorly.'),
+  joints: listPic('3 joint types', ['Synovial (diarthrosis): moves freely', 'Amphiarthrosis: moves a little (spine)', 'Synarthrosis: does not move (skull sutures)']),
+  synov: listPic('Synovial joint parts', ['Articular cartilage', 'Synovial fluid (hyaluronic acid)', 'Synovial membrane', 'Joint capsule + ligaments']),
+  disk: twoPic('Intervertebral disk', ['Nucleus pulposus', ['Soft gel center', 'Shock absorber']], ['Annulus fibrosus', ['Tough outer ring', 'Holds the disk in']]),
+  font: twoPic('Fontanelles close', ['Posterior', ['About 2 months']], ['Anterior', ['By about 2 years']]),
+  preg: listPic('Pregnancy joint changes', ['Relaxin + estrogen loosen ligaments', 'Symphysis + SI joints widen', 'Pelvis tips forward'], 'Low back pain, carpal tunnel are common'),
+  muscleTypes: listPic('3 muscle types', ['Skeletal: voluntary, striated', 'Smooth: involuntary, organ walls', 'Cardiac: involuntary, heart']),
+  sarc: twoPic('Myofilaments', ['Actin', ['Thin filament']], ['Myosin', ['Thick filament', 'Pulls on actin']], 'Repeating units = sarcomeres'),
+  contract: flowPic('How a muscle contracts', ['ACh at nerve junction', 'Calcium released', 'Binds troponin', 'Tropomyosin moves', 'Myosin grabs actin', 'ATP powers the pull']),
+  relax: listPic('How a muscle relaxes', ['Nerve signal stops (or no ATP)', 'Calcium pumped back into SR', 'Tropomyosin covers actin again']),
+  wrap: flowPic('Muscle wrappings, inside out', ['Endomysium (each fiber)', 'Perimysium (bundles)', 'Epimysium + fascia (whole muscle)']),
+  bigger: factPic('How muscles get bigger', 'Bigger fibers, not more', 'Fiber count stays about the same for life. About half of new muscle is lost 2 weeks after stopping training.'),
+  sarco: factPic('Sarcopenia', 'Age-related muscle loss', 'About 10% lost after 50, near 30% after 80. Strength drops faster than size.'),
+  ddh: flowPic('Hip dysplasia (DDH)', ['Shallow acetabulum', 'Femoral head not covered', 'Hip slips out'], 'Left hip more often'),
+  ddhRisk: listPic('DDH risks', ['Female (3x)', 'Breech, 3rd trimester', 'Tight swaddling, legs straight', 'Cradleboards'], 'Most newborn laxity fixes itself in weeks'),
+  barlow: twoPic('Infant hip tests', ['Barlow', ['Flex + adduct', 'Push back', 'Hip pops OUT']], ['Ortolani', ['Flex + abduct', 'Lift forward', 'Hip clunks IN']]),
+  ddhSigns: listPic('DDH signs', ['Uneven thigh/buttock creases', 'Galeazzi: one knee lower', 'Limited abduction', 'Walker: Trendelenburg limp']),
+  ddhTx: twoPic('DDH workup and care', ['Imaging', ['Ultrasound under', '4-6 months', 'X-ray after']], ['Treatment', ['Pavlik harness', '2-3 months', 'Casting or surgery']]),
+  oi: flowPic('Osteogenesis imperfecta', ['Type I collagen gene defect', 'Weak bone matrix', 'Many fractures'], '"Brittle bone disease"', 2),
+  oiTypes: listPic('Main OI types', ['Type I: mildest (dominant)', 'Type II: lethal (recessive)', 'Type III: severe, survives', 'Type IV: moderate (dominant)']),
+  oiSigns: listPic('OI signs', ['Blue sclera', 'Hearing loss', 'Brittle teeth', 'Short stature', 'Loose ligaments', 'Easy bruising']),
+  oiTx: factPic('Key OI drug', 'Bisphosphonates', 'Slow bone breakdown to cut fractures. Team care with PT and OT.'),
+  curves: listPic('Abnormal spine curves', ['Kyphosis: hunchback (thoracic)', 'Lordosis: swayback (lumbar)', 'Scoliosis: sideways curve']),
+  scheu: twoPic('Kyphosis vs. bad posture', ['Scheuermann kyphosis', ['Curve stays when', 'lying flat or bending', 'Teen growth spurt']], ['Poor posture', ['Curve corrects', 'when lying flat']]),
+  adultKyph: listPic('Adult kyphosis causes', ['Osteoporosis', 'Disk or arthritis wear', 'Vertebral fractures'], 'Severe curve can limit breathing'),
+  scol: listPic('Scoliosis basics', ['Usually idiopathic', 'More common in girls', 'Worsens in growth spurts', 'Can twist vertebrae']),
+  adams: flowPic('Adams forward bend test', ['Patient bends forward', 'Look along the back', 'Rib hump = scoliosis'], 'Scoliometer measures the twist', 2),
+  cobb: factPic('Cobb angle on X-ray', 'Over 10° = scoliosis', 'Higher angle, worse curve. About 40° or more counts as kyphosis in older adults.'),
+};
+
+window.SET = {
+  title: 'Bones, Joints, Muscles',
+  chapter: 'Chapter 12 · Musculoskeletal Function · Part 1',
+  pics: PICS,
+  mystery: true,
+  audio: 'audio/ch12-1',
+  speak: {},
+  cards: [
+    { term: 'Ligament vs. tendon', def: 'A ligament connects bone to bone and keeps a joint stable. A tendon connects muscle to bone so the bone can move.', short: 'Bone-bone vs. muscle-bone', pic: 'ligTen' },
+    { term: 'Axial vs. appendicular skeleton', def: 'Axial: the skull, spine, and rib cage. Appendicular: the arms, shoulders, pelvis, and legs. There are 206 bones in all.', short: 'Skull/spine/ribs vs. limbs', pic: 'skel' },
+    { term: 'The 5 bone shapes', def: 'Long (femur, humerus), short (carpals, tarsals), flat (skull, ribs, sternum, scapula), irregular (vertebrae, mandible), and sesamoid (patella, inside a tendon)', short: 'Long, short, flat, irregular, sesamoid', pic: 'boneTypes' },
+    { term: 'Parts of a long bone', say: 'die-AF-ih-sis, eh-PIF-ih-sis', def: 'The diaphysis is the shaft, the epiphyses are the ends, and the growth plate (epiphyseal plate) sits between them. The ends are covered in hyaline cartilage.', short: 'Shaft, ends, growth plate', pic: 'longBone' },
+    { term: 'Where most red blood cells are made in adults', def: 'In flat bones, plus the vertebrae and pelvis. Red marrow is slowly replaced by fatty yellow marrow with age.', short: 'Flat bones', pic: 'flatRbc' },
+    { term: 'Periosteum', say: 'pair-ee-OSS-tee-um', def: 'The tough covering on the outside of bone. Tendons attach to it, it holds osteoblasts for repair, and it is full of blood vessels and nerves.', short: 'Outer bone cover', pic: 'periost' },
+    { term: 'Osteoblast vs. osteoclast vs. osteocyte', def: 'Osteoblasts build bone. Osteoclasts break bone down (resorption). Osteocytes are mature osteoblasts trapped in the matrix that maintain bone and help release calcium.', short: 'Build vs. break down vs. maintain', pic: 'boneCells' },
+    { term: 'Bone remodeling', def: 'A constant cycle: osteoclasts clear away old bone, then osteoblasts lay down new osteoid (collagen and ground substance) that hardens with calcium phosphate crystals', short: 'Clasts clear, blasts rebuild', pic: 'remodel' },
+    { term: 'Why bone needs minerals and collagen', def: 'Minerals make bone hard; too few makes it brittle. Collagen gives flexible strength; too little makes it too bendy.', short: 'Hard plus flexible', pic: 'matrix' },
+    { term: 'RANKL vs. OPG', say: 'RANK-L, O P G', def: 'RANKL turns on osteoclasts and increases bone breakdown. OPG is a decoy that blocks RANKL and protects bone. Denosumab (Prolia) is a drug that blocks RANKL.', short: 'Breakdown switch vs. its blocker', pic: 'rankl' },
+    { term: 'Why menopause raises osteoporosis risk', def: 'Estrogen normally blocks RANKL. When estrogen drops, RANKL is free to turn on osteoclasts, so bone breakdown speeds up.', short: 'Less estrogen, more RANKL', pic: 'estro' },
+    { term: 'How glucocorticoids hurt bone', def: 'They raise RANKL, lower OPG, and slow osteoblasts, so more bone is lost than made', short: 'More RANKL, fewer osteoblasts', pic: 'steroid' },
+    { term: 'PTH vs. calcitonin', def: 'PTH turns on osteoclasts to release calcium and raises blood calcium; it is the stronger regulator. Calcitonin calms osteoclasts and moves calcium into bone, lowering blood calcium.', short: 'Raises vs. lowers blood calcium', pic: 'calcHorm' },
+    { term: 'Role of vitamin D in bone', def: 'With PTH, it helps absorb calcium from the gut and helps the kidneys hold on to calcium and phosphate', short: 'Absorbs calcium', pic: 'vitD' },
+    { term: 'Appositional vs. endochondral bone growth', say: 'en-doh-KON-drul', def: 'Appositional: new bone is laid on the outer surface so bone gets wider. Endochondral: cartilage at the growth plate is replaced by bone so bone gets longer.', short: 'Wider vs. longer', pic: 'growth' },
+    { term: 'The 3 types of cartilage', def: 'Hyaline: most common and weakest, on joint surfaces, ribs, and sternum. Elastic: flexible, in the outer ear. Fibrocartilage: strongest, in the disks and pubic symphysis.', short: 'Hyaline, elastic, fibrocartilage', pic: 'cart' },
+    { term: 'Why cartilage heals poorly', def: 'It has no blood vessels or nerves and gets nutrients only by diffusion', short: 'No blood supply', pic: 'noVessel' },
+    { term: 'The 3 joint types by movement', def: 'Synovial (diarthrosis) moves freely, like the shoulder. Amphiarthrosis moves slightly, like the spine. Synarthrosis does not move, like skull sutures.', short: 'Free, slight, none', pic: 'joints' },
+    { term: 'Parts of a synovial joint', def: 'Articular cartilage on the bone ends, slippery synovial fluid (with hyaluronic acid) made by the synovial membrane, and a joint capsule with ligaments', short: 'Cartilage, fluid, membrane, capsule', pic: 'synov' },
+    { term: 'Nucleus pulposus vs. annulus fibrosus', say: 'pul-POH-sus, AN-yoo-lus fy-BROH-sus', def: 'The nucleus pulposus is the soft gel center of a disk that absorbs shock. The annulus fibrosus is the tough outer ring that holds it in.', short: 'Gel center vs. tough ring', pic: 'disk' },
+    { term: 'When the fontanelles close', say: 'fon-tuh-NELLS', def: 'The posterior fontanelle closes around 2 months. The anterior fontanelle closes by about 2 years.', short: 'Posterior 2 months, anterior 2 years', pic: 'font' },
+    { term: 'Pelvic changes in pregnancy', def: 'Relaxin and estrogen loosen ligaments, the symphysis pubis and sacroiliac joints widen, and the pelvis tips forward, causing low back pain', short: 'Loose ligaments, wider pelvis', pic: 'preg' },
+    { term: 'The 3 muscle types', def: 'Skeletal: voluntary and striated. Smooth: involuntary, in organ walls. Cardiac: involuntary, in the heart.', short: 'Skeletal, smooth, cardiac', pic: 'muscleTypes' },
+    { term: 'Actin vs. myosin', def: 'Actin is the thin filament. Myosin is the thick filament that grabs and pulls actin. Their pattern makes muscle look striped and forms repeating units called sarcomeres.', short: 'Thin vs. thick filament', pic: 'sarc' },
+    { term: 'Steps of muscle contraction', def: 'Acetylcholine at the nerve junction releases calcium, calcium binds troponin, tropomyosin moves off actin, myosin grabs actin, and ATP powers the pull', short: 'ACh, calcium, troponin, ATP', pic: 'contract' },
+    { term: 'How a muscle relaxes', def: 'The nerve signal stops (or ATP runs out), calcium is pumped back into the sarcoplasmic reticulum, and tropomyosin covers actin again', short: 'Calcium pumped back', pic: 'relax' },
+    { term: 'Muscle wrappings from inside out', say: 'en-doh-MY-see-um, pair-ih-MY-see-um, ep-ih-MY-see-um', def: 'Endomysium around each fiber, perimysium around bundles, and epimysium plus fascia around the whole muscle', short: 'Endo, peri, epi', pic: 'wrap' },
+    { term: 'How muscles get bigger with exercise', def: 'Each fiber gets bigger with more contractile protein; the number of fibers stays about the same for life. About half the gain is lost 2 weeks after stopping.', short: 'Bigger fibers, not more fibers', pic: 'bigger' },
+    { term: 'Sarcopenia', say: 'sar-koh-PEE-nee-uh', def: 'Age-related muscle loss: about 10% after age 50 and close to 30% after 80. Strength falls faster than muscle size.', short: 'Age-related muscle loss', pic: 'sarco' },
+    { term: 'Developmental dysplasia of the hip (DDH)', say: 'dis-PLAY-zhuh', def: 'A shallow acetabulum does not fully cover the femoral head, so the hip can slip partly (subluxate) or fully (dislocate) out. The left hip is affected more often.', short: 'Shallow hip socket', pic: 'ddh' },
+    { term: 'Risk factors for DDH', def: 'Female sex (up to 3 times more), breech position in the third trimester, and tight swaddling or cradleboards that hold the legs straight and together', short: 'Female, breech, tight swaddling', pic: 'ddhRisk' },
+    { term: 'Barlow vs. Ortolani test', say: 'BAR-loh, or-toh-LAH-nee', def: 'Barlow: flex and adduct the hip and push back; an unstable hip slips out. Ortolani: flex and abduct and lift forward; the hip clunks back in.', short: 'Pushes out vs. clunks in', pic: 'barlow' },
+    { term: 'Signs of DDH', say: 'gal-ee-AH-zee', def: 'Uneven thigh or buttock creases, a positive Galeazzi sign (one knee lower with knees bent), and limited hip abduction. Walking children may have a Trendelenburg limp.', short: 'Uneven creases, Galeazzi sign', pic: 'ddhSigns' },
+    { term: 'DDH imaging and treatment', say: 'PAV-lik', def: 'Ultrasound in young infants (X-ray after 4 to 6 months, once the bones harden). Treated with a Pavlik harness for 2 to 3 months, or casting or surgery.', short: 'Ultrasound; Pavlik harness', pic: 'ddhTx' },
+    { term: 'Osteogenesis imperfecta', say: 'oss-tee-oh-JEN-uh-sis im-per-FEK-tuh', def: 'Brittle bone disease: a defect in type I collagen genes makes bones fracture easily, sometimes over 100 times', short: 'Brittle bones from bad collagen', pic: 'oi' },
+    { term: 'Main types of osteogenesis imperfecta', def: 'Type I is mildest (dominant). Type II is lethal (recessive). Type III is the most severe that survives (recessive). Type IV is moderate (dominant).', short: 'I mild, II lethal, III severe, IV moderate', pic: 'oiTypes' },
+    { term: 'Classic signs of osteogenesis imperfecta', def: 'Blue sclera, hearing loss, brittle teeth (dentinogenesis imperfecta), short stature, loose ligaments, and easy bruising', short: 'Blue sclera, hearing loss', pic: 'oiSigns' },
+    { term: 'Key drug for osteogenesis imperfecta', def: 'Bisphosphonates, which slow bone breakdown and cut fractures, along with team care and PT and OT', short: 'Bisphosphonates', pic: 'oiTx' },
+    { term: 'Kyphosis vs. lordosis vs. scoliosis', say: 'ky-FOH-sis, lor-DOH-sis, skoh-lee-OH-sis', def: 'Kyphosis: thoracic spine curves outward (hunchback). Lordosis: lumbar spine curves inward too much (swayback). Scoliosis: the spine curves sideways.', short: 'Hunchback, swayback, sideways', pic: 'curves' },
+    { term: 'Scheuermann kyphosis vs. poor posture', say: 'SHOY-er-mahn', def: 'Scheuermann kyphosis appears in the teen growth spurt and the curve stays when bending or lying flat. Poor posture corrects when lying flat.', short: 'Curve stays vs. corrects', pic: 'scheu' },
+    { term: 'Causes of kyphosis in adults', def: 'Osteoporosis, disk or joint degeneration, and vertebral fractures. A severe curve can limit lung expansion.', short: 'Osteoporosis, fractures', pic: 'adultKyph' },
+    { term: 'Scoliosis basics', def: 'Usually idiopathic, more common in girls, and gets worse during growth spurts. Vertebrae can also twist.', short: 'Idiopathic, girls, growth spurts', pic: 'scol' },
+    { term: 'Adams forward bend test', def: 'The patient bends forward at the waist; a rib hump or uneven back points to scoliosis. A scoliometer measures the trunk twist.', short: 'Bend forward, look for rib hump', pic: 'adams' },
+    { term: 'Cobb angle', def: 'The curve angle measured on X-ray. Over 10 degrees diagnoses scoliosis; a higher angle means a worse curve.', short: 'Over 10 degrees = scoliosis', pic: 'cobb' },
+  ],
+};
+</script>
+<script src="art/ch12-engine.js"></script>
+<script src="art/ch12-1.js"></script>
+<script src="study.js"></script>
+</body>
+</html>

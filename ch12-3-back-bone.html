@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Low Back Pain and Bone Disease | Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<link rel="stylesheet" href="study.css">
+<link rel="stylesheet" href="ch9-art.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="ch9-pics.js"></script>
+<script>
+const PICS = {
+  lbp: factPic('Low back pain', 'Mostly muscle strains', 'About 80% of adults get it. Chronic means over 3 months.'),
+  mech: twoPic('Two kinds of low back pain', ['Mechanical', ['Strain', 'Disk, facet joints', 'Stenosis, fracture']], ['Nonmechanical', ['Cancer', 'Infection', 'Inflammatory (AS)']]),
+  ddd: flowPic('Degenerative disk disease', ['Disk loses water', 'Disk gets thinner', 'Bones closer together'], 'Narrowed space on imaging = spondylosis'),
+  hern: twoPic('Disk problems', ['Herniated', ['Gel pushes through', 'the outer ring']], ['Bulging', ['Bulges but stays', 'inside the ring']], 'Can press on nerve roots'),
+  lysis: twoPic('Spondylo- words', ['Spondylolysis', ['Stress fracture of', 'pars interarticularis', 'Often L5']], ['Spondylolisthesis', ['Vertebra slides', 'forward', 'L4-L5, L5-S1']]),
+  gym: factPic('Spondylolysis risk', 'Back-bending sports', 'Gymnastics and weightlifting in young people.'),
+  sten: listPic('Spinal stenosis', ['Narrowed spinal canal', 'From spondylosis, slipped vertebra', 'Thick ligamentum flavum', 'Usually over 60']),
+  claud: twoPic('Two kinds of leg pain on walking', ['Neurogenic (stenosis)', ['Better sitting or', 'leaning forward', 'Slow to ease']], ['Vascular', ['Better standing still', 'Eases right away', 'with rest']]),
+  radic: flowPic('Radiculopathy', ['Nerve root pinched', 'Pain shoots along nerve', 'Numbness, weakness'], 'L5/S1 = sciatica down back of leg'),
+  vcf: factPic('Vertebral compression fracture', 'May happen with no injury', 'From osteoporosis or long-term steroids. Pain right over the spot.'),
+  cauda: listPic('Cauda equina syndrome', ['Low back pain, both legs', 'Bladder retention or leaking', 'Bowel loss of control', 'Saddle numbness'], 'Emergency, usually a big disk', 1),
+  red: listPic('Back pain red flags', ['History of cancer', 'Fever, IV drug use', 'Bowel or bladder changes', 'Sudden severe pain']),
+  slr: flowPic('Straight leg raise', ['Lift straight leg at hip', 'Pain before 45°', 'Pain down leg = nerve root'], '', 2),
+  lbpTx: listPic('Low back pain care', ['NSAIDs', 'Muscle relaxants', 'Physical therapy', 'Heat or cold', 'Good body mechanics', 'Weight loss']),
+  op: factPic('Osteoporosis', 'Low bone mass + poor quality', 'Bones break easily. 1 in 2 women and 1 in 4 men.'),
+  opCause: flowPic('Why bone thins', ['Aging + low estrogen', 'Osteoclasts win', 'More removed than made']),
+  opWhere: twoPic('Osteoporosis fractures', ['Under 65', ['Vertebrae', '(more spongy bone)']], ['Over 65', ['Hip', '(more cortical bone)']], 'Wrist too'),
+  opRisk: listPic('Osteoporosis risks', ['Steroids', 'Smoking, alcohol', 'Thin, small frame', 'Low calcium, vitamin D', 'Gastric bypass', 'Family history']),
+  peak: factPic('Peak bone mass', 'By about age 30', 'Calcium, vitamin D, and weight-bearing exercise when young protect bone for life.'),
+  opSx: listPic('Osteoporosis signs', ['Silent at first', 'First sign often a fracture', 'Lost height (up to 6 in)', 'Kyphosis'], '20% die within a year of a hip fracture'),
+  dexa: listPic('DEXA T-score', ['-1 or higher: normal', '-1 to -2.5: osteopenia', '-2.5 or lower: osteoporosis'], 'Compared to a healthy young adult', 2),
+  zfrax: twoPic('Other bone scores', ['Z-score', ['Compared to same age', 'Low = look for a cause']], ['FRAX', ['10-year fracture risk', 'Ages 40-90']]),
+  screen: factPic('Osteoporosis screening', 'All women 65 and older', 'DEXA scan, usually not repeated sooner than 2 years.'),
+  opLabs: listPic('Osteoporosis labs', ['Calcium, phosphorus', 'Vitamin D (25-OH)', 'Alkaline phosphatase', 'CBC, chemistry'], 'X-ray shows it only after 25%+ loss'),
+  opTx: listPic('Osteoporosis care', ['Calcium + vitamin D', 'Weight-bearing exercise', 'Stop smoking, less alcohol', 'Fall-proof the home']),
+  opRx: listPic('Osteoporosis drugs', ['Bisphosphonates: slow osteoclasts', 'Teriparatide (PTH analog): builds', 'Denosumab: blocks RANKL', 'SERMs: act like estrogen'], '', 0),
+  rickets: twoPic('Rickets vs. osteomalacia', ['Rickets', ['Children', 'Growth plates', 'still open']], ['Osteomalacia', ['Anyone', 'Soft bone matrix', 'Only kind in adults']], 'Both = bones not mineralized'),
+  ricketsCause: listPic('Causes of rickets', ['Low vitamin D (little sun)', 'Only breastfed babies', 'Malabsorption: celiac, CF', 'Kidneys waste phosphate']),
+  ricketsSx: listPic('Rickets signs', ['Bowed legs', 'Late fontanelle closing', 'Soft skull', 'Bad teeth', 'Bone pain', 'Waddling gait']),
+  ricketsLab: twoPic('Rickets labs (vitamin D lack)', ['Low', ['Vitamin D', 'Calcium', 'Phosphate']], ['High', ['PTH', 'Alkaline phosphatase']]),
+  ricketsTx: factPic('Severe vitamin D deficiency (adult)', '50,000 units weekly', 'For about 2 months, then about 800 units a day.'),
+  paget: flowPic('Paget disease', ['Osteoclasts go wild', 'Bone turns over 20x faster', 'Big, weak, misshapen bone']),
+  pagetWho: listPic('Paget disease facts', ['Usually over 40', 'More in men', 'Pelvis, femur, skull, spine', 'SQSTM1 gene in some']),
+  pagetSx: listPic('Paget signs', ['Bone pain, worse at night', 'Bowed legs', 'Bigger head, hearing loss', 'Warm skin over bone', 'Fractures']),
+  pagetCx: listPic('Paget complications', ['Fractures', 'Osteoarthritis', 'Heart failure', 'Osteosarcoma', 'Nerve compression']),
+  pagetTx: twoPic('Paget workup and care', ['Labs', ['High alkaline', 'phosphatase', 'Bone scan, X-ray']], ['Treatment', ['Bisphosphonates', 'NSAIDs', 'Calcium + vitamin D']]),
+};
+
+window.SET = {
+  title: 'Low Back Pain and Bone Disease',
+  chapter: 'Chapter 12 · Musculoskeletal Function · Part 3',
+  pics: PICS,
+  mystery: true,
+  audio: 'audio/ch12-3',
+  speak: {},
+  cards: [
+    { term: 'Most common cause of low back pain', def: 'Muscle and tendon strains, which usually clear in a few weeks. About 80% of adults get low back pain; chronic means over 3 months.', short: 'Strains', pic: 'lbp' },
+    { term: 'Mechanical vs. nonmechanical low back pain', def: 'Mechanical: stress on the spine, disks, joints, or muscles (strain, disk disease, stenosis, fracture). Nonmechanical: cancer, infection, or inflammatory disease like ankylosing spondylitis.', short: 'Wear and stress vs. disease', pic: 'mech' },
+    { term: 'Degenerative disk disease', def: 'With age, disks lose water and get thinner so the vertebrae move closer together. The narrowed space on imaging is called spondylosis.', short: 'Disks dry out and thin', pic: 'ddd' },
+    { term: 'Herniated vs. bulging disk', def: 'Herniated: the gel center (nucleus pulposus) pushes through the outer ring (annulus fibrosus). Bulging: the disk bulges but stays inside the ring. Both can press on nerve roots.', short: 'Breaks through vs. stays in', pic: 'hern' },
+    { term: 'Spondylolysis vs. spondylolisthesis', say: 'spon-dih-LOL-ih-sis, spon-dih-loh-lis-THEE-sis', def: 'Spondylolysis: a stress fracture of the pars interarticularis, often at L5. Spondylolisthesis: a vertebra slides forward, most often at L4-L5 or L5-S1.', short: 'Crack vs. slip', pic: 'lysis' },
+    { term: 'Who gets spondylolysis', def: 'Young people in sports with back bending or heavy loads, like gymnastics and weightlifting', short: 'Gymnasts, weightlifters', pic: 'gym' },
+    { term: 'Spinal stenosis', say: 'steh-NOH-sis', def: 'Narrowing of the spinal canal, mostly from spondylosis and slipped vertebrae plus a thick ligamentum flavum. Usually over age 60.', short: 'Narrow spinal canal', pic: 'sten' },
+    { term: 'Neurogenic vs. vascular claudication', say: 'klaw-dih-KAY-shun', def: 'Neurogenic (spinal stenosis): calf pain on walking that eases with sitting or leaning forward, slowly. Vascular: eases right away with rest and is better standing still.', short: 'Lean forward vs. stop and rest', pic: 'claud' },
+    { term: 'Radiculopathy', say: 'rah-dik-yoo-LOP-uh-thee', def: 'A pinched nerve root causing shooting pain, numbness, or weakness along that nerve. At L5 or S1 it causes sciatica down the back of the leg.', short: 'Pinched nerve root', pic: 'radic' },
+    { term: 'Vertebral compression fracture', def: 'Can happen with no injury, from osteoporosis or long-term steroids. Pain is right over the fracture, or there may be none.', short: 'No injury needed', pic: 'vcf' },
+    { term: 'Cauda equina syndrome', say: 'KAW-duh eh-KWY-nuh', def: 'An emergency where the lower nerve roots are squeezed, usually by a large disk: low back pain into both legs, bladder or bowel retention or incontinence, and saddle numbness', short: 'Bladder/bowel loss, saddle numbness', pic: 'cauda' },
+    { term: 'Red flags for serious back pain', def: 'History of cancer, fever, IV drug use or recent spinal procedure, bowel or bladder changes, and sudden severe pain', short: 'Cancer, fever, bladder changes', pic: 'red' },
+    { term: 'Straight leg raise test', say: 'lah-SEG', def: 'Raise the straight leg at the hip. Pain down the leg before 45 degrees points to a disk or nerve root problem (Lasègue sign).', short: 'Leg pain before 45 degrees', pic: 'slr' },
+    { term: 'Low back pain treatment', def: 'NSAIDs, muscle relaxants, physical therapy, heat or cold, good body mechanics, and weight loss. A few need injections or surgery.', short: 'NSAIDs, relaxants, PT', pic: 'lbpTx' },
+    { term: 'Osteoporosis', say: 'oss-tee-oh-puh-ROH-sis', def: 'Low bone mass and poor bone quality that make bones break easily. Affects 1 in 2 women and 1 in 4 men.', short: 'Weak, porous bone', pic: 'op' },
+    { term: 'Main causes of osteoporosis', def: 'Aging and low estrogen tip the balance so osteoclasts remove more bone than osteoblasts make', short: 'Aging and low estrogen', pic: 'opCause' },
+    { term: 'Osteoporosis fractures by age', def: 'Under 65, vertebral fractures are more common (more spongy bone). Over 65, hip fractures are more common. The wrist is another common site.', short: 'Vertebrae under 65, hip over 65', pic: 'opWhere' },
+    { term: 'Risk factors for osteoporosis', def: 'Glucocorticoids, smoking, alcohol, a thin frame, low calcium or vitamin D, gastric surgery, family history, and conditions like hyperthyroid or RA', short: 'Steroids, smoking, thin', pic: 'opRisk' },
+    { term: 'Peak bone mass', def: 'Most bone is built by about age 30. Calcium, vitamin D, and weight-bearing exercise when young protect bone later.', short: 'By about age 30', pic: 'peak' },
+    { term: 'Signs of osteoporosis', def: 'Silent early; the first sign is often a fracture. Later: height loss (up to 6 inches) and kyphosis. About 20% of older adults die within a year of a hip fracture.', short: 'Silent until a fracture', pic: 'opSx' },
+    { term: 'DEXA T-score cutoffs', say: 'DEK-suh', def: 'Minus 1 or higher is normal. Between minus 1 and minus 2.5 is osteopenia. Minus 2.5 or lower is osteoporosis.', short: '-2.5 or lower = osteoporosis', pic: 'dexa' },
+    { term: 'Z-score vs. FRAX', def: 'Z-score compares bone density to people the same age; a low one suggests another cause. FRAX estimates 10-year fracture risk for ages 40 to 90.', short: 'Same-age compare vs. 10-year risk', pic: 'zfrax' },
+    { term: 'Who to screen for osteoporosis', def: 'All women 65 and older, with a DEXA scan, usually not repeated sooner than 2 years', short: 'Women 65 and older', pic: 'screen' },
+    { term: 'Osteoporosis labs', def: 'Calcium, phosphorus, 25-hydroxy vitamin D, alkaline phosphatase, CBC, and chemistry panel. X-rays show it only after more than 25% loss.', short: 'Calcium, vitamin D, alk phos', pic: 'opLabs' },
+    { term: 'Osteoporosis lifestyle care', def: 'Calcium and vitamin D, weight-bearing exercise, stopping smoking, less alcohol and caffeine, and fall safety at home', short: 'Calcium, exercise, fall safety', pic: 'opTx' },
+    { term: 'Osteoporosis drugs', def: 'Bisphosphonates slow osteoclasts (usually first). A PTH analog builds bone. Denosumab blocks RANKL. SERMs act like estrogen. Calcitonin is rarely used.', short: 'Bisphosphonates first', pic: 'opRx' },
+    { term: 'Rickets vs. osteomalacia', say: 'oss-tee-oh-muh-LAY-shuh', def: 'Both are bones that do not mineralize. Rickets affects children with open growth plates. Osteomalacia affects the bone matrix and is the only form in adults.', short: 'Children vs. adults', pic: 'rickets' },
+    { term: 'Causes of rickets', def: 'Low vitamin D (little sun, dark skin, only breastfed babies), malabsorption like celiac or cystic fibrosis, low calcium, or kidneys that waste phosphate', short: 'Low vitamin D', pic: 'ricketsCause' },
+    { term: 'Signs of rickets', def: 'Bowed legs, late fontanelle closure, a soft skull, dental problems, bone pain, muscle cramps, slow growth, and a waddling gait', short: 'Bowed legs, soft skull', pic: 'ricketsSx' },
+    { term: 'Labs in rickets from vitamin D deficiency', def: 'Low vitamin D, calcium, and phosphate; high PTH and alkaline phosphatase', short: 'Low D, Ca, phos; high PTH, alk phos', pic: 'ricketsLab' },
+    { term: 'Treating severe vitamin D deficiency in adults', def: 'About 50,000 units weekly for about 2 months, then about 800 units daily', short: '50,000 units weekly', pic: 'ricketsTx' },
+    { term: 'Paget disease of bone', say: 'PAJ-et', def: 'Overactive osteoclasts make bone turn over 20 times faster than normal, so new bone is bigger but weak, full of vessels, and misshapen', short: 'Fast turnover, big weak bone', pic: 'paget' },
+    { term: 'Who gets Paget disease', def: 'Usually adults over 40, more often men and people of central European descent. Affects the pelvis, femur, tibia, skull, and spine.', short: 'Men over 40', pic: 'pagetWho' },
+    { term: 'Signs of Paget disease', def: 'Bone pain that is worse at night, bowed legs, an enlarged skull with hearing loss and headache, warmth over the bone, and easy fractures', short: 'Night bone pain, big skull', pic: 'pagetSx' },
+    { term: 'Complications of Paget disease', def: 'Fractures, osteoarthritis, heart failure, osteosarcoma, and nerve compression', short: 'Fractures, heart failure, osteosarcoma', pic: 'pagetCx' },
+    { term: 'Paget disease workup and treatment', def: 'High alkaline phosphatase, X-rays, and a bone scan. Treated with bisphosphonates, NSAIDs, and calcium and vitamin D; surgery for deformities.', short: 'High alk phos; bisphosphonates', pic: 'pagetTx' },
+  ],
+};
+</script>
+<script src="art/ch12-engine.js"></script>
+<script src="art/ch12-3.js"></script>
+<script src="study.js"></script>
+</body>
+</html>

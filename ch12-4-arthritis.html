@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arthritis, Muscle, Tumors | Study Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap">
+<link rel="stylesheet" href="study.css">
+<link rel="stylesheet" href="ch9-art.css">
+</head>
+<body>
+<div id="app"></div>
+<script src="ch9-pics.js"></script>
+<script>
+const PICS = {
+  oa: flowPic('Osteoarthritis', ['Cartilage wears + breaks down', 'Bone underneath thickens', 'Spurs, narrow joint space']),
+  oaHall: factPic('Hallmark of OA', 'Lost cartilage proteoglycan', 'Cartilage is where the damage starts. Inflammation adds to it but does not start it.'),
+  oaJoints: listPic('Joints OA hits', ['Hands', 'Knees', 'Hips', 'Spine'], 'Obesity raises risk, even in the hands'),
+  oaSx: listPic('OA signs', ['Pain with use, better with rest', 'Morning stiffness under 30 min', 'Crepitus', 'Hard, bony joints']),
+  nodes: twoPic('Bony finger nodes in OA', ['Heberden', ['DIP joints', '(fingertip end)']], ['Bouchard', ['PIP joints', '(middle)']]),
+  oaDx: factPic('OA workup', 'Usually clinical', 'ESR and inflammatory markers are normal. X-ray only if unusual.'),
+  oaTx: listPic('OA care', ['Exercise, PT', 'Weight loss', 'NSAIDs, topical pain meds', 'Joint injections', 'Joint replacement'], 'Acetaminophen does not work well'),
+  septic: listPic('Septic arthritis', ['Hot, swollen, painful joint', 'Fever', 'Usually Staph aureus', 'Tap joint before antibiotics']),
+  ra: factPic('Rheumatoid arthritis', 'Autoimmune, attacks synovium', 'Systemic; can also hit heart, lungs, eyes. More in women and smokers.'),
+  raPath: flowPic('RA joint damage', ['Synovitis', 'Pannus forms', 'Erodes cartilage', 'Ankylosis (fused)']),
+  raSx: listPic('RA signs', ['Symmetric joints', 'Morning stiffness over 1 hr', 'MCP + PIP, wrists', 'Spares DIP', 'Boggy, not red']),
+  raDef: listPic('Late RA deformities', ['Ulnar drift', 'Swan neck', 'Boutonnière', 'Rheumatoid nodules (elbow)']),
+  raOther: listPic('RA beyond joints', ['Anemia, fatigue', 'Pleuropericarditis', 'Scleritis', 'Vasculitis', 'Sjögren: dry eyes, mouth']),
+  raLab: listPic('RA labs', ['Rheumatoid factor +', 'Anti-CCP + (most specific)', 'High ESR, CRP', 'ANA usually negative']),
+  oaRa: twoPic('OA vs. RA', ['OA', ['Wear and tear', 'Stiff under 30 min', 'DIP, uneven', 'Normal ESR']], ['RA', ['Autoimmune', 'Stiff over 1 hour', 'MCP/PIP, symmetric', 'High ESR, CRP']]),
+  raTx: factPic('First drug for RA', 'Methotrexate (a DMARD)', 'Start early and aggressively to prevent damage.'),
+  raRx: listPic('Other RA drugs', ['Hydroxychloroquine', 'Biologics: infliximab, adalimumab', 'NSAIDs, steroids for bridging']),
+  jia: listPic('Juvenile idiopathic arthritis', ['Under 16', 'Arthritis over 6 weeks', 'Oligo: 4 or fewer joints', 'Poly: 5 or more']),
+  jiaRisk: twoPic('JIA type clues', ['Systemic', ['Daily fever spikes', 'Pink rash', 'Big liver, spleen']], ['Oligoarticular', ['Watch for uveitis']]),
+  gout: flowPic('Gout', ['Too much uric acid', 'Urate crystals in joint', 'Neutrophils attack'], 'Make too much or excrete too little'),
+  goutRisk: listPic('Gout triggers', ['Beer, spirits', 'Red meat, organ meat, shellfish', 'Thiazide + loop diuretics', 'Obesity, HTN, kidney disease']),
+  podagra: factPic('Podagra', 'Big toe joint at night', 'The first gout flare in about half of patients. Red, hot, swollen, cannot stand a sheet on it.'),
+  goutPhase: flowPic('4 phases of gout', ['Silent high uric acid', 'Acute flare', 'Quiet between flares', 'Chronic gout + tophi']),
+  tophi: factPic('Tophi', 'Chalky urate lumps', 'In cool spots: toes, ears, elbows, fingers. Kidney stones can also form.'),
+  goutDx: factPic('Gout diagnosis', 'Urate crystals in joint fluid', 'Crystals form above about 6.8 mg/dL.'),
+  goutAcute: listPic('Gout flare drugs', ['NSAIDs (high dose)', 'Colchicine', 'Steroids']),
+  goutLong: listPic('Lower uric acid long term', ['Allopurinol: makes less', 'Probenecid: pee out more', 'Pegloticase: breaks it down'], 'Goal under 6 mg/dL'),
+  goutStart: listPic('Starting allopurinol', ['Can trigger a flare', 'Give colchicine too', 'Drink 2+ liters a day']),
+  as: flowPic('Ankylosing spondylitis', ['Starts at SI joints', 'Climbs up spine', 'Joints fuse: bamboo spine']),
+  asWho: listPic('AS facts', ['HLA-B27 gene', 'Men, ages 20-40', 'Linked to psoriasis, IBD', 'Uveitis, kyphosis']),
+  inflBack: twoPic('Back pain types', ['Inflammatory (AS)', ['Better with exercise', 'Worse with rest', 'Night pain', 'Starts before 40']], ['Mechanical', ['Better with rest', 'Worse with use']]),
+  asTx: listPic('AS care', ['NSAIDs first', 'TNF inhibitors', 'PT, range of motion', 'Stop smoking']),
+  md: flowPic('Muscular dystrophy', ['Bad dystrophin gene', 'Muscle fibers break down', 'Fat + scar replace muscle']),
+  duch: factPic('Duchenne MD', 'Most common and severe', 'X-linked recessive, so only boys. Heart and breathing trouble can be fatal.'),
+  gowers: flowPic('Gowers sign', ['Weak hip + thigh', 'Child pushes up on legs', 'Climbs up own body'], 'Also big calves, falls', 1),
+  mdDx: listPic('MD workup and care', ['High creatine kinase', 'Muscle biopsy, genetic test', 'Steroids, PT, braces', 'No cure yet']),
+  fibro: factPic('Fibromyalgia', 'Widespread pain, no inflammation', 'The nervous system turns up pain signals (lower pain threshold).'),
+  fibroSx: listPic('Fibromyalgia signs', ['Constant dull ache', 'Fatigue', 'Poor sleep', 'Brain fog', 'IBS, headaches', 'Depression']),
+  fibroDx: twoPic('Fibromyalgia criteria', ['Widespread pain', ['4+ body regions', '3+ months']], ['Labs', ['Normal', 'Used to rule out', 'other causes']]),
+  fibroTx: listPic('Fibromyalgia care', ['Exercise', 'Duloxetine, amitriptyline', 'Pregabalin, gabapentin', 'Sleep, stress care'], 'NSAIDs do not help', -1),
+  statin: factPic('Statins and muscle', 'Achy, weak thighs + arms', 'Usually weeks to months after starting. Stop the statin; it clears in days to weeks.'),
+  rhabdo: listPic('Rhabdomyolysis', ['Muscle pain', 'Weakness', 'Dark (tea) urine'], 'CK 5x+ normal; can cause kidney injury', -1),
+  rhabdoLab: listPic('Rhabdo dangers', ['Myoglobin in urine', 'High potassium', 'Acute kidney injury', 'Compartment syndrome']),
+  osteosarc: factPic('Most common primary bone cancer', 'Osteosarcoma', 'Kids and young adults (and again over 65). Femur, tibia, humerus. Pain grows over time.'),
+  chondroma: twoPic('Cartilage tumors', ['Osteochondroma', ['Most common BENIGN', 'Ages 10-20', 'Painless lump near joint']], ['Chondrosarcoma', ['Malignant, slow', 'Older adults']]),
+  ewing: factPic('Ewing sarcoma', 'Aggressive, ages 10-20', 'Pain, mass, and fever, anorexia, malaise. Spreads within a year.'),
+  giant: factPic('Giant cell tumor', 'Usually benign, more in women', 'Ages 20-40. Most other bone tumors are more common in men.'),
+  boneMets: listPic('Cancers that spread to bone', ['Breast', 'Lung', 'Prostate'], 'Secondary bone tumors are more common than primary'),
+  rhabdoSarc: factPic('Rhabdomyosarcoma', 'Cancer of striated muscle', 'Children and teens. Head and neck, GU tract, limbs. Spreads fast.'),
+};
+
+window.SET = {
+  title: 'Arthritis, Muscle, Tumors',
+  chapter: 'Chapter 12 · Musculoskeletal Function · Part 4',
+  pics: PICS,
+  mystery: true,
+  audio: 'audio/ch12-4',
+  speak: {},
+  cards: [
+    { term: 'Osteoarthritis (OA)', def: 'Joint cartilage wears and breaks down, the bone underneath thickens, and bone spurs (osteophytes) form, narrowing the joint space', short: 'Cartilage breakdown, bone spurs', pic: 'oa' },
+    { term: 'Hallmark of osteoarthritis', def: 'Loss of cartilage proteoglycan. Damage starts in the cartilage; inflammation adds to it but does not start it.', short: 'Lost cartilage proteoglycan', pic: 'oaHall' },
+    { term: 'Joints most affected by OA', def: 'Hands, knees, hips, and spine. Obesity raises the risk even in the hands, not just weight-bearing joints.', short: 'Hands, knees, hips, spine', pic: 'oaJoints' },
+    { term: 'Signs of osteoarthritis', def: 'Pain with use that eases with rest, morning stiffness lasting under 30 minutes, crepitus, limited motion, and hard, bony joints', short: 'Pain with use, stiff under 30 min', pic: 'oaSx' },
+    { term: 'Heberden vs. Bouchard nodes', say: 'HEB-er-den, boo-SHAR', def: 'Hard bony bumps of OA. Heberden nodes are at the DIP joints (fingertip end). Bouchard nodes are at the PIP joints (middle).', short: 'DIP vs. PIP', pic: 'nodes' },
+    { term: 'Diagnosing osteoarthritis', def: 'Usually by history and exam. ESR and inflammatory markers are normal; imaging only if something is unusual.', short: 'Clinical; normal ESR', pic: 'oaDx' },
+    { term: 'Osteoarthritis treatment', def: 'Exercise and PT, weight loss, NSAIDs and topical pain relievers, joint injections, and joint replacement. Acetaminophen is not very effective for OA.', short: 'Exercise, weight loss, NSAIDs', pic: 'oaTx' },
+    { term: 'Septic arthritis', def: 'An infected joint that is hot, swollen, and painful, with fever, usually from Staph aureus. Tap and culture the joint fluid before antibiotics, then drain and treat.', short: 'Hot joint, fever; tap first', pic: 'septic' },
+    { term: 'Rheumatoid arthritis (RA)', def: 'A systemic autoimmune disease that attacks the synovial membrane of many joints and can affect the heart, lungs, and eyes. More common in women and smokers.', short: 'Autoimmune synovitis', pic: 'ra' },
+    { term: 'How RA destroys a joint', say: 'PAN-us', def: 'Synovitis, then pannus (thick inflamed tissue) forms and erodes cartilage and bone, then fibrosis and ankylosis (fused joint)', short: 'Synovitis, pannus, ankylosis', pic: 'raPath' },
+    { term: 'Signs of rheumatoid arthritis', def: 'Symmetric swollen, boggy joints of the hands (MCP and PIP) and wrists, sparing the DIP; morning stiffness over 1 hour; joints usually not red or warm', short: 'Symmetric, stiff over 1 hour', pic: 'raSx' },
+    { term: 'Late RA deformities', say: 'boo-ton-YAIR', def: 'Ulnar drift, swan neck, and boutonnière deformities of the fingers, plus rheumatoid nodules, often at the elbows', short: 'Ulnar drift, swan neck', pic: 'raDef' },
+    { term: 'RA outside the joints', say: 'SHOW-grens', def: 'Anemia, fatigue, weight loss, pleuropericarditis, scleritis, vasculitis, an enlarged spleen, and Sjögren syndrome (dry eyes and mouth)', short: 'Anemia, scleritis, Sjögren', pic: 'raOther' },
+    { term: 'RA labs', def: 'Positive rheumatoid factor and anti-CCP (may be negative early), high ESR and CRP. ANA is usually negative.', short: 'RF, anti-CCP, high ESR', pic: 'raLab' },
+    { term: 'Osteoarthritis vs. rheumatoid arthritis', def: 'OA: wear and tear, stiffness under 30 minutes, DIP joints, often uneven, normal labs. RA: autoimmune, stiffness over 1 hour, MCP and PIP, symmetric, high ESR and CRP.', short: 'Wear vs. autoimmune', pic: 'oaRa' },
+    { term: 'First-line drug for RA', def: 'Methotrexate, a disease-modifying antirheumatic drug (DMARD), started early to prevent permanent damage', short: 'Methotrexate', pic: 'raTx' },
+    { term: 'Other RA drugs', def: 'Hydroxychloroquine, biologics like infliximab and adalimumab, and NSAIDs or steroids alongside the DMARD', short: 'Hydroxychloroquine, biologics', pic: 'raRx' },
+    { term: 'Juvenile idiopathic arthritis (JIA)', def: 'Arthritis lasting over 6 weeks in a child under 16. Oligoarticular affects 4 or fewer joints; polyarticular affects 5 or more.', short: 'Under 16, over 6 weeks', pic: 'jia' },
+    { term: 'Systemic vs. oligoarticular JIA clues', def: 'Systemic JIA has daily fever spikes, a pink rash, and an enlarged liver and spleen. Oligoarticular JIA carries a risk of uveitis.', short: 'Fever + rash vs. uveitis', pic: 'jiaRisk' },
+    { term: 'Gout', def: 'Uric acid builds up from making too much or excreting too little, urate crystals form in joints, and neutrophils attack them. The most common inflammatory arthritis.', short: 'Urate crystals in joints', pic: 'gout' },
+    { term: 'Gout risk factors', def: 'Beer and spirits, red meat, organ meat, and shellfish, thiazide and loop diuretics, obesity, hypertension, and kidney disease. More common in men.', short: 'Beer, meat, diuretics', pic: 'goutRisk' },
+    { term: 'Podagra', say: 'poh-DAG-ruh', def: 'A gout flare in the big toe joint, often starting at night; the first flare in about half of patients. Red, hot, swollen, and too tender to touch.', short: 'Gout in the big toe', pic: 'podagra' },
+    { term: 'The 4 phases of gout', def: 'Silent high uric acid, then acute flares, then quiet intercritical periods that get shorter, then chronic gout with tophi', short: 'Silent, flare, quiet, chronic', pic: 'goutPhase' },
+    { term: 'Tophi', say: 'TOH-fy', def: 'Hard, chalky lumps of urate crystals in cool spots like the toes, ears, elbows, and fingers in chronic gout', short: 'Chalky urate lumps', pic: 'tophi' },
+    { term: 'Best test for gout', def: 'Joint fluid showing urate crystals. Crystals form when uric acid is above about 6.8 mg/dL.', short: 'Urate crystals in joint fluid', pic: 'goutDx' },
+    { term: 'Drugs for an acute gout flare', say: 'KOL-chih-seen', def: 'High-dose NSAIDs, colchicine, or steroids', short: 'NSAIDs, colchicine, steroids', pic: 'goutAcute' },
+    { term: 'Long-term uric acid lowering drugs', say: 'AL-oh-PURE-ih-nol, proh-BEN-eh-sid, peg-LOT-ih-kase', def: 'Allopurinol (makes less uric acid), probenecid (kidneys excrete more), and pegloticase (breaks it down). Goal is under 6 mg/dL.', short: 'Allopurinol, probenecid', pic: 'goutLong' },
+    { term: 'Starting allopurinol safely', def: 'Lowering uric acid can trigger a flare, so colchicine is often given too, plus 2 or more liters of fluid a day to prevent kidney stones', short: 'Add colchicine, fluids', pic: 'goutStart' },
+    { term: 'Ankylosing spondylitis', say: 'ank-ih-LOH-sing spon-dih-LY-tis', def: 'Inflammation starts at the sacroiliac joints and climbs the spine until the joints fuse into a stiff bamboo spine', short: 'SI joints up; bamboo spine', pic: 'as' },
+    { term: 'Who gets ankylosing spondylitis', def: 'People with the HLA-B27 gene, mostly men ages 20 to 40. Linked to psoriasis and IBD; complications include uveitis and kyphosis.', short: 'HLA-B27, young men', pic: 'asWho' },
+    { term: 'Inflammatory vs. mechanical back pain', def: 'Inflammatory (ankylosing spondylitis): starts before 40, slow onset, better with exercise, not better with rest, night pain. Mechanical: better with rest, worse with use.', short: 'Better with exercise vs. rest', pic: 'inflBack' },
+    { term: 'Ankylosing spondylitis treatment', def: 'NSAIDs first, then TNF inhibitors, plus physical therapy, range of motion, and stopping smoking', short: 'NSAIDs, TNF inhibitors', pic: 'asTx' },
+    { term: 'Muscular dystrophy', def: 'Inherited diseases where a faulty dystrophin protein lets muscle fibers break down and get replaced by fat and scar tissue', short: 'Faulty dystrophin', pic: 'md' },
+    { term: 'Duchenne muscular dystrophy', say: 'doo-SHEN', def: 'The most common and severe type. X-linked recessive, so it affects boys. Heart and breathing failure can be fatal.', short: 'Boys, most severe', pic: 'duch' },
+    { term: 'Gowers sign', say: 'GOW-erz', def: 'A child with weak hips and thighs pushes up to standing by walking the hands up the legs. Seen in muscular dystrophy, along with big calves and frequent falls.', short: 'Climbs up own legs', pic: 'gowers' },
+    { term: 'Muscular dystrophy workup and treatment', def: 'High creatine kinase, muscle biopsy, and genetic tests. No cure; treated with steroids, PT, braces, and support.', short: 'High CK; no cure', pic: 'mdDx' },
+    { term: 'Fibromyalgia', say: 'fy-broh-my-AL-juh', def: 'Widespread muscle pain and fatigue with no inflammation or damage. The nervous system turns up pain signals, lowering the pain threshold.', short: 'Widespread pain, no inflammation', pic: 'fibro' },
+    { term: 'Signs of fibromyalgia', def: 'Constant dull aching, fatigue, poor sleep, memory problems, IBS, headaches, and depression, with no joint swelling', short: 'Ache, fatigue, poor sleep', pic: 'fibroSx' },
+    { term: 'Diagnosing fibromyalgia', def: 'Pain in at least 4 body regions for at least 3 months, scored with a widespread pain index and symptom severity scale. Labs are normal.', short: '4+ regions, 3+ months', pic: 'fibroDx' },
+    { term: 'Fibromyalgia treatment', say: 'doo-LOX-eh-teen, pree-GAB-uh-lin', def: 'Exercise, sleep, and stress care, plus duloxetine, amitriptyline, pregabalin, or gabapentin. NSAIDs do not help.', short: 'Exercise, duloxetine, pregabalin', pic: 'fibroTx' },
+    { term: 'Statin muscle side effects', def: 'Aching or weakness of the thighs and upper arms, usually weeks to months after starting. Rarely severe. Stopping the statin clears it in days to weeks.', short: 'Achy weak muscles; stop statin', pic: 'statin' },
+    { term: 'Rhabdomyolysis triad', say: 'rab-doh-my-OL-ih-sis', def: 'Muscle pain, weakness, and dark tea-colored urine, with creatine kinase at least 5 times normal', short: 'Pain, weakness, dark urine', pic: 'rhabdo' },
+    { term: 'Dangers of rhabdomyolysis', def: 'Myoglobin in the urine, high potassium, acute kidney injury, compartment syndrome, and rarely DIC', short: 'Kidney injury, high potassium', pic: 'rhabdoLab' },
+    { term: 'Most common primary bone cancer', say: 'oss-tee-oh-sar-KOH-muh', def: 'Osteosarcoma, in children and young adults (and again over 65), usually in the femur, tibia, or humerus, with pain that keeps getting worse', short: 'Osteosarcoma', pic: 'osteosarc' },
+    { term: 'Osteochondroma vs. chondrosarcoma', say: 'oss-tee-oh-kon-DROH-muh, kon-droh-sar-KOH-muh', def: 'Osteochondroma: the most common benign bone tumor, a painless lump near a joint in ages 10 to 20. Chondrosarcoma: a slow malignant cartilage tumor in older adults.', short: 'Benign kid lump vs. slow cancer', pic: 'chondroma' },
+    { term: 'Ewing sarcoma', say: 'YOO-ing', def: 'An aggressive bone tumor in ages 10 to 20 with pain, a mass, and fever, poor appetite, and malaise. It spreads within a year.', short: 'Aggressive, teens, fever', pic: 'ewing' },
+    { term: 'Giant cell tumor', def: 'Usually benign, ages 20 to 40, and more common in women, unlike most bone tumors', short: 'Benign, women 20-40', pic: 'giant' },
+    { term: 'Cancers that spread to bone', def: 'Breast, lung, and prostate. Secondary (metastatic) bone tumors are far more common than primary ones.', short: 'Breast, lung, prostate', pic: 'boneMets' },
+    { term: 'Rhabdomyosarcoma', say: 'rab-doh-my-oh-sar-KOH-muh', def: 'A fast-spreading cancer of striated muscle in children and teens, in the head and neck, GU tract, or limbs', short: 'Muscle cancer in kids', pic: 'rhabdoSarc' },
+  ],
+};
+</script>
+<script src="art/ch12-engine.js"></script>
+<script src="art/ch12-4.js"></script>
+<script src="study.js"></script>
+</body>
+</html>
